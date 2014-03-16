@@ -65,7 +65,7 @@ class GitException extends \RuntimeException
 	 */
 	public function __construct($message = "", $workingDirectory, $commandLine, $commandOutput, $errorOutput)
 	{
-		parent::__construct($message . PHP_EOL . $commandOutput . PHP_EOL . $errorOutput, 0, null);
+		parent::__construct($message, 0, null);
 		$this->workingDirectory = (string) $workingDirectory;
 		$this->commandLine      = (string) $commandLine;
 		$this->commandOutput    = (string) $commandOutput;

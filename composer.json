@@ -22,11 +22,5 @@
 		"branch-alias": {
 			"dev-master": "1.0.x-dev"
 		}
-	},
-	"repositories": [
-		{
-			"type": "git",
-			"url": "git@github.com:contao-community-alliance/build-system-logger.git"
-		}
-	]
+	}
 }

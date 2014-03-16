@@ -3,15 +3,21 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b765b3686374ba0eda74b156ac00b5e2",
+    "hash": "b8a01150bac66f3a5ed288aa1172ce59",
     "packages": [
         {
             "name": "contao-community-alliance/build-system-logger",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:contao-community-alliance/build-system-logger.git",
+                "url": "https://github.com/contao-community-alliance/build-system-logger.git",
                 "reference": "371d5ccf5ac7ff1c4587b0d0de42acc0a8af0176"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/contao-community-alliance/build-system-logger/zipball/371d5ccf5ac7ff1c4587b0d0de42acc0a8af0176",
+                "reference": "371d5ccf5ac7ff1c4587b0d0de42acc0a8af0176",
+                "shasum": ""
             },
             "require": {
                 "psr/log": "~1.0"
@@ -27,6 +33,7 @@
                     "ContaoCommunityAlliance\\BuildSystem\\": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],

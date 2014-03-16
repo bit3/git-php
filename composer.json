@@ -1,0 +1,32 @@
+{
+	"name": "contao-community-alliance/build-system-repository-git",
+	"description": "GIT repository for CCABS.",
+	"license": "MIT",
+	"minimum-stability": "dev",
+	"require": {
+		"contao-community-alliance/build-system-logger": "~1.0",
+		"symfony/process": "~2.3"
+	},
+	"require-dev": {
+		"monolog/monolog": "~1",
+		"phpunit/phpunit": "3.7.*",
+		"symfony/filesystem": "~2.3"
+	},
+	"autoload": {
+		"psr-4": {
+			"ContaoCommunityAlliance\\BuildSystem\\Repository\\": "src",
+			"ContaoCommunityAlliance\\BuildSystem\\Repository\\Test\\": "src"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0.x-dev"
+		}
+	},
+	"repositories": [
+		{
+			"type": "git",
+			"url": "git@github.com:contao-community-alliance/build-system-logger.git"
+		}
+	]
+}

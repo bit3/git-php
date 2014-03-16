@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<project name="Example" default="test">
+	<target name="phpunit">
+		<exec dir="${basedir}" executable="vendor/bin/phpunit" failonerror="true"/>
+	</target>
+
+	<target name="test" depends="phpunit"/>
+</project>

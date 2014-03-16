@@ -15,7 +15,7 @@
 	"autoload": {
 		"psr-4": {
 			"ContaoCommunityAlliance\\BuildSystem\\Repository\\": "src",
-			"ContaoCommunityAlliance\\BuildSystem\\Repository\\Test\\": "src"
+			"ContaoCommunityAlliance\\BuildSystem\\Repository\\Test\\": "test"
 		}
 	},
 	"extra": {

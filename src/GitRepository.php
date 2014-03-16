@@ -519,7 +519,7 @@ class GitRepository
 			throw GitException::createFromProcess('Could not determine modification status of repository', $process);
 		}
 
-		$files  = [];
+		$files  = array();
 		$status = explode("\n", $process->getOutput());
 
 		foreach ($status as $line) {

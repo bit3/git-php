@@ -84,7 +84,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
 		);
 
 		$process->run();
-		$this->output = $process->getOutput();
+		$this->output = trim($process->getOutput());
 
 		if (!$process->isSuccessful()) {
 			throw GitException::createFromProcess('Could not execute git command', $process);

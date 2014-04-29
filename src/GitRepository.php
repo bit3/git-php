@@ -164,22 +164,6 @@ class GitRepository
 	}
 
 	/**
-	 * Set the fetch and push url of a remote.
-	 *
-	 * @param string $repositoryUrl
-	 * @param string $remote
-	 *
-	 * @return $this
-	 * @throws GitException
-	 */
-	public function remoteSetUrl($repositoryUrl, $remote = 'origin')
-	{
-		$this->remoteSetFetchUrl($repositoryUrl, $remote);
-		$this->remoteSetPushUrl($repositoryUrl, $remote);
-		return $this;
-	}
-
-	/**
 	 * Set the fetch url of a remote.
 	 *
 	 * @param string $repositoryUrl

@@ -59,6 +59,14 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
 	}
 
 	/**
+	 * @return null|string
+	 */
+	public function getOutput()
+	{
+		return $this->output;
+	}
+
+	/**
 	 * Execute the command.
 	 *
 	 * @return mixed Depend on the command.

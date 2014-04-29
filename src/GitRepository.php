@@ -26,21 +26,6 @@ use Symfony\Component\Process\ProcessBuilder;
 class GitRepository
 {
 	/**
-	 * Use any tag that is annotated. (default)
-	 */
-	const DESCRIBE_ANNOTATED_TAGS = 'annotated';
-
-	/**
-	 * Use any tag found in refs/tags namespace.
-	 */
-	const DESCRIBE_LIGHTWEIGHT_TAGS = 'lightweight';
-
-	/**
-	 * Use any ref found in refs/ namespace.
-	 */
-	const DESCRIBE_ALL = 'all';
-
-	/**
 	 * The path to the git repository.
 	 *
 	 * @var string
@@ -159,44 +144,13 @@ class GitRepository
 	}
 
 	/**
-	 * Show the most recent tag that is reachable from a commit.
+	 * Create describe command.
 	 *
-	 * @param bool   $all Instead of using only the annotated tags, use any ref found in refs/ namespace.
-	 *                    This option enables matching any known branch, remote-tracking branch, or lightweight tag.
-	 *
-	 * @param string $branch
-	 *
-	 * @return string
-	 * @throws GitException
+	 * @return DescribeCommandBuilder
 	 */
-	public function describe($search = self::DESCRIBE_ANNOTATED_TAGS, $branch = 'HEAD')
+	public function describe()
 	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('describe');
-		if ($search == self::DESCRIBE_ALL) {
-			$processBuilder->add('--all');
-		}
-		else if ($search == self::DESCRIBE_LIGHTWEIGHT_TAGS) {
-			$processBuilder->add('--tags');
-		}
-		$processBuilder
-			->add($branch);
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not find recent tag from repository', $process);
-		}
-
-		return trim($process->getOutput());
+		return new DescribeCommandBuilder($this);
 	}
 
 	/**

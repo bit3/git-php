@@ -159,49 +159,6 @@ class GitRepository
 	}
 
 	/**
-	 * List all branches in the repository.
-	 *
-	 * @param bool $includeRemoteTrackingBranches Include remote tracking branches to the result.
-	 *
-	 * @return array
-	 * @throws GitException
-	 */
-	public function listBranches($includeRemoteTrackingBranches = false)
-	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('branch');
-		if ($includeRemoteTrackingBranches) {
-			$processBuilder->add('-a');
-		}
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not get branches from repository', $process);
-		}
-
-		$branches = explode("\n", $process->getOutput());
-		$branches = array_map(
-			function ($branch) {
-				return ltrim($branch, '*');
-			},
-			$branches
-		);
-		$branches = array_map('trim', $branches);
-		$branches = array_filter($branches);
-
-		return $branches;
-	}
-
-	/**
 	 * Show the most recent tag that is reachable from a commit.
 	 *
 	 * @param bool   $all Instead of using only the annotated tags, use any ref found in refs/ namespace.

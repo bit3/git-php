@@ -177,9 +177,27 @@ class BranchCommandBuilder extends AbstractCommandBuilder
 		return $this;
 	}
 
-	public function execute($branchName)
+	public function execute($branchName = null)
 	{
-		$this->processBuilder->add($branchName);
+		if ($branchName) {
+			$this->processBuilder->add($branchName);
+		}
 		return parent::execute();
+	}
+
+	public function getList()
+	{
+		$branches = $this->execute();
+		$branches = explode("\n", $branches);
+		$branches = array_map(
+			function ($branch) {
+				return ltrim($branch, '*');
+			},
+			$branches
+		);
+		$branches = array_map('trim', $branches);
+		$branches = array_filter($branches);
+
+		return $branches;
 	}
 }

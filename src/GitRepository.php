@@ -82,35 +82,13 @@ class GitRepository
 	}
 
 	/**
-	 * Initialize new git repository.
+	 * Create an init command.
 	 *
-	 * @return $this
-	 * @throws GitException
+	 * @return InitCommandBuilder
 	 */
 	public function init()
 	{
-		if (!is_dir($this->repositoryPath)) {
-			mkdir($this->repositoryPath, 0777, true);
-		}
-
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('init');
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not init repository', $process);
-		}
-
-		return $this;
+		return new InitCommandBuilder($this);
 	}
 
 	/**

@@ -149,6 +149,16 @@ class GitRepository
 	}
 
 	/**
+	 * Create a branch command.
+	 *
+	 * @return BranchCommandBuilder
+	 */
+	public function branch()
+	{
+		return new BranchCommandBuilder($this);
+	}
+
+	/**
 	 * List all branches in the repository.
 	 *
 	 * @param bool $includeRemoteTrackingBranches Include remote tracking branches to the result.

@@ -182,7 +182,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
 		if ($branchName) {
 			$this->processBuilder->add($branchName);
 		}
-		return parent::execute();
+		return parent::run();
 	}
 
 	public function getList()

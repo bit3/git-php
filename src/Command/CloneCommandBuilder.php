@@ -155,6 +155,6 @@ class CloneCommandBuilder extends AbstractCommandBuilder
 	{
 		$this->processBuilder->add($repositoryUrl);
 		$this->processBuilder->add($this->repository->getRepositoryPath());
-		return parent::execute();
+		return parent::run();
 	}
 }

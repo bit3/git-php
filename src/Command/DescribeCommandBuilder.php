@@ -123,6 +123,6 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
 	public function execute($commit = 'HEAD')
 	{
 		$this->processBuilder->add($commit);
-		return parent::execute();
+		return parent::run();
 	}
 }

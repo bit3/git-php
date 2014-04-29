@@ -138,6 +138,6 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
 			}
 		}
 
-		return parent::execute();
+		return parent::run();
 	}
 }

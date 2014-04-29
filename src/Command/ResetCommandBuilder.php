@@ -84,6 +84,6 @@ class ResetCommandBuilder extends AbstractCommandBuilder
 		foreach (func_get_args() as $path) {
 			$this->processBuilder->add($path);
 		}
-		return parent::execute();
+		return parent::run();
 	}
 }

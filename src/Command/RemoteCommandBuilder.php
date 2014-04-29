@@ -154,6 +154,11 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
 		return $this;
 	}
 
+	public function execute()
+	{
+		return $this->run();
+	}
+
 	/**
 	 * Return a list of remote names.
 	 *

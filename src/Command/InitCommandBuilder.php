@@ -77,6 +77,6 @@ class InitCommandBuilder extends AbstractCommandBuilder
 	public function execute()
 	{
 		$this->processBuilder->add($this->repository->getRepositoryPath());
-		return parent::execute();
+		return parent::run();
 	}
 }

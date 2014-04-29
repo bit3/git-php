@@ -166,6 +166,6 @@ class FetchCommandBuilder extends AbstractCommandBuilder
 			$this->processBuilder->add($refspec);
 		}
 
-		return parent::execute();
+		return parent::run();
 	}
 }

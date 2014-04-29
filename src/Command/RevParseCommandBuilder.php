@@ -231,6 +231,6 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
 		foreach (func_get_args() as $arg) {
 			$this->processBuilder->add($arg);
 		}
-		return parent::execute();
+		return parent::run();
 	}
 }

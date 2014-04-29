@@ -75,11 +75,12 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
 	 * @return mixed Depend on the command.
 	 * @throws GitException
 	 */
-	public function execute()
+	protected function run()
 	{
 		if ($this->output !== null) {
 			throw new GitException('Command cannot be executed twice');
 		}
+
 		$process = $this->processBuilder->getProcess();
 
 		$this->repository->getConfig()->getLogger()->debug(

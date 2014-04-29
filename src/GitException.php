@@ -123,7 +123,7 @@ class GitException extends \RuntimeException
 	static public function createFromProcess($message, Process $process)
 	{
 		return new static(
-			$message,
+			sprintf('%s [%s]', $message, $process->getCommandLine()),
 			$process->getWorkingDirectory(),
 			$process->getCommandLine(),
 			$process->getOutput(),

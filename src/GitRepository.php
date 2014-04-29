@@ -144,6 +144,16 @@ class GitRepository
 	}
 
 	/**
+	 * Create a rev-parse command.
+	 *
+	 * @return RevParseCommandBuilder
+	 */
+	public function revParse()
+	{
+		return new RevParseCommandBuilder($this);
+	}
+
+	/**
 	 * Create describe command.
 	 *
 	 * @return DescribeCommandBuilder

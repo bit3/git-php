@@ -153,4 +153,19 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
 		$this->processBuilder->add($groupOrRemote);
 		return $this;
 	}
+
+	/**
+	 * Return a list of remote names.
+	 *
+	 * @return array
+	 */
+	public function getList()
+	{
+		$remotes = $this->execute();
+		$remotes = explode("\n", $remotes);
+		$remotes = array_map('trim', $remotes);
+		$remotes = array_filter($remotes);
+
+		return $remotes;
+	}
 }

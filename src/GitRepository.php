@@ -149,22 +149,6 @@ class GitRepository
 	}
 
 	/**
-	 * List all remotes in the repository.
-	 *
-	 * @return array
-	 * @throws GitException
-	 */
-	public function listRemotes()
-	{
-		$remotes = $this->remote()->execute();
-		$remotes = explode("\n", $remotes);
-		$remotes = array_map('trim', $remotes);
-		$remotes = array_filter($remotes);
-
-		return $remotes;
-	}
-
-	/**
 	 * List all branches in the repository.
 	 *
 	 * @param bool $includeRemoteTrackingBranches Include remote tracking branches to the result.

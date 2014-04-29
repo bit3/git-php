@@ -162,35 +162,13 @@ class GitRepository
 	}
 
 	/**
-	 * Push a reference to another repository.
+	 * Create push command.
 	 *
-	 * @param string $ref
-	 *
-	 * @return $this
-	 * @throws GitException
+	 * @return PushCommandBuilder
 	 */
-	public function push($ref, $remote = 'origin')
+	public function push()
 	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('push')
-			->add($remote)
-			->add($ref);
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not push branch', $process);
-		}
-
-		return $this;
+		return new PushCommandBuilder($this);
 	}
 
 	/**

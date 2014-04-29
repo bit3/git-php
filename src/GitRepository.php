@@ -77,6 +77,16 @@ class GitRepository
 	}
 
 	/**
+	 * Return the shared git config.
+	 *
+	 * @return GitConfig
+	 */
+	public function getConfig()
+	{
+		return $this->config;
+	}
+
+	/**
 	 * Determine if git is already initialized in the repository path.
 	 *
 	 * @return bool

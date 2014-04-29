@@ -164,41 +164,6 @@ class GitRepository
 	}
 
 	/**
-	 * Download objects and refs from another repository.
-	 *
-	 * @param string $remote
-	 *
-	 * @return bool
-	 * @throws GitException
-	 */
-	public function remoteFetch($prune = false, $remote = 'origin')
-	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('fetch');
-		if ($prune) {
-			$processBuilder->add('--prune');
-		}
-		$processBuilder
-			->add($remote);
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not fetch from remote of repository', $process);
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Checkout a branch.
 	 *
 	 * @param $ref

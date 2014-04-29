@@ -164,40 +164,6 @@ class GitRepository
 	}
 
 	/**
-	 * Add a new remote.
-	 *
-	 * @param string $repositoryUrl
-	 * @param string $remote
-	 *
-	 * @return $this
-	 * @throws GitException
-	 */
-	public function remoteAdd($repositoryUrl, $remote = 'origin')
-	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('remote')
-			->add('add')
-			->add($remote)
-			->add($repositoryUrl);
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not add remote to repository', $process);
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Download objects and refs from another repository.
 	 *
 	 * @param string $remote

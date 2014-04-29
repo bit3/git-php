@@ -164,40 +164,6 @@ class GitRepository
 	}
 
 	/**
-	 * Set the fetch url of a remote.
-	 *
-	 * @param string $repositoryUrl
-	 * @param string $remote
-	 *
-	 * @return $this
-	 * @throws GitException
-	 */
-	public function remoteSetFetchUrl($repositoryUrl, $remote = 'origin')
-	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('remote')
-			->add('set-url')
-			->add($remote)
-			->add($repositoryUrl);
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not set remote fetch url of repository', $process);
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Set the push url of a remote.
 	 *
 	 * @param string $repositoryUrl

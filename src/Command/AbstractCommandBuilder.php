@@ -12,6 +12,8 @@
 
 namespace ContaoCommunityAlliance\BuildSystem\Repository\Command;
 
+use ContaoCommunityAlliance\BuildSystem\Repository\GitException;
+use ContaoCommunityAlliance\BuildSystem\Repository\GitRepository;
 use Guzzle\Http\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

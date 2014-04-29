@@ -164,6 +164,16 @@ class GitRepository
 	}
 
 	/**
+	 * Create reset command.
+	 *
+	 * @return ResetCommandBuilder
+	 */
+	public function reset()
+	{
+		return new ResetCommandBuilder($this);
+	}
+
+	/**
 	 * Checkout a branch.
 	 *
 	 * @param $ref

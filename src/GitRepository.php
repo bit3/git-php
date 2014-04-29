@@ -129,34 +129,13 @@ class GitRepository
 	}
 
 	/**
-	 * Clone a git repository.
+	 * Create a clone command.
 	 *
-	 * @param string $url The repository URL.
-	 *
-	 * @return $this
-	 * @throws GitException
+	 * @return CloneCommandBuilder
 	 */
-	public function cloneRepository($url)
+	public function cloneRepository()
 	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->add($this->config->getGitExecutablePath())
-			->add('clone')
-			->add($url)
-			->add($this->repositoryPath);
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not clone repository', $process);
-		}
-
-		return $this;
+		return new CloneCommandBuilder($this);
 	}
 
 	/**

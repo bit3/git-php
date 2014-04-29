@@ -51,6 +51,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
 		$this->repository = $repository;
 
 		$this->processBuilder = new ProcessBuilder();
+		$this->processBuilder->setWorkingDirectory($repository->getRepositoryPath());
 		$this->processBuilder->add($this->repository->getConfig()->getGitExecutablePath());
 
 		$this->initializeProcessBuilder();

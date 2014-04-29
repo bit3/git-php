@@ -10,7 +10,7 @@
  * @link      https://c-c-a.org
  */
 
-namespace ContaoCommunityAlliance\BuildSystem\Repository;
+namespace ContaoCommunityAlliance\BuildSystem\Repository\Command;
 
 use Guzzle\Http\Client;
 use Symfony\Component\Console\Command\Command;

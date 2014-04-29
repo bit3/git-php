@@ -12,6 +12,16 @@
 
 namespace ContaoCommunityAlliance\BuildSystem\Repository;
 
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\BranchCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\CheckoutCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\CloneCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\DescribeCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\FetchCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\InitCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\PushCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\ResetCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\RevParseCommandBuilder;
 use Guzzle\Http\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

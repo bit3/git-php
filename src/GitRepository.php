@@ -174,39 +174,13 @@ class GitRepository
 	}
 
 	/**
-	 * Checkout a branch.
+	 * Create checkout command.
 	 *
-	 * @param $ref
-	 *
-	 * @return $this
-	 * @throws GitException
+	 * @return CheckoutCommandBuilder
 	 */
-	public function checkout($ref, $force = false)
+	public function checkout()
 	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('checkout');
-		if ($force) {
-			$processBuilder
-				->add('-f');
-		}
-		$processBuilder
-			->add($ref);
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not checkout branch', $process);
-		}
-
-		return $this;
+		return new CheckoutCommandBuilder($this);
 	}
 
 	/**

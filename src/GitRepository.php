@@ -69,7 +69,7 @@ class GitRepository
 	/**
 	 * Return the path to the git repository.
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function getRepositoryPath()
 	{

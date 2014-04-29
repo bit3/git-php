@@ -172,6 +172,16 @@ class GitRepository
 	}
 
 	/**
+	 * Create fetch command.
+	 *
+	 * @return FetchCommandBuilder
+	 */
+	public function fetch()
+	{
+		return new FetchCommandBuilder($this);
+	}
+
+	/**
 	 * Get modification status.
 	 *
 	 * @return array An associative array, contains filename as keys and status arrays as values.

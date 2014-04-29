@@ -120,11 +120,9 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
 		return $this;
 	}
 
-	public function execute($commit = null)
+	public function execute($commit = 'HEAD')
 	{
-		if ($commit) {
-			$this->processBuilder->add($commit);
-		}
+		$this->processBuilder->add($commit);
 		return parent::execute();
 	}
 }

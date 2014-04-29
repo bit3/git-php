@@ -139,6 +139,16 @@ class GitRepository
 	}
 
 	/**
+	 * Create a remote command.
+	 *
+	 * @return RemoteCommandBuilder
+	 */
+	public function remote()
+	{
+		return new RemoteCommandBuilder($this);
+	}
+
+	/**
 	 * List all remotes in the repository.
 	 *
 	 * @return array
@@ -146,24 +156,8 @@ class GitRepository
 	 */
 	public function listRemotes()
 	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('remote');
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not get remotes from repository', $process);
-		}
-
-		$remotes = explode("\n", $process->getOutput());
+		$remotes = $this->remote()->execute();
+		$remotes = explode("\n", $remotes);
 		$remotes = array_map('trim', $remotes);
 		$remotes = array_filter($remotes);
 

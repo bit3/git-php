@@ -26,6 +26,7 @@ use ContaoCommunityAlliance\BuildSystem\Repository\Command\ResetCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\RevParseCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\RmCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\StatusCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\TagCommandBuilder;
 use Guzzle\Http\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -236,45 +237,12 @@ class GitRepository
 	}
 
 	/**
-	 * Create a new tag.
+	 * Create tag command.
 	 *
-	 * @param string      $tag     The tag name.
-	 * @param string|bool $message The tag message.
-	 *
-	 * @return $this
-	 * @throws GitException
+	 * @return TagCommandBuilder
 	 */
-	public function tag($tag, $message = null)
+	public function tag()
 	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('tag');
-		if ($this->config->isSignTagsEnabled()) {
-			$processBuilder
-				->add('-s')
-				->add('-u')
-				->add($this->config->getSignTagUser());
-		}
-		if ($message) {
-			$processBuilder
-				->add('-m')
-				->add($message);
-		}
-		$processBuilder->add($tag);
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not create tag', $process);
-		}
-
-		return $this;
+		return new TagCommandBuilder($this);
 	}
 }

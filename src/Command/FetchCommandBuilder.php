@@ -156,7 +156,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
 		return $this;
 	}
 
-	public function execute($repository, $refspec = null, $_ = null)
+	public function execute($repository = 'origin', $refspec = null, $_ = null)
 	{
 		$this->processBuilder->add($repository);
 

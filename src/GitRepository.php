@@ -25,6 +25,7 @@ use ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\ResetCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\RevParseCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\RmCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\ShowCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\StatusCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\TagCommandBuilder;
 use Guzzle\Http\Client;
@@ -244,5 +245,15 @@ class GitRepository
 	public function tag()
 	{
 		return new TagCommandBuilder($this);
+	}
+
+	/**
+	 * Create show command.
+	 *
+	 * @return ShowCommandBuilder
+	 */
+	public function show()
+	{
+		return new ShowCommandBuilder($this);
 	}
 }

@@ -71,6 +71,9 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 		unset($this->uninitializedGitRepository);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::getRepositoryPath
+	 */
 	public function testGetRepositoryPath()
 	{
 		$this->assertEquals(
@@ -83,6 +86,9 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::isInitialized
+	 */
 	public function testIsInitialized()
 	{
 		$this->assertTrue(
@@ -93,76 +99,108 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::init
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\InitCommandBuilder::execute
+	 */
 	public function testInit()
 	{
-		$this->uninitializedGitRepository->init();
+		$this->uninitializedGitRepository->init()->execute();
 
 		$this->assertTrue(
 			is_dir($this->uninitializedRepositoryPath . DIRECTORY_SEPARATOR . '.git')
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::remote
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::getNames
+	 */
 	public function testListRemotesOnInitializedRepository()
 	{
 		$this->assertEquals(
 			array('local'),
-			$this->initializedGitRepository->listRemotes()
+			$this->initializedGitRepository->remote()->getNames()
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::remote
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::getNames
+	 */
 	public function testListRemotesOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->listRemotes();
+		$this->uninitializedGitRepository->remote()->getNames();
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::branch
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\BranchCommandBuilder::all
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\BranchCommandBuilder::getNames
+	 */
 	public function testListBranchesOnInitializedRepository()
 	{
 		$this->assertEquals(
 			array('master'),
-			$this->initializedGitRepository->listBranches()
+			$this->initializedGitRepository->branch()->getNames()
 		);
 		$this->assertEquals(
 			array('master', 'remotes/local/master'),
-			$this->initializedGitRepository->listBranches(true)
+			$this->initializedGitRepository->branch()->all()->getNames()
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::branch
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\BranchCommandBuilder::getNames
+	 */
 	public function testListBranchesOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->listBranches();
+		$this->uninitializedGitRepository->branch()->getNames();
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::describe
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\DescribeCommandBuilder::tags
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\DescribeCommandBuilder::all
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\DescribeCommandBuilder::execute
+	 */
 	public function testDescribeOnInitializedRepository()
 	{
 		$this->assertEquals(
 			'annotated-tag-2-g8dcaf85',
-			$this->initializedGitRepository->describe()
-		);
-		$this->assertEquals(
-			'annotated-tag-2-g8dcaf85',
-			$this->initializedGitRepository->describe(GitRepository::DESCRIBE_ANNOTATED_TAGS)
+			$this->initializedGitRepository->describe()->execute()
 		);
 		$this->assertEquals(
 			'lightweight-tag-1-g8dcaf85',
-			$this->initializedGitRepository->describe(GitRepository::DESCRIBE_LIGHTWEIGHT_TAGS)
+			$this->initializedGitRepository->describe()->tags()->execute()
 		);
 		$this->assertEquals(
 			'heads/master',
-			$this->initializedGitRepository->describe(GitRepository::DESCRIBE_ALL)
+			$this->initializedGitRepository->describe()->all()->execute()
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::describe
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\DescribeCommandBuilder::execute
+	 */
 	public function testDescribeOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->describe();
+		$this->uninitializedGitRepository->describe()->execute();
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::remote
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::setUrl
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::execute
+	 */
 	public function testRemoteSetUrlOnInitializedRepository()
 	{
-		$this->initializedGitRepository->remoteSetUrl($this->uninitializedRepositoryPath, 'local');
+		$this->initializedGitRepository->remote()->setUrl('local', $this->uninitializedRepositoryPath)->execute();
 
 		$process = ProcessBuilder::create(array('git', 'config', 'remote.local.url'))
 			->setWorkingDirectory($this->initializedRepositoryPath)
@@ -173,58 +211,27 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 			trim($process->getOutput()),
 			$this->uninitializedRepositoryPath
 		);
-
-		$process = ProcessBuilder::create(array('git', 'config', 'remote.local.pushurl'))
-			->setWorkingDirectory($this->initializedRepositoryPath)
-			->getProcess();
-		$process->run();
-
-		$this->assertEquals(
-			trim($process->getOutput()),
-			$this->uninitializedRepositoryPath
-		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::remote
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::setUrl
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::execute
+	 */
 	public function testRemoteSetUrlOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->remoteSetUrl($this->initializedRepositoryPath, 'local');
+		$this->uninitializedGitRepository->remote()->setUrl('local', $this->initializedRepositoryPath)->execute();
 	}
 
-	public function testRemoteSetFetchUrlOnInitializedRepository()
-	{
-		$this->initializedGitRepository->remoteSetFetchUrl($this->uninitializedRepositoryPath, 'local');
-
-		$process = ProcessBuilder::create(array('git', 'config', 'remote.local.url'))
-			->setWorkingDirectory($this->initializedRepositoryPath)
-			->getProcess();
-		$process->run();
-
-		$this->assertEquals(
-			trim($process->getOutput()),
-			$this->uninitializedRepositoryPath
-		);
-
-		$process = ProcessBuilder::create(array('git', 'config', 'remote.local.pushurl'))
-			->setWorkingDirectory($this->initializedRepositoryPath)
-			->getProcess();
-		$process->run();
-
-		$this->assertEquals(
-			trim($process->getOutput()),
-			'/tmp/git'
-		);
-	}
-
-	public function testRemoteSetFetchUrlOnUninitializedRepository()
-	{
-		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->remoteSetFetchUrl($this->initializedRepositoryPath, 'local');
-	}
-
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::remote
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::setPushUrl
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::execute
+	 */
 	public function testRemoteSetPushUrlOnInitializedRepository()
 	{
-		$this->initializedGitRepository->remoteSetPushUrl($this->uninitializedRepositoryPath, 'local');
+		$this->initializedGitRepository->remote()->setPushUrl('local', $this->uninitializedRepositoryPath)->execute();
 
 		$process = ProcessBuilder::create(array('git', 'config', 'remote.local.url'))
 			->setWorkingDirectory($this->initializedRepositoryPath)
@@ -247,15 +254,25 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::remote
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::setPushUrl
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::execute
+	 */
 	public function testRemoteSetPushUrlOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->remoteSetPushUrl($this->initializedRepositoryPath, 'local');
+		$this->uninitializedGitRepository->remote()->setPushUrl('local', $this->initializedRepositoryPath)->execute();
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::remote
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::add
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::execute
+	 */
 	public function testRemoteAddOnInitializedRepository()
 	{
-		$this->initializedGitRepository->remoteAdd($this->uninitializedRepositoryPath);
+		$this->initializedGitRepository->remote()->add('origin', $this->uninitializedRepositoryPath)->execute();
 
 		$process = ProcessBuilder::create(array('git', 'config', 'remote.origin.url'))
 			->setWorkingDirectory($this->initializedRepositoryPath)
@@ -268,12 +285,21 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::remote
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::add
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder::execute
+	 */
 	public function testRemoteAddOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->remoteAdd($this->initializedRepositoryPath);
+		$this->uninitializedGitRepository->remote()->add('origin', $this->initializedRepositoryPath)->execute();
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::fetch
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\FetchCommandBuilder::execute
+	 */
 	public function testRemoteFetchOnInitializedRepository()
 	{
 		$process = ProcessBuilder::create(array('git', 'remote', 'add', 'origin', $this->initializedRepositoryPath))
@@ -281,7 +307,7 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 			->getProcess();
 		$process->run();
 
-		$this->initializedGitRepository->remoteFetch();
+		$this->initializedGitRepository->fetch()->execute();
 
 		$process = ProcessBuilder::create(array('git', 'branch', '-a'))
 			->setWorkingDirectory($this->initializedRepositoryPath)
@@ -297,12 +323,20 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::fetch
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\FetchCommandBuilder::execute
+	 */
 	public function testRemoteFetchOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->remoteFetch();
+		$this->uninitializedGitRepository->fetch()->execute();
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::checkout
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\CheckoutCommandBuilder::execute
+	 */
 	public function testCheckoutOnInitializedRepository()
 	{
 		$process = ProcessBuilder::create(array('git', 'remote', 'add', 'origin', $this->initializedRepositoryPath))
@@ -310,7 +344,7 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 			->getProcess();
 		$process->run();
 
-		$this->initializedGitRepository->checkout('6c42d7ba78e0e956bd4e25661a6c13d826ef590a');
+		$this->initializedGitRepository->checkout()->execute('6c42d7ba78e0e956bd4e25661a6c13d826ef590a');
 
 		$process = ProcessBuilder::create(array('git', 'describe'))
 			->setWorkingDirectory($this->initializedRepositoryPath)
@@ -323,10 +357,14 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::checkout
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\CheckoutCommandBuilder::execute
+	 */
 	public function testCheckoutOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->checkout('foo');
+		$this->uninitializedGitRepository->checkout()->execute('foo');
 	}
 
 	public function testPushOnInitializedRepository()
@@ -334,36 +372,50 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 		$this->markTestIncomplete();
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::push
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\PushCommandBuilder::execute
+	 */
 	public function testPushOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->push('foo');
+		$this->uninitializedGitRepository->push()->execute('foo');
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::status
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\StatusCommandBuilder::getStatus
+	 */
 	public function testStatusOnInitializedRepository()
 	{
-		$status = $this->initializedGitRepository->status();
+		$status = $this->initializedGitRepository->status()->getStatus();
 
 		$this->assertEquals(
 			array(
-				'existing-file.txt'      => array('working' => false, 'staging' => 'D'),
-				'removed-but-staged.txt' => array('working' => 'A', 'staging' => 'D'),
-				'staged-file.txt'        => array('working' => 'A', 'staging' => false),
-				'unknown-file.txt'       => array('working' => '?', 'staging' => '?'),
+				'removed-but-staged.txt' => array('index' => 'A', 'worktree' => 'D'),
+				'unknown-file.txt'       => array('index' => '?', 'worktree' => '?'),
 			),
 			$status
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::status
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\StatusCommandBuilder::getStatus
+	 */
 	public function testStatusOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->status('foo');
+		$this->uninitializedGitRepository->status()->getStatus();
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::add
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\AddCommandBuilder::execute
+	 */
 	public function testAddOnInitializedRepository()
 	{
-		$this->initializedGitRepository->add('unknown-file.txt');
+		$this->initializedGitRepository->add()->execute('unknown-file.txt');
 
 		$process = ProcessBuilder::create(array('git', 'status', '-s'))
 			->setWorkingDirectory($this->initializedRepositoryPath)
@@ -378,15 +430,23 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::add
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\AddCommandBuilder::execute
+	 */
 	public function testAddOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->add('unknown-file.txt');
+		$this->uninitializedGitRepository->add()->execute('unknown-file.txt');
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::rm
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RmCommandBuilder::execute
+	 */
 	public function testRmOnInitializedRepository()
 	{
-		$this->initializedGitRepository->rm('existing-file.txt');
+		$this->initializedGitRepository->rm()->execute('existing-file.txt');
 
 		$process = ProcessBuilder::create(array('git', 'status', '-s'))
 			->setWorkingDirectory($this->initializedRepositoryPath)
@@ -401,15 +461,24 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::rm
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\RmCommandBuilder::execute
+	 */
 	public function testRmOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->rm('existing-file.txt');
+		$this->uninitializedGitRepository->rm()->execute('existing-file.txt');
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::commit
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\CommitCommandBuilder::message
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\CommitCommandBuilder::execute
+	 */
 	public function testCommitOnInitializedRepository()
 	{
-		$this->initializedGitRepository->commit('Commit changes');
+		$this->initializedGitRepository->commit()->message('Commit changes')->execute();
 
 		$process = ProcessBuilder::create(array('git', 'status', '-s'))
 			->setWorkingDirectory($this->initializedRepositoryPath)
@@ -430,15 +499,24 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::commit
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\CommitCommandBuilder::message
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\CommitCommandBuilder::execute
+	 */
 	public function testCommitOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->commit('Commit changes');
+		$this->uninitializedGitRepository->commit()->message('Commit changes')->execute();
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::tag
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\TagCommandBuilder::execute
+	 */
 	public function testTagOnInitializedRepository()
 	{
-		$this->initializedGitRepository->tag('unit-test');
+		$this->initializedGitRepository->tag()->execute('unit-test');
 
 		$process = ProcessBuilder::create(array('git', 'tag'))
 			->setWorkingDirectory($this->initializedRepositoryPath)
@@ -454,9 +532,13 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\GitRepository::tag
+	 * @covers \ContaoCommunityAlliance\BuildSystem\Repository\Command\TagCommandBuilder::execute
+	 */
 	public function testTagOnUninitializedRepository()
 	{
 		$this->setExpectedException('ContaoCommunityAlliance\BuildSystem\Repository\GitException');
-		$this->uninitializedGitRepository->tag('unit-test');
+		$this->uninitializedGitRepository->tag()->execute('unit-test');
 	}
 }

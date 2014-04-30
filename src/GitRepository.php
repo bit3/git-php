@@ -16,6 +16,7 @@ use ContaoCommunityAlliance\BuildSystem\Repository\Command\AddCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\BranchCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\CheckoutCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\CloneCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\CommitCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\DescribeCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\FetchCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\InitCommandBuilder;
@@ -225,40 +226,13 @@ class GitRepository
 	}
 
 	/**
-	 * Commit all staged changes.
+	 * Create commit command.
 	 *
-	 * @param string $message
-	 *
-	 * @return $this
-	 * @throws GitException
+	 * @return CommitCommandBuilder
 	 */
-	public function commit($message)
+	public function commit()
 	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('commit');
-		if ($this->config->isSignCommitsEnabled()) {
-			$processBuilder
-				->add('--gpg-sign=' . $this->config->getSignCommitUser());
-		}
-		$processBuilder
-			->add('-m')
-			->add($message);
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not commit changes', $process);
-		}
-
-		return $this;
+		return new CommitCommandBuilder($this);
 	}
 
 	/**

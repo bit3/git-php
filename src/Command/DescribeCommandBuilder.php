@@ -25,21 +25,6 @@ use Symfony\Component\Process\ProcessBuilder;
  */
 class DescribeCommandBuilder extends AbstractCommandBuilder
 {
-	/**
-	 * Use any tag that is annotated. (default)
-	 */
-	const DESCRIBE_ANNOTATED_TAGS = 'annotated';
-
-	/**
-	 * Use any tag found in refs/tags namespace.
-	 */
-	const DESCRIBE_LIGHTWEIGHT_TAGS = 'lightweight';
-
-	/**
-	 * Use any ref found in refs/ namespace.
-	 */
-	const DESCRIBE_ALL = 'all';
-
 	protected function initializeProcessBuilder()
 	{
 		$this->processBuilder->add('describe');

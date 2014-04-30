@@ -9,20 +9,20 @@ Usage examples
 --------------
 
 The API use command builders, that allow you to build a command and execute it one time.
+
 The main synopsis is:
 
 ```php
 $git->command()->option()->execute();
 ```
 
-`$git->command()` will create a new command.
-`*->option()` will add an option to the command.
+`$git->command()` will create a new command, `*->option()` will add an option to the command and
 `*->execute()` will finally execute the command.
 
 The naming of commands and options follow the git naming. If you search for documentation of a specific command
 or option, just look into the git documentation. You will find the command/option there.
 
-### init a new git repository
+#### init a new git repository
 
 ```php
 use ContaoCommunityAlliance\BuildSystem\Repository\GitRepository;
@@ -33,7 +33,7 @@ $git = new GitRepository($directory);
 $git->init()->execute();
 ```
 
-### clone a git repository
+#### clone a git repository
 
 The `clone` command is named `cloneRepository()` because `clone` is a reserved word in PHP.
 
@@ -46,7 +46,7 @@ $git = new GitRepository($directory);
 $git->cloneRepository()->execute();
 ```
 
-### describe
+#### describe
 
 ```php
 $annotatedTag   = $git->describe()->execute();
@@ -54,67 +54,73 @@ $lightweightTag = $git->describe()->tags()->execute();
 $recentRef      = $git->describe()->all()->execute();
 ```
 
-### set remote fetch url
+#### set remote fetch url
 
 ```php
-$git->remote()->setUrl('origin', 'git@github.com:contao-community-alliance/build-system-repository-git.git')->execute();
+$git->remote()
+	->setUrl('origin', 'git@github.com:contao-community-alliance/build-system-repository-git.git')
+	->execute();
 ```
 
-### set remote push url
+#### set remote push url
 
 ```php
-$git->remote()->setPushUrl('origin', 'git@github.com:contao-community-alliance/build-system-repository-git.git')->execute();
+$git->remote()
+	->setPushUrl('origin', 'git@github.com:contao-community-alliance/build-system-repository-git.git')
+	->execute();
 ```
 
-### add new remote
+#### add new remote
 
 ```php
-$git->remote()->add('github', 'git@github.com:contao-community-alliance/build-system-repository-git.git')->execute();
+$git->remote()
+	->add('github', 'git@github.com:contao-community-alliance/build-system-repository-git.git')
+	->execute();
 ```
 
-### fetch remote objects
+#### fetch remote objects
 
 ```php
 $git->fetch()->execute('github');
 ```
 
-### checkout
+#### checkout
 
 ```php
 $git->checkout()->execute('hotfix/1.2.3');
 ```
 
-### checkout specific path
+#### checkout specific path
 
 ```php
 $git->checkout()->execute('hotfix/1.2.3', '/fileA', '/fileB', '/dir/fileC');
 ```
 
-### push objects
+#### push objects
 
 ```php
 $git->push()->execute('github', 'hotfix/1.2.3');
 ```
 
-### add file to staging index
+#### add file to staging index
 
 ```php
 $git->add()->execute('file/to/add.ext');
 ```
 
-### remove file
+#### remove file
 
 ```php
 $git->rm()->execute('file/to/remove.ext');
 ```
 
-### commit changes
+#### commit changes
 
 ```php
 $git->commit()->message('Commit message')->execute();
 ```
 
-### create a tag
+#### create a tag
 
 ```php
 $git->tag()->execute('v1.2.3');

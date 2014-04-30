@@ -23,6 +23,7 @@ use ContaoCommunityAlliance\BuildSystem\Repository\Command\PushCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\ResetCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\RevParseCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\RmCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\StatusCommandBuilder;
 use Guzzle\Http\Client;
 use Symfony\Component\Console\Command\Command;
@@ -214,34 +215,13 @@ class GitRepository
 	}
 
 	/**
-	 * Remove a path from the repository.
+	 * Create rm command.
 	 *
-	 * @param string $path
-	 *
-	 * @return $this
-	 * @throws GitException
+	 * @return RmCommandBuilder
 	 */
-	public function rm($path)
+	public function rm()
 	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('rm')
-			->add($path);
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not remove file', $process);
-		}
-
-		return $this;
+		return new RmCommandBuilder($this);
 	}
 
 	/**

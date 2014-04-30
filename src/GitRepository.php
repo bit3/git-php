@@ -20,6 +20,7 @@ use ContaoCommunityAlliance\BuildSystem\Repository\Command\CommitCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\DescribeCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\FetchCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\InitCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\LogCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\PushCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\ResetCommandBuilder;
@@ -255,5 +256,15 @@ class GitRepository
 	public function show()
 	{
 		return new ShowCommandBuilder($this);
+	}
+
+	/**
+	 * Create log command.
+	 *
+	 * @return LogCommandBuilder
+	 */
+	public function log()
+	{
+		return new LogCommandBuilder($this);
 	}
 }

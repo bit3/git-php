@@ -22,6 +22,7 @@ use ContaoCommunityAlliance\BuildSystem\Repository\Command\PushCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\ResetCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\RevParseCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\StatusCommandBuilder;
 use Guzzle\Http\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -192,57 +193,13 @@ class GitRepository
 	}
 
 	/**
-	 * Get modification status.
+	 * Create status command.
 	 *
-	 * @return array An associative array, contains filename as keys and status arrays as values.
-	 *               [
-	 *                   'file/inside/the/repository.ext' => [
-	 *                       'working' => 'M',
-	 *                       'staging' => 'D',
-	 *                   ]
-	 *               ]
-	 * @throws GitException
+	 * @return StatusCommandBuilder
 	 */
 	public function status()
 	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('status')
-			->add('-s');
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not determine modification status of repository', $process);
-		}
-
-		$files  = array();
-		$status = explode("\n", $process->getOutput());
-
-		foreach ($status as $line) {
-			if (trim($line)) {
-				$working = trim(substr($line, 0, 1));
-				$staging = trim(substr($line, 1, 1));
-
-				$stat = array(
-					'working' => $working ? : false,
-					'staging' => $staging ? : false,
-				);
-
-				$file = trim(substr($line, 2));
-
-				$files[$file] = $stat;
-			}
-		}
-
-		return $files;
+		return new StatusCommandBuilder($this);
 	}
 
 	/**

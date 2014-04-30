@@ -164,7 +164,7 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
 	 *
 	 * @return array
 	 */
-	public function getList()
+	public function getNames()
 	{
 		$remotes = $this->execute();
 		$remotes = explode("\n", $remotes);

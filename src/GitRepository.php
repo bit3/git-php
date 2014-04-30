@@ -12,6 +12,7 @@
 
 namespace ContaoCommunityAlliance\BuildSystem\Repository;
 
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\AddCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\BranchCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\CheckoutCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\CloneCommandBuilder;
@@ -203,34 +204,13 @@ class GitRepository
 	}
 
 	/**
-	 * Add a path to staging index.
+	 * Create add command.
 	 *
-	 * @param string $path
-	 *
-	 * @return $this
-	 * @throws GitException
+	 * @return AddCommandBuilder
 	 */
-	public function add($path)
+	public function add()
 	{
-		$processBuilder = new ProcessBuilder();
-		$processBuilder
-			->setWorkingDirectory($this->repositoryPath)
-			->add($this->config->getGitExecutablePath())
-			->add('add')
-			->add($path);
-		$process = $processBuilder->getProcess();
-
-		$this->config->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
-
-		$process->run();
-
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not add file', $process);
-		}
-
-		return $this;
+		return new AddCommandBuilder($this);
 	}
 
 	/**

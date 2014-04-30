@@ -185,7 +185,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
 		return parent::run();
 	}
 
-	public function getList()
+	public function getNames()
 	{
 		$branches = $this->execute();
 		$branches = explode("\n", $branches);

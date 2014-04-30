@@ -3,37 +3,129 @@ GIT repository
 
 [![Build Status](https://travis-ci.org/contao-community-alliance/build-system-repository-git.png)](https://travis-ci.org/contao-community-alliance/build-system-repository-git)
 
-This repository allows you to work with git repositories.
+This is a lightweight git adapter, providing the git commands in PHP.
 
 Usage examples
 --------------
+
+The API use command builders, that allow you to build a command and execute it one time.
+The main synopsis is:
+
+```php
+$git->command()->option()->execute();
+```
+
+`$git->command()` will create a new command.
+`*->option()` will add an option to the command.
+`*->execute()` will finally execute the command.
+
+The naming of commands and options follow the git naming. If you search for documentation of a specific command
+or option, just look into the git documentation. You will find the command/option there.
 
 ### init a new git repository
 
 ```php
 use ContaoCommunityAlliance\BuildSystem\Repository\GitRepository;
 
-$targetDirectory = '/path/to/git/target/directory';
+$directory = '/path/to/git/target/directory';
 
-$git = new GitRepository();
-$git->init();
+$git = new GitRepository($directory);
+$git->init()->execute();
 ```
 
 ### clone a git repository
 
+The `clone` command is named `cloneRepository()` because `clone` is a reserved word in PHP.
+
 ```php
 use ContaoCommunityAlliance\BuildSystem\Repository\GitRepository;
 
-$targetDirectory = '/path/to/git/target/directory';
+$directory = '/path/to/git/target/directory';
 
-$git = new GitRepository();
-$git->cloneRepository($targetDirectory);
+$git = new GitRepository($directory);
+$git->cloneRepository()->execute();
 ```
 
-### list remotes
+### describe
 
 ```php
-$remotes = $git->listRemotes();
+$annotatedTag   = $git->describe()->execute();
+$lightweightTag = $git->describe()->tags()->execute();
+$recentRef      = $git->describe()->all()->execute();
+```
+
+### set remote fetch url
+
+```php
+$git->remote()->setUrl('origin', 'git@github.com:contao-community-alliance/build-system-repository-git.git')->execute();
+```
+
+### set remote push url
+
+```php
+$git->remote()->setPushUrl('origin', 'git@github.com:contao-community-alliance/build-system-repository-git.git')->execute();
+```
+
+### add new remote
+
+```php
+$git->remote()->add('github', 'git@github.com:contao-community-alliance/build-system-repository-git.git')->execute();
+```
+
+### fetch remote objects
+
+```php
+$git->fetch()->execute('github');
+```
+
+### checkout
+
+```php
+$git->checkout()->execute('hotfix/1.2.3');
+```
+
+### checkout specific path
+
+```php
+$git->checkout()->execute('hotfix/1.2.3', '/fileA', '/fileB', '/dir/fileC');
+```
+
+### push objects
+
+```php
+$git->push()->execute('github', 'hotfix/1.2.3');
+```
+
+### add file to staging index
+
+```php
+$git->add()->execute('file/to/add.ext');
+```
+
+### remove file
+
+```php
+$git->rm()->execute('file/to/remove.ext');
+```
+
+### commit changes
+
+```php
+$git->commit()->message('Commit message')->execute();
+```
+
+### create a tag
+
+```php
+$git->tag()->execute('v1.2.3');
+```
+
+### Convenience and shortcut methods
+
+#### list remotes
+
+```php
+$remotes = $git->remote()->getNames();
 
 // array(
 //     'origin',
@@ -41,10 +133,10 @@ $remotes = $git->listRemotes();
 // )
 ```
 
-### list branches
+#### list branches
 
 ```php
-$remotes = $git->listBranches();
+$remotes = $git->branch()->getNames();
 
 // array(
 //     'master',
@@ -52,10 +144,22 @@ $remotes = $git->listBranches();
 // )
 ```
 
-### list branches including remote tracking branches
+#### list remote tracking branches
 
 ```php
-$remotes = $git->listBranches();
+$remotes = $git->branch()->remotes()->->getNames();
+
+// array(
+//     'origin/master',
+//     'origin/hotfix/1.2.3',
+//     'origin/release/4.5.6',
+// )
+```
+
+#### list branches including remote tracking branches
+
+```php
+$remotes = $git->branch()->all()->->getNames();
 
 // array(
 //     'master',
@@ -66,89 +170,41 @@ $remotes = $git->listBranches();
 // )
 ```
 
-### describe
+#### get modification status
 
 ```php
-$annotatedTag   = $git->describe();
-$lightweightTag = $git->describe(GitRepository::DESCRIBE_LIGHTWEIGHT_TAGS);
-$recentRef      = $git->describe(GitRepository::DESCRIBE_ALL);
-```
-
-### set remote fetch and push url
-
-```php
-$git->remoteSetUrl('git@github.com:contao-community-alliance/build-system-repository-git.git');
-```
-
-### set remote fetch url
-
-```php
-$git->remoteSetFetchUrl('git@github.com:contao-community-alliance/build-system-repository-git.git');
-```
-
-### set remote push url
-
-```php
-$git->remoteSetPushUrl('git@github.com:contao-community-alliance/build-system-repository-git.git');
-```
-
-### add new remote
-
-```php
-$git->remoteAdd('git@github.com:contao-community-alliance/build-system-repository-git.git', 'github');
-```
-
-### fetch remote objects
-
-```php
-$git->remoteFetch('github');
-```
-
-### checkout
-
-```php
-$git->checkout('hotfix/1.2.3');
-```
-
-### push objects
-
-```php
-$git->push('hotfix/1.2.3', 'github');
-```
-
-### get modification status
-
-```php
-$status = $git->status();
+$status = $git->status()->getStatus();
 
 // array(
-//     'existing-file.txt'      => array('working' => false, 'staging' => 'D'),
-//     'removed-but-staged.txt' => array('working' => 'A',   'staging' => 'D'),
-//     'staged-file.txt'        => array('working' => 'A',   'staging' => false),
-//     'unknown-file.txt'       => array('working' => '?',   'staging' => '?'),
+//     'existing-file.txt'      => array('index' => 'D',   'worktree' => false),
+//     'removed-but-staged.txt' => array('index' => 'D',   'worktree' => 'A'),
+//     'staged-file.txt'        => array('index' => false, 'worktree' => 'A'),
+//     'unknown-file.txt'       => array('index' => '?',   'worktree' => '?'),
 // )
 ```
 
-### add file to staging index
+#### get index modification status
 
 ```php
-$git->add('file/to/add.ext');
+$status = $git->status()->getIndexStatus();
+
+// array(
+//     'existing-file.txt'      => 'D',
+//     'removed-but-staged.txt' => 'D',
+//     'staged-file.txt'        => false,
+//     'unknown-file.txt'       => '?',
+// )
 ```
 
-### remove file
+#### get worktree modification status
 
 ```php
-$git->rm('file/to/remove.ext');
-```
+$status = $git->status()->getWorkTreeStatus();
 
-### commit changes
-
-```php
-$git->commit('Commit message');
-```
-
-### create a tag
-
-```php
-$git->tag('v1.2.3');
+// array(
+//     'existing-file.txt'      => 'worktree' => false,
+//     'removed-but-staged.txt' => 'worktree' => 'A',
+//     'staged-file.txt'        => 'worktree' => 'A',
+//     'unknown-file.txt'       => 'worktree' => '?',
+// )
 ```

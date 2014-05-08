@@ -77,18 +77,25 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
 	 */
 	protected function run()
 	{
-		if ($this->output !== null) {
-			throw new GitException('Command cannot be executed twice');
-		}
-
 		$process = $this->processBuilder->getProcess();
+
+		if ($this->output !== null) {
+			throw new GitException(
+				'Command cannot be executed twice',
+				$process->getWorkingDirectory(),
+				$process->getCommandLine(),
+				$this->output,
+				''
+			);
+		}
 
 		$this->repository->getConfig()->getLogger()->debug(
 			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
 		);
 
 		$process->run();
-		$this->output = trim($process->getOutput());
+		$this->output = $process->getOutput();
+		$this->output = rtrim($this->output, "\r\n");
 
 		if (!$process->isSuccessful()) {
 			throw GitException::createFromProcess('Could not execute git command', $process);

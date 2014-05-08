@@ -113,7 +113,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
 	 * @return array Return an associative array of all files and an status array.
 	 *               <code>
 	 *               array(
-	 *                   '<pathspec>' => array(
+	 *                   '&lt;pathspec&gt;' => array(
 	 *                       'index'    => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
 	 *                       'worktree' => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
 	 *                   )
@@ -156,7 +156,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
 	 * @return array Return an associative array of all files and their modification status.
 	 *               <code>
 	 *               array(
-	 *                   '<pathspec>' => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
+	 *                   '&lt;pathspec&gt;' => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
 	 *               )
 	 *               </code>
 	 */
@@ -192,7 +192,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
 	 * @return array Return an associative array of all files and their modification status.
 	 *               <code>
 	 *               array(
-	 *                   '<pathspec>' => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
+	 *                   '&lt;pathspec&gt;' => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
 	 *               )
 	 *               </code>
 	 */

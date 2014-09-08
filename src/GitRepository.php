@@ -21,6 +21,7 @@ use ContaoCommunityAlliance\BuildSystem\Repository\Command\DescribeCommandBuilde
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\FetchCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\InitCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\LogCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\LsRemoteCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\PushCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\ResetCommandBuilder;
@@ -266,5 +267,15 @@ class GitRepository
 	public function log()
 	{
 		return new LogCommandBuilder($this);
+	}
+
+	/**
+	 * Create ls-remote command.
+	 *
+	 * @return LsRemoteCommandBuilder
+	 */
+	public function lsRemote()
+	{
+		return new LsRemoteCommandBuilder($this);
 	}
 }

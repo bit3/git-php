@@ -102,6 +102,12 @@ class ShowCommandBuilder extends AbstractCommandBuilder
 		return $this;
 	}
 
+	public function noPatch()
+	{
+		$this->processBuilder->add('--no-patch');
+		return $this;
+	}
+
 	public function execute($object)
 	{
 		$this->processBuilder->add($object);

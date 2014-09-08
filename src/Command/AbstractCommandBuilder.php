@@ -46,6 +46,11 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
 	 */
 	protected $output = null;
 
+    /**
+     * @var bool
+     */
+    protected $dryRun = false;
+
 	public function __construct(GitRepository $repository)
 	{
 		$this->repository = $repository;
@@ -56,6 +61,17 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
 
 		$this->initializeProcessBuilder();
 	}
+
+    /**
+     * Enable dry run. If dry run is enabled, the execute() method return the executed command.
+     *
+     * @return $this
+     */
+    public function enableDryRun()
+    {
+        $this->dryRun = true;
+        return $this;
+    }
 
 	protected function initializeProcessBuilder()
 	{
@@ -92,6 +108,10 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
 		$this->repository->getConfig()->getLogger()->debug(
 			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
 		);
+
+        if ($this->dryRun) {
+            return $process->getCommandLine();
+        }
 
 		$process->run();
 		$this->output = $process->getOutput();

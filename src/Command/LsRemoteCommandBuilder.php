@@ -54,9 +54,9 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
 		return $this;
 	}
 
-	public function execute($repository, $refs = null, $_ = null)
+	public function execute($remote, $refs = null, $_ = null)
 	{
-        $this->processBuilder->add($repository);
+        $this->processBuilder->add($remote);
 
         $refs = func_get_args();
         array_shift($refs);

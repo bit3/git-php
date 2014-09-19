@@ -72,7 +72,7 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      *
      * @return array
      */
-    public function getRefs($repository, $refs = null, $_ = null)
+    public function getRefs($remote, $refs = null, $_ = null)
     {
         $output = call_user_func_array(array($this, 'execute'), func_get_args());
         $output = explode("\n", $output);

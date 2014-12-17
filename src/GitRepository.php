@@ -27,6 +27,7 @@ use ContaoCommunityAlliance\BuildSystem\Repository\Command\RemoteCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\ResetCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\RevParseCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\RmCommandBuilder;
+use ContaoCommunityAlliance\BuildSystem\Repository\Command\ShortLogCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\ShowCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\StatusCommandBuilder;
 use ContaoCommunityAlliance\BuildSystem\Repository\Command\TagCommandBuilder;
@@ -267,6 +268,16 @@ class GitRepository
 	public function log()
 	{
 		return new LogCommandBuilder($this);
+	}
+
+	/**
+	 * Create shortlog command.
+	 *
+	 * @return ShortLogCommandBuilder
+	 */
+	public function shortlog()
+	{
+		return new ShortLogCommandBuilder($this);
 	}
 
 	/**

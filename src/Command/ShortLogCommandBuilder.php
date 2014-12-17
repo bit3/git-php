@@ -4,7 +4,7 @@
  * This file is part of the Contao Community Alliance Build System tools.
  *
  * @copyright 2014 Contao Community Alliance <https://c-c-a.org>
- * @author    Tristan Lins <t.lins@c-c-a.org>
+ * @author    David Molineus <david.molineus@netzmacht.de>
  * @package   contao-community-alliance/build-system-repository-git
  * @license   MIT
  * @link      https://c-c-a.org

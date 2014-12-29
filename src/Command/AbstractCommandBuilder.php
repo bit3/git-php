@@ -1,25 +1,27 @@
 <?php
 
 /**
- * This file is part of the Contao Community Alliance Build System tools.
+ * This file is part of bit3/git-php.
  *
- * @copyright 2014 Contao Community Alliance <https://c-c-a.org>
- * @author    Tristan Lins <t.lins@c-c-a.org>
- * @package   contao-community-alliance/build-system-repository-git
- * @license   MIT
- * @link      https://c-c-a.org
+ * (c) Tristan Lins <tristan@lins.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This project is provided in good faith and hope to be usable by anyone.
+ *
+ * @package    bit3/git-php
+ * @author     Tristan Lins <tristan@lins.io>
+ * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @link       https://github.com/bit3/git-php
+ * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
+ * @filesource
  */
 
-namespace ContaoCommunityAlliance\BuildSystem\Repository\Command;
+namespace Bit3\GitPhp\Command;
 
-use ContaoCommunityAlliance\BuildSystem\Repository\GitException;
-use ContaoCommunityAlliance\BuildSystem\Repository\GitRepository;
-use Guzzle\Http\Client;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
+use Bit3\GitPhp\GitException;
+use Bit3\GitPhp\GitRepository;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**
@@ -27,40 +29,40 @@ use Symfony\Component\Process\ProcessBuilder;
  */
 abstract class AbstractCommandBuilder implements CommandBuilderInterface
 {
-	/**
-	 * The path to the git repository.
-	 *
-	 * @var GitRepository
-	 */
-	public $repository;
+    /**
+     * The path to the git repository.
+     *^
+     * @var GitRepository
+     */
+    public $repository;
 
-	/**
-	 * @var ProcessBuilder
-	 */
-	protected $processBuilder;
+    /**
+     * @var ProcessBuilder
+     */
+    protected $processBuilder;
 
-	/**
-	 * The process output.
-	 *
-	 * @var null|string
-	 */
-	protected $output = null;
+    /**
+     * The process output.
+     *
+     * @var null|string
+     */
+    protected $output = null;
 
     /**
      * @var bool
      */
     protected $dryRun = false;
 
-	public function __construct(GitRepository $repository)
-	{
-		$this->repository = $repository;
+    public function __construct(GitRepository $repository)
+    {
+        $this->repository = $repository;
 
-		$this->processBuilder = new ProcessBuilder();
-		$this->processBuilder->setWorkingDirectory($repository->getRepositoryPath());
-		$this->processBuilder->add($this->repository->getConfig()->getGitExecutablePath());
+        $this->processBuilder = new ProcessBuilder();
+        $this->processBuilder->setWorkingDirectory($repository->getRepositoryPath());
+        $this->processBuilder->add($this->repository->getConfig()->getGitExecutablePath());
 
-		$this->initializeProcessBuilder();
-	}
+        $this->initializeProcessBuilder();
+    }
 
     /**
      * Enable dry run. If dry run is enabled, the execute() method return the executed command.
@@ -73,54 +75,54 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
         return $this;
     }
 
-	protected function initializeProcessBuilder()
-	{
-	}
+    protected function initializeProcessBuilder()
+    {
+    }
 
-	/**
-	 * @return null|string
-	 */
-	public function getOutput()
-	{
-		return $this->output;
-	}
+    /**
+     * @return null|string
+     */
+    public function getOutput()
+    {
+        return $this->output;
+    }
 
-	/**
-	 * Execute the command.
-	 *
-	 * @return mixed Depend on the command.
-	 * @throws GitException
-	 */
-	protected function run()
-	{
-		$process = $this->processBuilder->getProcess();
+    /**
+     * Execute the command.
+     *
+     * @return mixed Depend on the command.
+     * @throws GitException
+     */
+    protected function run()
+    {
+        $process = $this->processBuilder->getProcess();
 
-		if ($this->output !== null) {
-			throw new GitException(
-				'Command cannot be executed twice',
-				$process->getWorkingDirectory(),
-				$process->getCommandLine(),
-				$this->output,
-				''
-			);
-		}
+        if ($this->output !== null) {
+            throw new GitException(
+                'Command cannot be executed twice',
+                $process->getWorkingDirectory(),
+                $process->getCommandLine(),
+                $this->output,
+                ''
+            );
+        }
 
-		$this->repository->getConfig()->getLogger()->debug(
-			sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
-		);
+        $this->repository->getConfig()->getLogger()->debug(
+            sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
+        );
 
         if ($this->dryRun) {
             return $process->getCommandLine();
         }
 
-		$process->run();
-		$this->output = $process->getOutput();
-		$this->output = rtrim($this->output, "\r\n");
+        $process->run();
+        $this->output = $process->getOutput();
+        $this->output = rtrim($this->output, "\r\n");
 
-		if (!$process->isSuccessful()) {
-			throw GitException::createFromProcess('Could not execute git command', $process);
-		}
+        if (!$process->isSuccessful()) {
+            throw GitException::createFromProcess('Could not execute git command', $process);
+        }
 
-		return $this->output;
-	}
+        return $this->output;
+    }
 }

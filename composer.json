@@ -1,26 +1,25 @@
 {
-	"name": "contao-community-alliance/build-system-repository-git",
-	"description": "GIT repository for CCABS.",
-	"license": "MIT",
-	"minimum-stability": "dev",
-	"require": {
-		"contao-community-alliance/build-system-logger": "~1.0",
-		"symfony/process": "~2.3"
-	},
-	"require-dev": {
-		"monolog/monolog": "~1",
-		"phpunit/phpunit": "3.7.*",
-		"symfony/filesystem": "~2.3"
-	},
-	"autoload": {
-		"psr-4": {
-			"ContaoCommunityAlliance\\BuildSystem\\Repository\\": "src",
-			"ContaoCommunityAlliance\\BuildSystem\\Repository\\Test\\": "test"
-		}
-	},
-	"extra": {
-		"branch-alias": {
-			"dev-master": "1.0.x-dev"
-		}
-	}
+    "name": "bit3/git-php",
+    "description": "Easy to use GIT wrapper for PHP.",
+    "license": "MIT",
+    "require": {
+        "bit3/no-op-logger": "~1.0",
+        "symfony/process": "~2.3"
+    },
+    "require-dev": {
+        "monolog/monolog": "~1.0",
+        "phpunit/phpunit": "3.7.*",
+        "symfony/filesystem": "~2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bit3\\GitPhp\\": "src",
+            "Bit3\\GitPhp\\Test\\": "test"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
 }

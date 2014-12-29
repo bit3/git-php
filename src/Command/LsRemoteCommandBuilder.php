@@ -1,61 +1,61 @@
 <?php
 
 /**
- * This file is part of the Contao Community Alliance Build System tools.
+ * This file is part of bit3/git-php.
  *
- * @copyright 2014 Contao Community Alliance <https://c-c-a.org>
- * @author    Tristan Lins <t.lins@c-c-a.org>
- * @package   contao-community-alliance/build-system-repository-git
- * @license   MIT
- * @link      https://c-c-a.org
+ * (c) Tristan Lins <tristan@lins.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This project is provided in good faith and hope to be usable by anyone.
+ *
+ * @package    bit3/git-php
+ * @author     Tristan Lins <tristan@lins.io>
+ * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @link       https://github.com/bit3/git-php
+ * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
+ * @filesource
  */
 
-namespace ContaoCommunityAlliance\BuildSystem\Repository\Command;
-
-use Guzzle\Http\Client;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\ProcessBuilder;
+namespace Bit3\GitPhp\Command;
 
 /**
  * Ls remote command builder.
  */
 class LsRemoteCommandBuilder extends AbstractCommandBuilder
 {
-	protected function initializeProcessBuilder()
-	{
-		$this->processBuilder->add('ls-remote');
-	}
+    protected function initializeProcessBuilder()
+    {
+        $this->processBuilder->add('ls-remote');
+    }
 
-	public function heads()
-	{
-		$this->processBuilder->add('--heads');
-		return $this;
-	}
+    public function heads()
+    {
+        $this->processBuilder->add('--heads');
+        return $this;
+    }
 
-	public function tags()
-	{
-		$this->processBuilder->add('--tags');
-		return $this;
-	}
+    public function tags()
+    {
+        $this->processBuilder->add('--tags');
+        return $this;
+    }
 
-	public function uploadPack($exec)
-	{
-		$this->processBuilder->add('--upload-pack')->add($exec);
-		return $this;
-	}
+    public function uploadPack($exec)
+    {
+        $this->processBuilder->add('--upload-pack')->add($exec);
+        return $this;
+    }
 
-	public function exitCode()
-	{
-		$this->processBuilder->add('--exit-code');
-		return $this;
-	}
+    public function exitCode()
+    {
+        $this->processBuilder->add('--exit-code');
+        return $this;
+    }
 
-	public function execute($remote, $refs = null, $_ = null)
-	{
+    public function execute($remote, $refs = null, $_ = null)
+    {
         $this->processBuilder->add($remote);
 
         $refs = func_get_args();
@@ -64,8 +64,8 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
             $this->processBuilder->add($ref);
         }
 
-		return $this->run();
-	}
+        return $this->run();
+    }
 
     /**
      * Return a list of remote names.

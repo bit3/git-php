@@ -6,4 +6,5 @@ php:
 
 install:
     - composer install --prefer-dist --dev
+
 script: ant -keep-going

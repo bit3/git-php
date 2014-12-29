@@ -1,9 +1,13 @@
-GIT repository
-==============
+[![Version](http://img.shields.io/packagist/v/bit3/git-php.svg?style=flat-square)](https://packagist.org/packages/bit3/git-php)
+[![Stable Build Status](http://img.shields.io/travis/bit3/git-php/master.svg?style=flat-square&label=stable build)](https://travis-ci.org/bit3/git-php)
+[![Upstream Build Status](http://img.shields.io/travis/bit3/git-php/develop.svg?style=flat-square&label=dev build)](https://travis-ci.org/bit3/git-php)
+[![License](http://img.shields.io/packagist/l/bit3/git-php.svg?style=flat-square)](https://github.com/bit3/git-php/blob/master/LICENSE)
+[![Downloads](http://img.shields.io/packagist/dt/bit3/git-php.svg?style=flat-square)](https://packagist.org/packages/bit3/git-php)
 
-[![Build Status](https://travis-ci.org/contao-community-alliance/build-system-repository-git.png)](https://travis-ci.org/contao-community-alliance/build-system-repository-git)
+Easy to use GIT wrapper for php
+===============================
 
-This is a lightweight git adapter, providing the git commands in PHP.
+This is a lightweight wrapper, providing the git commands in PHP.
 
 Usage examples
 --------------
@@ -25,7 +29,7 @@ or option, just look into the git documentation. You will find the command/optio
 #### init a new git repository
 
 ```php
-use ContaoCommunityAlliance\BuildSystem\Repository\GitRepository;
+use Bit3\GitPhp\GitRepository;
 
 $directory = '/path/to/git/target/directory';
 
@@ -38,7 +42,7 @@ $git->init()->execute();
 The `clone` command is named `cloneRepository()` because `clone` is a reserved word in PHP.
 
 ```php
-use ContaoCommunityAlliance\BuildSystem\Repository\GitRepository;
+use Bit3\GitPhp\GitRepository;
 
 $directory = '/path/to/git/target/directory';
 
@@ -58,24 +62,24 @@ $recentRef      = $git->describe()->all()->execute();
 
 ```php
 $git->remote()
-	->setUrl('origin', 'git@github.com:contao-community-alliance/build-system-repository-git.git')
-	->execute();
+    ->setUrl('origin', 'git@github.com:bit3/git-php.git')
+    ->execute();
 ```
 
 #### set remote push url
 
 ```php
 $git->remote()
-	->setPushUrl('origin', 'git@github.com:contao-community-alliance/build-system-repository-git.git')
-	->execute();
+    ->setPushUrl('origin', 'git@github.com:bit3/git-php.git')
+    ->execute();
 ```
 
 #### add new remote
 
 ```php
 $git->remote()
-	->add('github', 'git@github.com:contao-community-alliance/build-system-repository-git.git')
-	->execute();
+    ->add('github', 'git@github.com:bit3/git-php.git')
+    ->execute();
 ```
 
 #### fetch remote objects

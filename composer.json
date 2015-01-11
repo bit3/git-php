@@ -3,20 +3,25 @@
     "description": "Easy to use GIT wrapper for PHP.",
     "license": "MIT",
     "require": {
+        "php": ">=5.3",
         "bit3/no-op-logger": "~1.0",
-        "symfony/process": "~2.3"
+        "symfony/process": "~2.3",
+        "phpcq/coding-standard": "~1.0"
     },
     "require-dev": {
         "monolog/monolog": "~1.0",
         "phpunit/phpunit": "3.7.*",
-        "symfony/filesystem": "~2.3"
+        "symfony/filesystem": "~2.3",
+        "phpcq/phpcq": "~1.0",
+        "phpcq/all-tasks": "~1.0"
     },
     "autoload": {
         "psr-4": {
             "Bit3\\GitPhp\\": "src",
-            "Bit3\\GitPhp\\Test\\": "test"
+            "Bit3\\GitPhp\\Test\\": "tests"
         }
     },
+    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"

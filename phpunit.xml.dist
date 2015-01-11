@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="vendor/autoload.php"
+         bootstrap="tests/bootstrap.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -9,8 +9,8 @@
          processIsolation="false"
          strict="true">
     <testsuites>
-        <testsuite name="GitPhp Test Suite">
-            <directory suffix="Test.php">test/</directory>
+        <testsuite name="GitPhp test suite">
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

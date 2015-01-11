@@ -1,8 +1,21 @@
-<?xml version="1.0"?>
-<project name="Example" default="test">
-    <target name="phpunit">
-        <exec dir="${basedir}" executable="vendor/bin/phpunit" failonerror="true"/>
-    </target>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ This project is using the PHP code quality project (PHPCQ).
 
-    <target name="test" depends="phpunit"/>
+ For documentation visit:
+   https://github.com/phpcq/phpcq
+
+-->
+<project name="bit3/git-php" default="build">
+    <!-- override properties here -->
+    <!-- <property name="" value="" /> -->
+
+    <!-- import the main tasks definition -->
+    <import file="vendor/phpcq/phpcq/phpcq.main.xml"/>
+
+    <!--
+        Overwrite individual targets - you can leave them empty to stop a called target from having any effect.
+        In this example, we disable all tasks in the the verify task.
+    -->
+    <!-- <target name="verify" /> -->
 </project>

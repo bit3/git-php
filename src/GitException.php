@@ -12,6 +12,7 @@
  *
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
+ * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
  * @link       https://github.com/bit3/git-php
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
@@ -58,13 +59,17 @@ class GitException extends \RuntimeException
     /**
      * Create a new git exception.
      *
-     * @param string     $message
-     * @param int        $workingDirectory
-     * @param \Exception $commandLine
-     * @param string     $commandOutput
-     * @param string     $errorOutput
+     * @param string $message          The error message.
+     *
+     * @param string $workingDirectory The working directory.
+     *
+     * @param string $commandLine      The used command line.
+     *
+     * @param string $commandOutput    The command output.
+     *
+     * @param string $errorOutput      The command error output.
      */
-    public function __construct($message = "", $workingDirectory, $commandLine, $commandOutput, $errorOutput)
+    public function __construct($message, $workingDirectory, $commandLine, $commandOutput, $errorOutput)
     {
         parent::__construct($message, 0, null);
         $this->workingDirectory = (string) $workingDirectory;
@@ -116,12 +121,13 @@ class GitException extends \RuntimeException
     /**
      * Create new exception from process.
      *
-     * @param string  $message
-     * @param Process $process
+     * @param string  $message The message to use.
+     *
+     * @param Process $process The process to create the message from.
      *
      * @return static
      */
-    static public function createFromProcess($message, Process $process)
+    public static function createFromProcess($message, Process $process)
     {
         return new static(
             sprintf('%s [%s]', $message, $process->getCommandLine()) .

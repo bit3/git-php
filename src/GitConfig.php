@@ -12,6 +12,7 @@
  *
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
+ * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
  * @link       https://github.com/bit3/git-php
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
@@ -59,7 +60,7 @@ class GitConfig
     /**
      * Create new git config.
      */
-    function __construct()
+    public function __construct()
     {
         $this->logger = new NoOpLogger();
     }
@@ -67,7 +68,7 @@ class GitConfig
     /**
      * Set the git executable path.
      *
-     * @param string $gitExecutablePath
+     * @param string $gitExecutablePath Path to the git executable.
      *
      * @return GitConfig
      */
@@ -178,7 +179,7 @@ class GitConfig
     /**
      * Set the logger facility.
      *
-     * @param LoggerInterface $logger
+     * @param LoggerInterface $logger The logger to use.
      *
      * @return GitConfig
      */

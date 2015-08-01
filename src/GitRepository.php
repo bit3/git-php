@@ -36,6 +36,7 @@ use Bit3\GitPhp\Command\RemoteCommandBuilder;
 use Bit3\GitPhp\Command\ResetCommandBuilder;
 use Bit3\GitPhp\Command\RevParseCommandBuilder;
 use Bit3\GitPhp\Command\RmCommandBuilder;
+use Bit3\GitPhp\Command\ShortLogCommandBuilder;
 use Bit3\GitPhp\Command\ShowCommandBuilder;
 use Bit3\GitPhp\Command\StatusCommandBuilder;
 use Bit3\GitPhp\Command\TagCommandBuilder;
@@ -272,6 +273,16 @@ class GitRepository
     public function log()
     {
         return new LogCommandBuilder($this);
+    }
+
+    /**
+     * Create shortlog command.
+     *
+     * @return ShortLogCommandBuilder
+     */
+    public function shortlog()
+    {
+        return new ShortLogCommandBuilder($this);
     }
 
     /**

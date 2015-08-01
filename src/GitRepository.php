@@ -12,6 +12,8 @@
  *
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
+ * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
+ * @author     David Molineus <mail@netzmacht.de>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
  * @link       https://github.com/bit3/git-php
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
@@ -35,6 +37,7 @@ use Bit3\GitPhp\Command\RemoteCommandBuilder;
 use Bit3\GitPhp\Command\ResetCommandBuilder;
 use Bit3\GitPhp\Command\RevParseCommandBuilder;
 use Bit3\GitPhp\Command\RmCommandBuilder;
+use Bit3\GitPhp\Command\ShortLogCommandBuilder;
 use Bit3\GitPhp\Command\ShowCommandBuilder;
 use Bit3\GitPhp\Command\StatusCommandBuilder;
 use Bit3\GitPhp\Command\TagCommandBuilder;
@@ -61,10 +64,11 @@ class GitRepository
     /**
      * Create a new git repository.
      *
-     * @param string    $repositoryPath
-     * @param GitConfig $config
+     * @param string    $repositoryPath The path to the git repository.
+     *
+     * @param GitConfig $config         The configuration to use.
      */
-    function __construct($repositoryPath, GitConfig $config = null)
+    public function __construct($repositoryPath, GitConfig $config = null)
     {
         $this->repositoryPath = (string) $repositoryPath;
         $this->config         = $config ?: new GitConfig();
@@ -224,6 +228,8 @@ class GitRepository
      * Create rm command.
      *
      * @return RmCommandBuilder
+     *
+     * @SuppressWarnings(PHPMD.ShortMethodName)
      */
     public function rm()
     {
@@ -268,6 +274,16 @@ class GitRepository
     public function log()
     {
         return new LogCommandBuilder($this);
+    }
+
+    /**
+     * Create shortlog command.
+     *
+     * @return ShortLogCommandBuilder
+     */
+    public function shortlog()
+    {
+        return new ShortLogCommandBuilder($this);
     }
 
     /**

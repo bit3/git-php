@@ -12,6 +12,7 @@
  *
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
+ * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
  * @link       https://github.com/bit3/git-php
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
@@ -25,42 +26,82 @@ namespace Bit3\GitPhp\Command;
  */
 class LsRemoteCommandBuilder extends AbstractCommandBuilder
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function initializeProcessBuilder()
     {
         $this->processBuilder->add('ls-remote');
     }
 
+    /**
+     * Add the heads option to the command line.
+     *
+     * @return LsRemoteCommandBuilder
+     */
     public function heads()
     {
         $this->processBuilder->add('--heads');
         return $this;
     }
 
+    /**
+     * Add the tags option to the command line.
+     *
+     * @return LsRemoteCommandBuilder
+     */
     public function tags()
     {
         $this->processBuilder->add('--tags');
         return $this;
     }
 
+    /**
+     * Add the upload-pack option to the command line.
+     *
+     * @param string $exec The value.
+     *
+     * @return LsRemoteCommandBuilder
+     */
     public function uploadPack($exec)
     {
         $this->processBuilder->add('--upload-pack')->add($exec);
         return $this;
     }
 
+    /**
+     * Add the exit-code option to the command line.
+     *
+     * @return LsRemoteCommandBuilder
+     */
     public function exitCode()
     {
         $this->processBuilder->add('--exit-code');
         return $this;
     }
 
-    public function execute($remote, $refs = null, $_ = null)
+    /**
+     * Build the command and execute it.
+     *
+     * @param string      $remote  Name of the remote.
+     *
+     * @param null|string $refSpec Ref spec to list.
+     *
+     * @param null|string $_       More optional ref specs to log.
+     *
+     * @return string
+     *
+     * @SuppressWarnings(PHPMD.ShortVariableName)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.CamelCaseParameterName)
+     */
+    public function execute($remote, $refSpec = null, $_ = null)
     {
         $this->processBuilder->add($remote);
 
-        $refs = func_get_args();
-        array_shift($refs);
-        foreach ($refs as $ref) {
+        $refSpec = func_get_args();
+        array_shift($refSpec);
+        foreach ($refSpec as $ref) {
             $this->processBuilder->add($ref);
         }
 
@@ -70,9 +111,19 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
     /**
      * Return a list of remote names.
      *
+     * @param string      $remote  Name of the remote.
+     *
+     * @param null|string $refSpec Ref spec to list.
+     *
+     * @param null|string $_       More optional ref specs to log.
+     *
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.ShortVariableName)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.CamelCaseParameterName)
      */
-    public function getRefs($remote, $refs = null, $_ = null)
+    public function getRefs($remote, $refSpec = null, $_ = null)
     {
         $output = call_user_func_array(array($this, 'execute'), func_get_args());
         $output = explode("\n", $output);

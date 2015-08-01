@@ -12,6 +12,7 @@
  *
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
+ * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
  * @link       https://github.com/bit3/git-php
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
@@ -26,17 +27,21 @@ use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * Abstract command builder.
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class AbstractCommandBuilder implements CommandBuilderInterface
 {
     /**
      * The path to the git repository.
-     *^
+     *
      * @var GitRepository
      */
     public $repository;
 
     /**
+     * The process builder in use.
+     *
      * @var ProcessBuilder
      */
     protected $processBuilder;
@@ -49,10 +54,17 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
     protected $output = null;
 
     /**
+     * Flag if we want to dry run.
+     *
      * @var bool
      */
     protected $dryRun = false;
 
+    /**
+     * Constructor.
+     *
+     * @param GitRepository $repository The git repository to work on.
+     */
     public function __construct(GitRepository $repository)
     {
         $this->repository = $repository;
@@ -75,11 +87,18 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
         return $this;
     }
 
+    /**
+     * Initialize the process builder.
+     *
+     * @return void
+     */
     protected function initializeProcessBuilder()
     {
     }
 
     /**
+     * Retrieve the output text.
+     *
      * @return null|string
      */
     public function getOutput()
@@ -91,7 +110,8 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
      * Execute the command.
      *
      * @return mixed Depend on the command.
-     * @throws GitException
+     *
+     * @throws GitException When the command is executed the second time or could not be executed.
      */
     protected function run()
     {

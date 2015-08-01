@@ -12,6 +12,7 @@
  *
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
+ * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
  * @link       https://github.com/bit3/git-php
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
@@ -39,65 +40,126 @@ class StatusCommandBuilder extends AbstractCommandBuilder
 
     const IGNORE_SUBMODULES_ALL = 'all';
 
+    /**
+     * {@inheritDoc}
+     */
     protected function initializeProcessBuilder()
     {
         $this->processBuilder->add('status');
     }
 
+    /**
+     * Add the short option to the command line.
+     *
+     * @return StatusCommandBuilder
+     */
     public function short()
     {
         $this->processBuilder->add('--short');
         return $this;
     }
 
+    /**
+     * Add the branch option to the command line.
+     *
+     * @return StatusCommandBuilder
+     */
     public function branch()
     {
         $this->processBuilder->add('--branch');
         return $this;
     }
 
+    /**
+     * Add the porcelain option to the command line.
+     *
+     * @return StatusCommandBuilder
+     */
     public function porcelain()
     {
         $this->processBuilder->add('--porcelain');
         return $this;
     }
 
+    /**
+     * Add the long option to the command line.
+     *
+     * @return StatusCommandBuilder
+     */
     public function long()
     {
         $this->processBuilder->add('--long');
         return $this;
     }
 
+    /**
+     * Add the untracked-files option to the command line.
+     *
+     * @param null|string $mode The mode.
+     *
+     * @return StatusCommandBuilder
+     */
     public function untrackedFiles($mode = null)
     {
         $this->processBuilder->add('--untracked-files' . ($mode ? '=' . $mode : ''));
         return $this;
     }
 
+    /**
+     * Add the ignore-submodules option to the command line.
+     *
+     * @param null|string $when The value.
+     *
+     * @return StatusCommandBuilder
+     */
     public function ignoreSubmodules($when = null)
     {
         $this->processBuilder->add('--ignore-submodules' . ($when ? '=' . $when : ''));
         return $this;
     }
 
+    /**
+     * Add the ignored option to the command line.
+     *
+     * @return StatusCommandBuilder
+     */
     public function ignored()
     {
         $this->processBuilder->add('--ignored');
         return $this;
     }
 
+    /**
+     * Add the z option to the command line.
+     *
+     * @return StatusCommandBuilder
+     *
+     * @SuppressWarnings(PHPMD.ShortMethodName)
+     */
     public function z()
     {
         $this->processBuilder->add('-z');
         return $this;
     }
 
+    /**
+     * Add the column option to the command line.
+     *
+     * @param null|string $options The column options.
+     *
+     * @return StatusCommandBuilder
+     */
     public function column($options = null)
     {
         $this->processBuilder->add('--column' . ($options ? '=' . $options : ''));
         return $this;
     }
 
+    /**
+     * Add the  option to the command line.
+     *
+     * @return StatusCommandBuilder
+     */
     public function noColumn()
     {
         $this->processBuilder->add('--no-column');
@@ -107,18 +169,25 @@ class StatusCommandBuilder extends AbstractCommandBuilder
     /**
      * Return the parsed index and work tree status.
      *
-     * @param string $pathspec
-     * @param string $_
+     * The result will be an associative array of all files and an status array in the following format:
+     * <code>
+     * array(
+     *     '&lt;pathspec&gt;' => array(
+     *         'index'    => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
+     *         'worktree' => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
+     *     )
+     * )
+     * </code>
      *
-     * @return array Return an associative array of all files and an status array.
-     *               <code>
-     *               array(
-     *                   '&lt;pathspec&gt;' => array(
-     *                       'index'    => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
-     *                       'worktree' => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
-     *                   )
-     *               )
-     *               </code>
+     * @param string $pathspec A path spec.
+     *
+     * @param string $_        Optional list of additional path specs.
+     *
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.ShortVariableName)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.CamelCaseParameterName)
      */
     public function getStatus($pathspec = null, $_ = null)
     {
@@ -150,15 +219,22 @@ class StatusCommandBuilder extends AbstractCommandBuilder
     /**
      * Return the parsed index status.
      *
-     * @param string $pathspec
-     * @param string $_
+     * The result will be an associative array of all files and their modification status in the following format:
+     * <code>
+     * array(
+     *     '&lt;pathspec&gt;' => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
+     * )
+     * </code>
      *
-     * @return array Return an associative array of all files and their modification status.
-     *               <code>
-     *               array(
-     *                   '&lt;pathspec&gt;' => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
-     *               )
-     *               </code>
+     * @param string $pathspec A path spec.
+     *
+     * @param string $_        Optional list of additional path specs.
+     *
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.ShortVariableName)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.CamelCaseParameterName)
      */
     public function getIndexStatus($pathspec = null, $_ = null)
     {
@@ -186,15 +262,22 @@ class StatusCommandBuilder extends AbstractCommandBuilder
     /**
      * Return the parsed work tree status.
      *
-     * @param string $pathspec
-     * @param string $_
+     * The result will be an associative array of all files and their modification status in the following format:
+     * <code>
+     * array(
+     *     '&lt;pathspec&gt;' => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
+     * )
+     * </code>
      *
-     * @return array Return an associative array of all files and their modification status.
-     *               <code>
-     *               array(
-     *                   '&lt;pathspec&gt;' => [false | "M" | "A" | "D" | "R" | "C" | "U" | "?" | "!"],
-     *               )
-     *               </code>
+     * @param string $pathspec A path spec.
+     *
+     * @param string $_        Optional list of additional path specs.
+     *
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.ShortVariableName)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.CamelCaseParameterName)
      */
     public function getWorkTreeStatus($pathspec = null, $_ = null)
     {
@@ -219,6 +302,19 @@ class StatusCommandBuilder extends AbstractCommandBuilder
         return $files;
     }
 
+    /**
+     * Build the command and execute it.
+     *
+     * @param null|string $pathspec A path spec.
+     *
+     * @param null|string $_        Optional list of additional path specs.
+     *
+     * @return string
+     *
+     * @SuppressWarnings(PHPMD.ShortVariableName)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.CamelCaseParameterName)
+     */
     public function execute($pathspec = null, $_ = null)
     {
         $args = func_get_args();

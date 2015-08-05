@@ -5,8 +5,7 @@
     "require": {
         "php": ">=5.3",
         "bit3/no-op-logger": "~1.0",
-        "symfony/process": "~2.3",
-        "phpcq/coding-standard": "~1.0"
+        "symfony/process": "~2.3"
     },
     "require-dev": {
         "monolog/monolog": "~1.0",

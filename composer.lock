@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cd9fd2b0ff0e250f91771568906c31f5",
+    "hash": "5df1bc1118ecfab16f9be46df3566e27",
     "packages": [
         {
             "name": "bit3/no-op-logger",
@@ -48,58 +48,6 @@
             ],
             "description": "A no-operation PSR-3 logger.",
             "time": "2014-12-29 15:01:01"
-        },
-        {
-            "name": "phpcq/coding-standard",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpcq/coding-standard.git",
-                "reference": "35ce5b6979303cf6ede530f846d3a3d2cafdec03"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpcq/coding-standard/zipball/35ce5b6979303cf6ede530f846d3a3d2cafdec03",
-                "reference": "35ce5b6979303cf6ede530f846d3a3d2cafdec03",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~3.7",
-                "squizlabs/php_codesniffer": "~1.0"
-            },
-            "suggest": {
-                "phpcq/phpcq": "The PHP code quality project core tasks."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "1.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause and MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Christian Schiffler",
-                    "email": "c.schiffler@cyberspectrum.de",
-                    "homepage": "http://www.cyberspectrum.de",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Tristan Lins",
-                    "email": "tristan@lins.io",
-                    "homepage": "https://tristan.lins.io",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP code quality project coding standard",
-            "homepage": "http://phpcq.org/",
-            "time": "2015-01-11 22:02:20"
         },
         {
             "name": "psr/log",
@@ -363,16 +311,16 @@
         },
         {
             "name": "phpcq/author-validation",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpcq/author-validation.git",
-                "reference": "a69dda90915a00f7d00237508d53f1a9b0ca8f1a"
+                "reference": "c0847ed86df5b86a04be4494f785f691039c64e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpcq/author-validation/zipball/a69dda90915a00f7d00237508d53f1a9b0ca8f1a",
-                "reference": "a69dda90915a00f7d00237508d53f1a9b0ca8f1a",
+                "url": "https://api.github.com/repos/phpcq/author-validation/zipball/c0847ed86df5b86a04be4494f785f691039c64e2",
+                "reference": "c0847ed86df5b86a04be4494f785f691039c64e2",
                 "shasum": ""
             },
             "require": {
@@ -419,20 +367,20 @@
                 }
             ],
             "description": "Check if all authors of a particular file are mentioned in the copyright header.",
-            "time": "2015-05-19 20:46:54"
+            "time": "2015-08-01 01:09:23"
         },
         {
             "name": "phpcq/autoload-validation",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpcq/autoload-validation.git",
-                "reference": "aa707e7084ebfc9d1f012724b8ccc0f8b0546104"
+                "reference": "9a8a3580058a9cb40d2f629b47d47e67d201a117"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpcq/autoload-validation/zipball/aa707e7084ebfc9d1f012724b8ccc0f8b0546104",
-                "reference": "aa707e7084ebfc9d1f012724b8ccc0f8b0546104",
+                "url": "https://api.github.com/repos/phpcq/autoload-validation/zipball/9a8a3580058a9cb40d2f629b47d47e67d201a117",
+                "reference": "9a8a3580058a9cb40d2f629b47d47e67d201a117",
                 "shasum": ""
             },
             "require": {
@@ -476,7 +424,7 @@
                 }
             ],
             "description": "Check that the contents of the composer.json autoload keys are correct.",
-            "time": "2015-07-31 20:25:26"
+            "time": "2015-08-05 18:24:57"
         },
         {
             "name": "phpcq/branch-alias-validation",
@@ -534,6 +482,58 @@
             ],
             "description": "Validation tool to ensure that all branches are ahead of the most recent tag.",
             "time": "2015-01-11 22:01:58"
+        },
+        {
+            "name": "phpcq/coding-standard",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpcq/coding-standard.git",
+                "reference": "35ce5b6979303cf6ede530f846d3a3d2cafdec03"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpcq/coding-standard/zipball/35ce5b6979303cf6ede530f846d3a3d2cafdec03",
+                "reference": "35ce5b6979303cf6ede530f846d3a3d2cafdec03",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7",
+                "squizlabs/php_codesniffer": "~1.0"
+            },
+            "suggest": {
+                "phpcq/phpcq": "The PHP code quality project core tasks."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "1.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause and MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Schiffler",
+                    "email": "c.schiffler@cyberspectrum.de",
+                    "homepage": "http://www.cyberspectrum.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tristan Lins",
+                    "email": "tristan@lins.io",
+                    "homepage": "https://tristan.lins.io",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP code quality project coding standard",
+            "homepage": "http://phpcq.org/",
+            "time": "2015-01-11 22:02:20"
         },
         {
             "name": "phpcq/phpcq",
@@ -651,16 +651,16 @@
         },
         {
             "name": "phploc/phploc",
-            "version": "2.1.3",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phploc.git",
-                "reference": "ab893cbe5c4b63760b1560b370fedc001eb5717f"
+                "reference": "6cdf01336c06d20825831fe8cee70764fe373585"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phploc/zipball/ab893cbe5c4b63760b1560b370fedc001eb5717f",
-                "reference": "ab893cbe5c4b63760b1560b370fedc001eb5717f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phploc/zipball/6cdf01336c06d20825831fe8cee70764fe373585",
+                "reference": "6cdf01336c06d20825831fe8cee70764fe373585",
                 "shasum": ""
             },
             "require": {
@@ -700,7 +700,7 @@
             ],
             "description": "A tool for quickly measuring the size of a PHP project.",
             "homepage": "https://github.com/sebastianbergmann/phploc",
-            "time": "2015-06-04 13:18:14"
+            "time": "2015-08-04 07:41:00"
         },
         {
             "name": "phpmd/phpmd",

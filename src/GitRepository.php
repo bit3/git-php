@@ -23,6 +23,7 @@ namespace Bit3\GitPhp;
 use Bit3\GitPhp\Command\AddCommandBuilder;
 use Bit3\GitPhp\Command\BranchCommandBuilder;
 use Bit3\GitPhp\Command\CheckoutCommandBuilder;
+use Bit3\GitPhp\Command\MergeCommandBuilder;
 use Bit3\GitPhp\Command\CloneCommandBuilder;
 use Bit3\GitPhp\Command\CommitCommandBuilder;
 use Bit3\GitPhp\Command\DescribeCommandBuilder;
@@ -278,5 +279,15 @@ class GitRepository
     public function lsRemote()
     {
         return new LsRemoteCommandBuilder($this);
+    }
+    
+     /**
+     * Create Merge command.
+     *
+     * @return MergeCommandBuilder
+     */
+    public function merge()
+    {
+        return new MergeCommandBuilder($this);
     }
 }

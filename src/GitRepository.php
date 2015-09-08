@@ -14,6 +14,7 @@
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     David Molineus <mail@netzmacht.de>
+ * @author     Aaron Rubin <aaron@arkitech.net>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
  * @link       https://github.com/bit3/git-php
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
@@ -25,6 +26,7 @@ namespace Bit3\GitPhp;
 use Bit3\GitPhp\Command\AddCommandBuilder;
 use Bit3\GitPhp\Command\BranchCommandBuilder;
 use Bit3\GitPhp\Command\CheckoutCommandBuilder;
+use Bit3\GitPhp\Command\MergeCommandBuilder;
 use Bit3\GitPhp\Command\CloneCommandBuilder;
 use Bit3\GitPhp\Command\CommitCommandBuilder;
 use Bit3\GitPhp\Command\DescribeCommandBuilder;
@@ -294,5 +296,15 @@ class GitRepository
     public function lsRemote()
     {
         return new LsRemoteCommandBuilder($this);
+    }
+
+    /**
+     * Create Merge command.
+     *
+     * @return MergeCommandBuilder
+     */
+    public function merge()
+    {
+        return new MergeCommandBuilder($this);
     }
 }

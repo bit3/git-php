@@ -298,7 +298,7 @@ class GitRepository
         return new LsRemoteCommandBuilder($this);
     }
 
-	/**
+    /**
      * Create Merge command.
      *
      * @return MergeCommandBuilder

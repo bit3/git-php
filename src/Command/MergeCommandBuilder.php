@@ -11,7 +11,6 @@
  * This project is provided in good faith and hope to be usable by anyone.
  *
  * @package    bit3/git-php
- * @author     Tristan Lins <tristan@lins.io>
  * @author     Aaron Rubin <aaron@arkitech.net>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
  * @link       https://github.com/bit3/git-php

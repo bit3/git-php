@@ -11,11 +11,11 @@
  * This project is provided in good faith and hope to be usable by anyone.
  *
  * @package    bit3/git-php
- * @author     Tristan Lins <tristan@lins.io>
+ * @author     Matthew Gamble <git@matthewgamble.net>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
- * @link       https://github.com/bit3/git-php
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
+ * @link       https://github.com/bit3/git-php
  * @filesource
  */
 
@@ -23,6 +23,8 @@ namespace Bit3\GitPhp\Command;
 
 /**
  * Config command builder.
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class ConfigCommandBuilder extends AbstractCommandBuilder
 {
@@ -38,7 +40,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      * Specify a single config file that should be looked at.
      * Has special support for the global, system and local flags.
      *
-     * @param string $file
+     * @param string $file The config file to use.
      *
      * @return ConfigCommandBuilder
      */
@@ -56,7 +58,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the blob option to the command line.
      *
-     * @param string $blobId
+     * See "SPECIFYING REVISIONS" section in gitrevisions(7) for a list of ways to spell blob names.
+     *
+     * @param string $blobId The blob id to use.
      *
      * @return ConfigCommandBuilder
      */
@@ -69,16 +73,18 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add a type option to the command line.
      *
-     * @param string $type
+     * @param string $type The type name.
      *
      * @return ConfigCommandBuilder
+     *
+     * @throws \InvalidArgumentException When an invalid type name is encountered.
      */
     public function type($type)
     {
         if (in_array($type, array('bool', 'int', 'bool-or-int', 'path'))) {
             $this->processBuilder->add('--' . $type);
         } else {
-            throw new GitException('Invalid configuration type supplied.');
+            throw new \InvalidArgumentException('Invalid configuration type supplied.');
         }
         return $this;
     }
@@ -86,9 +92,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the add option and associated parameters to the command line.
      *
-     * @param string $name
+     * @param string $name  The config value name.
      *
-     * @param string $value
+     * @param string $value The value to use.
      *
      * @return ConfigCommandBuilder
      */
@@ -103,11 +109,11 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the replace-all option and associated parameters to the command line.
      *
-     * @param string $name
+     * @param string      $name       The config value name.
      *
-     * @param string $value
+     * @param string      $value      The value to use.
      *
-     * @param null|string $valueRegex
+     * @param null|string $valueRegex The value regex to use.
      *
      * @return ConfigCommandBuilder
      */
@@ -136,9 +142,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the get option and associated parameters to the command line.
      *
-     * @param string $name
+     * @param string      $name       The config value name.
      *
-     * @param null|string $valueRegex
+     * @param null|string $valueRegex The value regex to use.
      *
      * @return ConfigCommandBuilder
      */
@@ -152,9 +158,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the get-all option and associated parameters to the command line.
      *
-     * @param string $name
+     * @param string      $name       The config value name.
      *
-     * @param null|string $valueRegex
+     * @param null|string $valueRegex The value regex to use.
      *
      * @return ConfigCommandBuilder
      */
@@ -168,9 +174,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the get-regexp option and associated parameters to the command line.
      *
-     * @param string $nameRegex
+     * @param string      $nameRegex  The config name regex.
      *
-     * @param null|string $valueRegex
+     * @param null|string $valueRegex The value regex to use.
      *
      * @return ConfigCommandBuilder
      */
@@ -184,9 +190,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the get-urlmatch option and associated parameters to the command line.
      *
-     * @param string $name
+     * @param string $name The config name.
      *
-     * @param string $url
+     * @param string $url  The url to match.
      *
      * @return ConfigCommandBuilder
      */
@@ -200,9 +206,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the unset option and associated parameters to the command line.
      *
-     * @param string $name
+     * @param string      $name       The name of the config value to unset.
      *
-     * @param null|string $valueRegex
+     * @param null|string $valueRegex The value regex to use.
      *
      * @return ConfigCommandBuilder
      */
@@ -216,9 +222,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the unset-all option and associated parameters to the command line.
      *
-     * @param string $name
+     * @param string      $name       The name of the config value to unset.
      *
-     * @param null|string $valueRegex
+     * @param null|string $valueRegex The value regex to use.
      *
      * @return ConfigCommandBuilder
      */
@@ -230,9 +236,13 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     }
 
     /**
-     * @param string $name
+     * Add the passed name and the passed pattern if not null.
      *
-     * @param null|string $pattern
+     * @param string      $name    The name to add.
+     *
+     * @param null|string $pattern The pattern to add (if not null).
+     *
+     * @return void
      */
     private function addNameAndPattern($name, $pattern)
     {
@@ -245,9 +255,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the rename-section option and associated parameters to the command line.
      *
-     * @param string $oldName
+     * @param string $oldName The old section name.
      *
-     * @param string $newName
+     * @param string $newName The new section name.
      *
      * @return ConfigCommandBuilder
      */
@@ -262,7 +272,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the remove-section option to the command line.
      *
-     * @param string $name
+     * @param string $name The section name.
      *
      * @return ConfigCommandBuilder
      */
@@ -287,9 +297,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the get-color option and associated parameters to the command line.
      *
-     * @param string $name
+     * @param string      $name    The name of the color to retrieve.
      *
-     * @param null|string $default
+     * @param null|string $default The default value to return.
      *
      * @return ConfigCommandBuilder
      */
@@ -306,9 +316,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the get-colorbool option and associated parameters to the command line.
      *
-     * @param string $name
+     * @param string    $name        The name of the color to check.
      *
-     * @param bool|null $stdoutIsTty
+     * @param bool|null $stdoutIsTty Flag if stdout is a tty.
      *
      * @return ConfigCommandBuilder
      */
@@ -325,7 +335,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the includes or no-includes option to the command line.
      *
-     * @param bool $allow
+     * @param bool $allow Flag if include.* directives in config files shall be respected when looking up values.
      *
      * @return ConfigCommandBuilder
      */
@@ -338,11 +348,11 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     /**
      * Build the command and execute it.
      *
-     * @param null|string $name       Pass name of setting here to perform a basic get or set operation
+     * @param null|string $name       Pass name of setting here to perform a basic get or set operation.
      *
-     * @param null|string $value      Pass a value for the setting to turn this into a set command
+     * @param null|string $value      Pass a value for the setting to turn this into a set command.
      *
-     * @param null|string $valueRegex Pass a regex to limit changing of a multi-value setting to certain settings
+     * @param null|string $valueRegex Pass a regex to limit changing of a multi-value setting to certain settings.
      *
      * @return mixed
      *

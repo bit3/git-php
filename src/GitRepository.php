@@ -15,6 +15,7 @@
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     David Molineus <mail@netzmacht.de>
  * @author     Aaron Rubin <aaron@arkitech.net>
+ * @author     Matthew Gamble <git@matthewgamble.net>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php

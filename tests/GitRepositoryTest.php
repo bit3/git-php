@@ -12,9 +12,11 @@
  *
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
+ * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
+ * @author     Matthew Gamble <git@matthewgamble.net>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
- * @link       https://github.com/bit3/git-php
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
+ * @link       https://github.com/bit3/git-php
  * @filesource
  */
 

@@ -14,8 +14,8 @@
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
- * @link       https://github.com/bit3/git-php
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
+ * @link       https://github.com/bit3/git-php
  * @filesource
  */
 
@@ -27,6 +27,7 @@ namespace Bit3\GitPhp\Command;
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class LogCommandBuilder extends AbstractCommandBuilder
 {

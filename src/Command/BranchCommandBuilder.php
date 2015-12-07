@@ -14,8 +14,8 @@
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
- * @link       https://github.com/bit3/git-php
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
+ * @link       https://github.com/bit3/git-php
  * @filesource
  */
 
@@ -23,6 +23,8 @@ namespace Bit3\GitPhp\Command;
 
 /**
  * Branch command builder.
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class BranchCommandBuilder extends AbstractCommandBuilder
 {
@@ -96,9 +98,9 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      *
      * @return BranchCommandBuilder
      *
-     * @see    BranchCommandBuilder::WHEN_ALWAYS
-     * @see    BranchCommandBuilder::WHEN_NEVER
-     * @see    BranchCommandBuilder::WHEN_AUTO.
+     * @see BranchCommandBuilder::WHEN_ALWAYS
+     * @see BranchCommandBuilder::WHEN_NEVER
+     * @see BranchCommandBuilder::WHEN_AUTO.
      */
     public function color($when)
     {

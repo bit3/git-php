@@ -9,9 +9,8 @@
     },
     "require-dev": {
         "monolog/monolog": "~1.0",
-        "phpunit/phpunit": "3.7.*",
         "symfony/filesystem": "~2.3",
-        "phpcq/all-tasks": "~1.0"
+        "phpcq/all-tasks": "~1.1"
     },
     "autoload": {
         "psr-4": {

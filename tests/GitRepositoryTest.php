@@ -121,6 +121,93 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \Bit3\GitPhp\GitRepository::config
+     * @covers \Bit3\GitPhp\Command\ConfigCommandBuilder::execute
+     * @covers \Bit3\GitPhp\Command\ConfigCommandBuilder::get
+     */
+    public function testConfigGetOnInitializedRepository()
+    {
+        $this->assertEquals(
+            'false',
+            $this->initializedGitRepository->config()->file('local')->execute('core.bare')
+        );
+        $this->assertEquals(
+            'CCA unittest',
+            $this->initializedGitRepository->config()->file('local')->get('user.name')->execute()
+        );
+    }
+
+    /**
+     * @covers \Bit3\GitPhp\GitRepository::config
+     * @covers \Bit3\GitPhp\Command\ConfigCommandBuilder
+     */
+    public function testConfigGetOnUnitializedRepository()
+    {
+        $this->setExpectedException('Bit3\GitPhp\GitException');
+        $this->uninitializedGitRepository->config()->file('local')->execute('core.bare');
+        $this->uninitializedGitRepository->config()->file('local')->get('user.name')->execute();
+    }
+
+    public function testConfigSetOnInitializedRepository()
+    {
+        $this->initializedGitRepository->config()->file('local')->execute('user.name', 'CCA unittest 2');
+
+        $process = ProcessBuilder::create(array('git', 'config', '--local', 'user.name'))
+            ->setWorkingDirectory($this->initializedRepositoryPath)
+            ->getProcess();
+        $process->run();
+
+        $this->assertEquals(
+            'CCA unittest 2',
+            trim($process->getOutput())
+        );
+    }
+
+    public function testConfigAddOnInitializedRepository()
+    {
+        $this->initializedGitRepository->config()->file('local')->add('user.name', 'CCA unittest 2')->execute();
+
+        $process = ProcessBuilder::create(array('git', 'config', '--local', '--get-all', 'user.name'))
+            ->setWorkingDirectory($this->initializedRepositoryPath)
+            ->getProcess();
+        $process->run();
+
+        $names = explode("\n", $process->getOutput());
+        $names = array_map('trim', $names);
+        $names = array_filter($names);
+
+        $this->assertEquals(
+            array('CCA unittest', 'CCA unittest 2'),
+            $names
+        );
+    }
+
+    public function testConfigGetAllOnInitializedRepository()
+    {
+        $values = $this->initializedGitRepository->config()->file('local')->getAll('gitphp.test2')->execute();
+
+        $values = explode("\n", $values);
+        $values = array_map('trim', $values);
+        $values = array_filter($values);
+
+        $this->assertEquals(
+            array('aa123', 'ab234', 'ac345', 'bb234'),
+            $values
+        );
+
+        $values = $this->initializedGitRepository->config()->file('local')->getAll('gitphp.test2', '^a.+3.+$')->execute();
+
+        $values = explode("\n", $values);
+        $values = array_map('trim', $values);
+        $values = array_filter($values);
+
+        $this->assertEquals(
+            array('ab234', 'ac345'),
+            $values
+        );
+    }
+
+    /**
      * @covers \Bit3\GitPhp\GitRepository::remote
      * @covers \Bit3\GitPhp\Command\RemoteCommandBuilder::getNames
      */

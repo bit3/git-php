@@ -26,6 +26,7 @@ namespace Bit3\GitPhp;
 use Bit3\GitPhp\Command\AddCommandBuilder;
 use Bit3\GitPhp\Command\BranchCommandBuilder;
 use Bit3\GitPhp\Command\CheckoutCommandBuilder;
+use Bit3\GitPhp\Command\ConfigCommandBuilder;
 use Bit3\GitPhp\Command\MergeCommandBuilder;
 use Bit3\GitPhp\Command\CloneCommandBuilder;
 use Bit3\GitPhp\Command\CommitCommandBuilder;
@@ -126,6 +127,16 @@ class GitRepository
     public function cloneRepository()
     {
         return new CloneCommandBuilder($this);
+    }
+
+    /**
+     * Create a config command.
+     *
+     * @return ConfigCommandBuilder
+     */
+    public function config()
+    {
+        return new ConfigCommandBuilder($this);
     }
 
     /**

@@ -218,7 +218,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function abbrevRef($abbrev = null)
     {
-        $this->processBuilder->add('--abbref-ref' . ($abbrev ? '=' . $abbrev : ''));
+        $this->processBuilder->add('--abbrev-ref' . ($abbrev ? '=' . $abbrev : ''));
         return $this;
     }
 

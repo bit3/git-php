@@ -7,7 +7,9 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         strict="true">
+         reportUselessTests="true"
+         strictCoverage="true"
+         disallowTestOutput="true">
     <testsuites>
         <testsuite name="GitPhp test suite">
             <directory>./tests/</directory>

@@ -4,10 +4,10 @@
     "license": "MIT",
     "require": {
         "php": ">=5.3",
+        "psr/log": "~1.0",
         "symfony/process": "~2.3 | ~3.0"
     },
     "require-dev": {
-        "monolog/monolog": "~1.0",
         "symfony/filesystem": "~2.3 | ~3.0",
         "phpcq/all-tasks": "~1.1"
     },

@@ -14,15 +14,15 @@
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
- * @link       https://github.com/bit3/git-php
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
+ * @link       https://github.com/bit3/git-php
  * @filesource
  */
 
 namespace Bit3\GitPhp;
 
-use Bit3\NoOpLogger\NoOpLogger;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Shareable configuration for git repositories.
@@ -62,7 +62,7 @@ class GitConfig
      */
     public function __construct()
     {
-        $this->logger = new NoOpLogger();
+        $this->logger = new NullLogger();
     }
 
     /**

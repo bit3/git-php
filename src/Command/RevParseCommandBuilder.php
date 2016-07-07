@@ -13,6 +13,7 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
+ * @author     Radek Crlik <nix0@centrum.cz>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
@@ -220,7 +221,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function abbrevRef($abbrev = null)
     {
-        $this->processBuilder->add('--abbref-ref' . ($abbrev ? '=' . $abbrev : ''));
+        $this->processBuilder->add('--abbrev-ref' . ($abbrev ? '=' . $abbrev : ''));
         return $this;
     }
 

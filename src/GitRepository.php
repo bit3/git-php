@@ -45,6 +45,7 @@ use Bit3\GitPhp\Command\ShortLogCommandBuilder;
 use Bit3\GitPhp\Command\ShowCommandBuilder;
 use Bit3\GitPhp\Command\StatusCommandBuilder;
 use Bit3\GitPhp\Command\TagCommandBuilder;
+use Bit3\GitPhp\Command\PullCommandBuilder;
 
 /**
  * GIT repository adapter.
@@ -320,5 +321,15 @@ class GitRepository
     public function merge()
     {
         return new MergeCommandBuilder($this);
+    }
+
+    /**
+     * Create Pull command.
+     *
+     * @return PullCommandBuilder
+     */
+    public function pull()
+    {
+      return new PullCommandBuilder($this);
     }
 }

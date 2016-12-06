@@ -330,6 +330,6 @@ class GitRepository
      */
     public function pull()
     {
-      return new PullCommandBuilder($this);
+        return new PullCommandBuilder($this);
     }
 }

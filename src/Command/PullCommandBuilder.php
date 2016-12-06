@@ -26,7 +26,8 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class PullCommandBuilder extends AbstractCommandBuilder{
+class PullCommandBuilder extends AbstractCommandBuilder
+{
 
     /**
      * {@inheritDoc}

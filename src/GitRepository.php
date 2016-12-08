@@ -47,6 +47,7 @@ use Bit3\GitPhp\Command\ShowCommandBuilder;
 use Bit3\GitPhp\Command\StatusCommandBuilder;
 use Bit3\GitPhp\Command\TagCommandBuilder;
 use Bit3\GitPhp\Command\PullCommandBuilder;
+use Bit3\GitPhp\Command\StashCommandBuilder;
 
 /**
  * GIT repository adapter.
@@ -332,5 +333,15 @@ class GitRepository
     public function pull()
     {
         return new PullCommandBuilder($this);
+    }
+
+    /**
+     * Create stash command.
+     *
+     * @return StashCommandBuilder
+     */
+    public function stash()
+    {
+        return new StashCommandBuilder($this);
     }
 }

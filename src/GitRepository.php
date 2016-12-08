@@ -45,6 +45,7 @@ use Bit3\GitPhp\Command\ShortLogCommandBuilder;
 use Bit3\GitPhp\Command\ShowCommandBuilder;
 use Bit3\GitPhp\Command\StatusCommandBuilder;
 use Bit3\GitPhp\Command\TagCommandBuilder;
+use Bit3\GitPhp\Command\StashCommandBuilder;
 
 /**
  * GIT repository adapter.
@@ -320,5 +321,15 @@ class GitRepository
     public function merge()
     {
         return new MergeCommandBuilder($this);
+    }
+    
+    /**
+     * Create stash command.
+     *
+     * @return StashCommandBuilder
+     */
+    public function stash()
+    {
+        return new StatshCommandBuilder($this);
     }
 }

@@ -45,6 +45,7 @@ use Bit3\GitPhp\Command\ShortLogCommandBuilder;
 use Bit3\GitPhp\Command\ShowCommandBuilder;
 use Bit3\GitPhp\Command\StatusCommandBuilder;
 use Bit3\GitPhp\Command\TagCommandBuilder;
+use Bit3\GitPhp\Command\PullCommandBuilder;
 use Bit3\GitPhp\Command\StashCommandBuilder;
 
 /**
@@ -71,14 +72,14 @@ class GitRepository
     /**
      * Create a new git repository.
      *
-     * @param string    $repositoryPath The path to the git repository.
+     * @param string $repositoryPath The path to the git repository.
      *
-     * @param GitConfig $config         The configuration to use.
+     * @param GitConfig $config The configuration to use.
      */
     public function __construct($repositoryPath, GitConfig $config = null)
     {
-        $this->repositoryPath = (string) $repositoryPath;
-        $this->config         = $config ?: new GitConfig();
+        $this->repositoryPath = (string)$repositoryPath;
+        $this->config = $config ?: new GitConfig();
     }
 
     /**
@@ -322,7 +323,7 @@ class GitRepository
     {
         return new MergeCommandBuilder($this);
     }
-    
+
     /**
      * Create stash command.
      *
@@ -332,4 +333,20 @@ class GitRepository
     {
         return new StatshCommandBuilder($this);
     }
+  
+    /**
+     * Create Pull command.
+     *
+     *
+     * @return PullCommandBuilder
+     */
+
+    public function pull()
+
+
+    {
+        return new PullCommandBuilder($this);
+    }
+
+
 }

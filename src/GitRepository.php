@@ -331,9 +331,9 @@ class GitRepository
      */
     public function stash()
     {
-        return new StatshCommandBuilder($this);
+        return new StashCommandBuilder($this);
     }
-  
+
     /**
      * Create Pull command.
      *

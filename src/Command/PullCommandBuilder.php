@@ -12,6 +12,7 @@
  *
  * @package    bit3/git-php
  * @author     Ahmad Marzouq <ahmad.marzouq@eagles-web.com>
+ * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
@@ -63,7 +64,7 @@ class PullCommandBuilder extends AbstractCommandBuilder
      *
      * @param string $recurse The value.
      *
-     * @return PushCommandBuilder
+     * @return PullCommandBuilder
      */
     public function recurseSubmodules($recurse)
     {

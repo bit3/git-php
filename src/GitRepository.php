@@ -16,6 +16,7 @@
  * @author     David Molineus <mail@netzmacht.de>
  * @author     Aaron Rubin <aaron@arkitech.net>
  * @author     Matthew Gamble <git@matthewgamble.net>
+ * @author     Ahmad Marzouq <ahmad.marzouq@eagles-web.com>
  * @copyright  2014 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
@@ -45,6 +46,8 @@ use Bit3\GitPhp\Command\ShortLogCommandBuilder;
 use Bit3\GitPhp\Command\ShowCommandBuilder;
 use Bit3\GitPhp\Command\StatusCommandBuilder;
 use Bit3\GitPhp\Command\TagCommandBuilder;
+use Bit3\GitPhp\Command\PullCommandBuilder;
+use Bit3\GitPhp\Command\StashCommandBuilder;
 
 /**
  * GIT repository adapter.
@@ -320,5 +323,25 @@ class GitRepository
     public function merge()
     {
         return new MergeCommandBuilder($this);
+    }
+
+    /**
+     * Create Pull command.
+     *
+     * @return PullCommandBuilder
+     */
+    public function pull()
+    {
+        return new PullCommandBuilder($this);
+    }
+
+    /**
+     * Create stash command.
+     *
+     * @return StashCommandBuilder
+     */
+    public function stash()
+    {
+        return new StashCommandBuilder($this);
     }
 }

@@ -248,8 +248,8 @@ class StatusCommandBuilder extends AbstractCommandBuilder
         $files = array();
 
         foreach ($status as $line) {
-            if (trim($line)) {
-                $index = trim(substr($line, 0, 1));
+            if ($line = trim($line)) {
+                $index = substr($line, 0, 1);
 
                 if ($index) {
                     $file         = trim(substr($line, 2));
@@ -291,7 +291,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
         $files = array();
 
         foreach ($status as $line) {
-            if (trim($line)) {
+            if ($line = trim($line)) {
                 $worktree = trim(substr($line, 1, 1));
 
                 if ($worktree) {

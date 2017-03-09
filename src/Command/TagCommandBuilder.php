@@ -258,7 +258,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @SuppressWarnings(PHPMD.CamelCaseParameterName)
      */
-    public function execute($tagName, $commit = null)
+    public function execute($tagName = null, $commit = null)
     {
         if (!$this->signIsset && $this->repository->getConfig()->isSignTagsEnabled()) {
             $this->sign()->localUser($this->repository->getConfig()->getSignCommitUser());
@@ -268,12 +268,29 @@ class TagCommandBuilder extends AbstractCommandBuilder
             }
         }
 
-        $this->processBuilder->add($tagName);
+        if ($tagName) {
+            $this->processBuilder->add($tagName);
+        }
 
         if ($commit) {
             $this->processBuilder->add($commit);
         }
 
         return parent::run();
+    }
+
+    /**
+     * Retrieve the tag names.
+     *
+     * @return string[]
+     */
+    public function getNames()
+    {
+        $tags = $this->execute();
+        $tags = explode("\n", $tags);
+        $tags = array_map('trim', $tags);
+        $tags = array_filter($tags);
+
+        return $tags;
     }
 }

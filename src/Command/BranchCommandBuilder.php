@@ -345,15 +345,15 @@ class BranchCommandBuilder extends AbstractCommandBuilder
     public function getNames()
     {
         $branches = $this->execute();
-        $branches = explode("\n", $branches);
-        $branches = array_map(
+        $branches = \explode("\n", $branches);
+        $branches = \array_map(
             function ($branch) {
-                return ltrim($branch, '*');
+                return \ltrim($branch, '*');
             },
             $branches
         );
-        $branches = array_map('trim', $branches);
-        $branches = array_filter($branches);
+        $branches = \array_map('trim', $branches);
+        $branches = \array_filter($branches);
 
         return $branches;
     }

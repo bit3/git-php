@@ -219,9 +219,9 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
             $this->arguments[] = $branchOrTreeIsh;
         }
 
-        $paths = func_get_args();
-        array_shift($paths);
-        if (count($paths)) {
+        $paths = \func_get_args();
+        \array_shift($paths);
+        if (\count($paths)) {
             $this->arguments[] = '--';
             foreach ($paths as $path) {
                 $this->arguments[] = $path;

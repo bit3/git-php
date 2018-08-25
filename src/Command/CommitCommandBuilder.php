@@ -458,8 +458,8 @@ class CommitCommandBuilder extends AbstractCommandBuilder
             $this->gpgSign($this->repository->getConfig()->getSignCommitUser());
         }
 
-        $args = func_get_args();
-        if (count($args)) {
+        $args = \func_get_args();
+        if (\count($args)) {
             $this->arguments[] = '--';
             foreach ($args as $pathspec) {
                 $this->arguments[] = $pathspec;

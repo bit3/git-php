@@ -1075,8 +1075,8 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($pathspec = null, $_ = null)
     {
-        $args = func_get_args();
-        if (count($args)) {
+        $args = \func_get_args();
+        if (\count($args)) {
             $this->arguments[] = '--';
             foreach ($args as $pathspec) {
                 $this->arguments[] = $pathspec;

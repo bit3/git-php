@@ -155,7 +155,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
         }
 
         $this->repository->getConfig()->getLogger()->debug(
-            sprintf('[ccabs-repository-git] exec [%s] %s', $this->workingDirectory, $process->getCommandLine())
+            \sprintf('[ccabs-repository-git] exec [%s] %s', $this->workingDirectory, $process->getCommandLine())
         );
 
         if ($this->dryRun) {
@@ -164,7 +164,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
 
         $process->run();
         $this->output = $process->getOutput();
-        $this->output = rtrim($this->output, "\r\n");
+        $this->output = \rtrim($this->output, "\r\n");
 
         if (!$process->isSuccessful()) {
             throw GitException::createFromProcess('Could not execute git command', $process);

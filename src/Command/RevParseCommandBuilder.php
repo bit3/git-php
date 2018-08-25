@@ -431,7 +431,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($arg = null, $_ = null)
     {
-        foreach (func_get_args() as $arg) {
+        foreach (\func_get_args() as $arg) {
             $this->arguments[] = $arg;
         }
         return parent::run();

@@ -150,8 +150,8 @@ class ShortLogCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($pathSpec = null, $_ = null)
     {
-        $args = func_get_args();
-        if (count($args)) {
+        $args = \func_get_args();
+        if (\count($args)) {
             $this->arguments[] = '--';
             foreach ($args as $pathSpec) {
                 $this->arguments[] = $pathSpec;

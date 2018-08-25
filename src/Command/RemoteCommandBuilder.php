@@ -356,9 +356,9 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
     public function getNames()
     {
         $remotes = $this->execute();
-        $remotes = explode("\n", $remotes);
-        $remotes = array_map('trim', $remotes);
-        $remotes = array_filter($remotes);
+        $remotes = \explode("\n", $remotes);
+        $remotes = \array_map('trim', $remotes);
+        $remotes = \array_filter($remotes);
 
         return $remotes;
     }

@@ -101,8 +101,8 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
     {
         $this->arguments[] = $remote;
 
-        $refSpec = func_get_args();
-        array_shift($refSpec);
+        $refSpec = \func_get_args();
+        \array_shift($refSpec);
         foreach ($refSpec as $ref) {
             $this->arguments[] = $ref;
         }
@@ -127,17 +127,17 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function getRefs($remote, $refSpec = null, $_ = null)
     {
-        $output = call_user_func_array(array($this, 'execute'), func_get_args());
-        $output = explode("\n", $output);
-        $output = array_map('trim', $output);
-        $output = array_filter($output);
+        $output = \call_user_func_array(array($this, 'execute'), \func_get_args());
+        $output = \explode("\n", $output);
+        $output = \array_map('trim', $output);
+        $output = \array_filter($output);
 
         $refs = array();
 
         foreach ($output as $line) {
-            $line = preg_split('~\s+~', $line);
+            $line = \preg_split('~\s+~', $line);
 
-            if ('^{}' != substr($line[1], -3)) {
+            if ('^{}' != \substr($line[1], -3)) {
                 $refs[$line[1]] = $line[0];
             }
         }

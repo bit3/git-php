@@ -47,7 +47,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function file($file)
     {
-        if (in_array($file, array('global', 'system', 'local'))) {
+        if (\in_array($file, array('global', 'system', 'local'))) {
             $this->arguments[] = '--' . $file;
         } else {
             $this->arguments[] = '--file';
@@ -82,7 +82,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function type($type)
     {
-        if (in_array($type, array('bool', 'int', 'bool-or-int', 'path'))) {
+        if (\in_array($type, array('bool', 'int', 'bool-or-int', 'path'))) {
             $this->arguments[] = '--' . $type;
         } else {
             throw new \InvalidArgumentException('Invalid configuration type supplied.');
@@ -327,7 +327,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     {
         $this->arguments[] = '--get-colorbool';
         $this->arguments[] = $name;
-        if (is_bool($stdoutIsTty)) {
+        if (\is_bool($stdoutIsTty)) {
             $this->arguments[] = $stdoutIsTty ? 'true' : 'false';
         }
         return $this;

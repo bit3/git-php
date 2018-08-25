@@ -301,8 +301,8 @@ class PushCommandBuilder extends AbstractCommandBuilder
     {
         $this->arguments[] = $repository;
 
-        $refspecs = func_get_args();
-        array_shift($refspecs);
+        $refspecs = \func_get_args();
+        \array_shift($refspecs);
         foreach ($refspecs as $refspec) {
             $this->arguments[] = $refspec;
         }

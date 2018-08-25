@@ -141,7 +141,7 @@ class ResetCommandBuilder extends AbstractCommandBuilder
     public function execute($path = null, $_ = null)
     {
         $this->arguments[] = '--';
-        foreach (func_get_args() as $path) {
+        foreach (\func_get_args() as $path) {
             $this->arguments[] = $path;
         }
         return parent::run();

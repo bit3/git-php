@@ -55,13 +55,13 @@ class GitRepositoryTest extends TestCase
 
     public function setUp()
     {
-        $this->initializedRepositoryPath = tempnam(sys_get_temp_dir(), 'git_');
-        unlink($this->initializedRepositoryPath);
-        mkdir($this->initializedRepositoryPath);
+        $this->initializedRepositoryPath = \tempnam(\sys_get_temp_dir(), 'git_');
+        \unlink($this->initializedRepositoryPath);
+        \mkdir($this->initializedRepositoryPath);
 
-        $this->uninitializedRepositoryPath = tempnam(sys_get_temp_dir(), 'git_');
-        unlink($this->uninitializedRepositoryPath);
-        mkdir($this->uninitializedRepositoryPath);
+        $this->uninitializedRepositoryPath = \tempnam(\sys_get_temp_dir(), 'git_');
+        \unlink($this->uninitializedRepositoryPath);
+        \mkdir($this->uninitializedRepositoryPath);
 
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . DIRECTORY_SEPARATOR . 'git.zip');
@@ -120,7 +120,7 @@ class GitRepositoryTest extends TestCase
         $this->uninitializedGitRepository->init()->execute();
 
         $this->assertTrue(
-            is_dir($this->uninitializedRepositoryPath . DIRECTORY_SEPARATOR . '.git')
+            \is_dir($this->uninitializedRepositoryPath . DIRECTORY_SEPARATOR . '.git')
         );
     }
 
@@ -181,9 +181,9 @@ class GitRepositoryTest extends TestCase
         $process->setCommandLine($process->getCommandLine());
         $process->run();
 
-        $names = explode("\n", $process->getOutput());
-        $names = array_map('trim', $names);
-        $names = array_filter($names);
+        $names = \explode("\n", $process->getOutput());
+        $names = \array_map('trim', $names);
+        $names = \array_filter($names);
 
         $this->assertEquals(
             array('CCA unittest', 'CCA unittest 2'),
@@ -195,9 +195,9 @@ class GitRepositoryTest extends TestCase
     {
         $values = $this->initializedGitRepository->config()->file('local')->getAll('gitphp.test2')->execute();
 
-        $values = explode("\n", $values);
-        $values = array_map('trim', $values);
-        $values = array_filter($values);
+        $values = \explode("\n", $values);
+        $values = \array_map('trim', $values);
+        $values = \array_filter($values);
 
         $this->assertEquals(
             array('aa123', 'ab234', 'ac345', 'bb234'),
@@ -206,9 +206,9 @@ class GitRepositoryTest extends TestCase
 
         $values = $this->initializedGitRepository->config()->file('local')->getAll('gitphp.test2', '^a.+3.+$')->execute();
 
-        $values = explode("\n", $values);
-        $values = array_map('trim', $values);
-        $values = array_filter($values);
+        $values = \explode("\n", $values);
+        $values = \array_map('trim', $values);
+        $values = \array_filter($values);
 
         $this->assertEquals(
             array('ab234', 'ac345'),
@@ -326,7 +326,7 @@ class GitRepositoryTest extends TestCase
         $process->run();
 
         $this->assertEquals(
-            trim($process->getOutput()),
+            \trim($process->getOutput()),
             $this->uninitializedRepositoryPath
         );
     }
@@ -361,7 +361,7 @@ class GitRepositoryTest extends TestCase
         $process->run();
 
         $this->assertEquals(
-            trim($process->getOutput()),
+            \trim($process->getOutput()),
             '/tmp/git'
         );
 
@@ -370,7 +370,7 @@ class GitRepositoryTest extends TestCase
         $process->run();
 
         $this->assertEquals(
-            trim($process->getOutput()),
+            \trim($process->getOutput()),
             $this->uninitializedRepositoryPath
         );
     }
@@ -449,7 +449,7 @@ class GitRepositoryTest extends TestCase
         $branches = array_filter($branches);
 
         $this->assertTrue(
-            in_array('remotes/origin/master', $branches)
+            \in_array('remotes/origin/master', $branches)
         );
     }
 
@@ -487,7 +487,7 @@ class GitRepositoryTest extends TestCase
         $process->run();
 
         $this->assertEquals(
-            trim($process->getOutput()),
+            \trim($process->getOutput()),
             'annotated-tag'
         );
     }
@@ -571,11 +571,11 @@ class GitRepositoryTest extends TestCase
         $process->setCommandLine($process->getCommandLine());
         $process->run();
 
-        $status = explode("\n", $process->getOutput());
-        $status = array_map('trim', $status);
+        $status = \explode("\n", $process->getOutput());
+        $status = \array_map('trim', $status);
 
         $this->assertTrue(
-            in_array('A  unknown-file.txt', $status)
+            \in_array('A  unknown-file.txt', $status)
         );
     }
 
@@ -606,11 +606,11 @@ class GitRepositoryTest extends TestCase
         $process->setCommandLine($process->getCommandLine());
         $process->run();
 
-        $status = explode("\n", $process->getOutput());
-        $status = array_map('trim', $status);
+        $status = \explode("\n", $process->getOutput());
+        $status = \array_map('trim', $status);
 
         $this->assertTrue(
-            in_array('D  existing-file.txt', $status)
+            \in_array('D  existing-file.txt', $status)
         );
     }
 
@@ -642,9 +642,9 @@ class GitRepositoryTest extends TestCase
         $process->setCommandLine($process->getCommandLine());
         $process->run();
 
-        $status = explode("\n", $process->getOutput());
-        $status = array_map('trim', $status);
-        $status = array_filter($status);
+        $status = \explode("\n", $process->getOutput());
+        $status = \array_map('trim', $status);
+        $status = \array_filter($status);
 
         $this->assertEquals(
             array(
@@ -684,12 +684,12 @@ class GitRepositoryTest extends TestCase
         $process->setCommandLine($process->getCommandLine());
         $process->run();
 
-        $tags = explode("\n", $process->getOutput());
-        $tags = array_map('trim', $tags);
-        $tags = array_filter($tags);
+        $tags = \explode("\n", $process->getOutput());
+        $tags = \array_map('trim', $tags);
+        $tags = \array_filter($tags);
 
         $this->assertTrue(
-            in_array('unit-test', $tags)
+            \in_array('unit-test', $tags)
         );
     }
 

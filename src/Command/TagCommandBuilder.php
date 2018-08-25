@@ -291,9 +291,9 @@ class TagCommandBuilder extends AbstractCommandBuilder
     public function getNames()
     {
         $tags = $this->execute();
-        $tags = explode("\n", $tags);
-        $tags = array_map('trim', $tags);
-        $tags = array_filter($tags);
+        $tags = \explode("\n", $tags);
+        $tags = \array_map('trim', $tags);
+        $tags = \array_filter($tags);
 
         return $tags;
     }

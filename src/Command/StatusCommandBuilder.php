@@ -196,10 +196,10 @@ class StatusCommandBuilder extends AbstractCommandBuilder
     {
         $this->porcelain();
 
-        $status = \call_user_func_array(array($this, 'execute'), \func_get_args());
+        $status = \call_user_func_array([$this, 'execute'], \func_get_args());
         $status = \explode("\n", $status);
 
-        $files = array();
+        $files = [];
 
         foreach ($status as $line) {
             if (\trim($line)) {
@@ -208,10 +208,10 @@ class StatusCommandBuilder extends AbstractCommandBuilder
 
                 if ($index && $worktree) {
                     $file         = \trim(\substr($line, 2));
-                    $files[$file] = array(
+                    $files[$file] = [
                         'index'    => $index ?: false,
                         'worktree' => $worktree ?: false,
-                    );
+                    ];
                 }
             }
         }
@@ -243,10 +243,10 @@ class StatusCommandBuilder extends AbstractCommandBuilder
     {
         $this->porcelain();
 
-        $status = \call_user_func_array(array($this, 'execute'), \func_get_args());
+        $status = \call_user_func_array([$this, 'execute'], \func_get_args());
         $status = \explode("\n", $status);
 
-        $files = array();
+        $files = [];
 
         foreach ($status as $line) {
             if ($line = \trim($line)) {
@@ -286,10 +286,10 @@ class StatusCommandBuilder extends AbstractCommandBuilder
     {
         $this->porcelain();
 
-        $status = \call_user_func_array(array($this, 'execute'), \func_get_args());
+        $status = \call_user_func_array([$this, 'execute'], \func_get_args());
         $status = \explode("\n", $status);
 
-        $files = array();
+        $files = [];
 
         foreach ($status as $line) {
             if ($line = \trim($line)) {

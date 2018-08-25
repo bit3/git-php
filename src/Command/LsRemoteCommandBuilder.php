@@ -127,12 +127,12 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function getRefs($remote, $refSpec = null, $_ = null)
     {
-        $output = \call_user_func_array(array($this, 'execute'), \func_get_args());
+        $output = \call_user_func_array([$this, 'execute'], \func_get_args());
         $output = \explode("\n", $output);
         $output = \array_map('trim', $output);
         $output = \array_filter($output);
 
-        $refs = array();
+        $refs = [];
 
         foreach ($output as $line) {
             $line = \preg_split('~\s+~', $line);

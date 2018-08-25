@@ -186,7 +186,7 @@ class GitRepositoryTest extends TestCase
         $names = \array_filter($names);
 
         $this->assertEquals(
-            array('CCA unittest', 'CCA unittest 2'),
+            ['CCA unittest', 'CCA unittest 2'],
             $names
         );
     }
@@ -200,7 +200,7 @@ class GitRepositoryTest extends TestCase
         $values = \array_filter($values);
 
         $this->assertEquals(
-            array('aa123', 'ab234', 'ac345', 'bb234'),
+            ['aa123', 'ab234', 'ac345', 'bb234'],
             $values
         );
 
@@ -211,7 +211,7 @@ class GitRepositoryTest extends TestCase
         $values = \array_filter($values);
 
         $this->assertEquals(
-            array('ab234', 'ac345'),
+            ['ab234', 'ac345'],
             $values
         );
     }
@@ -223,7 +223,7 @@ class GitRepositoryTest extends TestCase
     public function testListRemotesOnInitializedRepository()
     {
         $this->assertEquals(
-            array('local'),
+            ['local'],
             $this->initializedGitRepository->remote()->getNames()
         );
     }
@@ -251,11 +251,11 @@ class GitRepositoryTest extends TestCase
     public function testListBranchesOnInitializedRepository()
     {
         $this->assertEquals(
-            array('master'),
+            ['master'],
             $this->initializedGitRepository->branch()->getNames()
         );
         $this->assertEquals(
-            array('master', 'remotes/local/master'),
+            ['master', 'remotes/local/master'],
             $this->initializedGitRepository->branch()->all()->getNames()
         );
     }
@@ -536,10 +536,10 @@ class GitRepositoryTest extends TestCase
         $status = $this->initializedGitRepository->status()->getStatus();
 
         $this->assertEquals(
-            array(
-                'removed-but-staged.txt' => array('index' => 'A', 'worktree' => 'D'),
-                'unknown-file.txt'       => array('index' => '?', 'worktree' => '?'),
-            ),
+            [
+                'removed-but-staged.txt' => ['index' => 'A', 'worktree' => 'D'],
+                'unknown-file.txt'       => ['index' => '?', 'worktree' => '?'],
+            ],
             $status
         );
     }
@@ -647,11 +647,11 @@ class GitRepositoryTest extends TestCase
         $status = \array_filter($status);
 
         $this->assertEquals(
-            array(
+            [
                 'D existing-file.txt',
                 'D removed-but-staged.txt',
                 '?? unknown-file.txt',
-            ),
+            ],
             $status
         );
     }

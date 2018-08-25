@@ -28,8 +28,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class RevParseCommandBuilder extends AbstractCommandBuilder
+class RevParseCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const ABBREV_REF_STRICT = 'strict';
 
     const ABBREV_REF_LOOSE = 'loose';
@@ -434,6 +436,6 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
         foreach (\func_get_args() as $arg) {
             $this->arguments[] = $arg;
         }
-        return parent::run();
+        return $this->run();
     }
 }

@@ -27,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class ShowCommandBuilder extends AbstractCommandBuilder
+class ShowCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -204,6 +206,6 @@ class ShowCommandBuilder extends AbstractCommandBuilder
     public function execute($object)
     {
         $this->arguments[] = $object;
-        return parent::run();
+        return $this->run();
     }
 }

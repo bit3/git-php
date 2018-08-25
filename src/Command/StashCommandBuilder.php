@@ -26,8 +26,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class StashCommandBuilder extends AbstractCommandBuilder
+class StashCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -62,7 +64,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
         if ($options) {
             $this->arguments[] = $options;
         }
-        return parent::run();
+        return $this->run();
     }
 
     /**
@@ -80,7 +82,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
         if ($stash) {
             $this->arguments[] = 'stash@{' . $stash . '}';
         }
-        return parent::run();
+        return $this->run();
     }
 
     /**
@@ -97,7 +99,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
         if ($stash) {
             $this->arguments[] = 'stash@{' . $stash . '}';
         }
-        return parent::run();
+        return $this->run();
     }
 
     /**
@@ -114,7 +116,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
         if ($stash) {
             $this->arguments[] = 'stash@{' . $stash . '}';
         }
-        return parent::run();
+        return $this->run();
     }
 
     /**
@@ -132,7 +134,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
         if ($stash) {
             $this->arguments[] = 'stash@{' . $stash . '}';
         }
-        return parent::run();
+        return $this->run();
     }
 
 
@@ -154,7 +156,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
         if ($stash) {
             $this->arguments[] = 'stash@{' . $stash . '}';
         }
-        return parent::run();
+        return $this->run();
     }
 
 
@@ -166,7 +168,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
     public function clear()
     {
         $this->arguments[] = 'clear';
-        return parent::run();
+        return $this->run();
     }
 
 
@@ -186,7 +188,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
         if ($message) {
             $this->arguments[] = $message;
         }
-        return parent::run();
+        return $this->run();
     }
 
     /**
@@ -204,7 +206,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
         if ($message) {
             $this->arguments[] = $message;
         }
-        return parent::run();
+        return $this->run();
     }
 
     /**
@@ -227,7 +229,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
         if ($commit) {
             $this->arguments[] = $commit;
         }
-        return parent::run();
+        return $this->run();
     }
     /**
      * Execute the command and return the result.
@@ -237,6 +239,6 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     public function execute()
     {
-        return parent::run();
+        return $this->run();
     }
 }

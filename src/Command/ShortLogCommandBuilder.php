@@ -26,8 +26,10 @@ namespace Bit3\GitPhp\Command;
 /**
  * ShortLog command builder.
  */
-class ShortLogCommandBuilder extends AbstractCommandBuilder
+class ShortLogCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -158,6 +160,6 @@ class ShortLogCommandBuilder extends AbstractCommandBuilder
             }
         }
 
-        return parent::run();
+        return $this->run();
     }
 }

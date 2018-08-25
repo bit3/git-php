@@ -27,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class StatusCommandBuilder extends AbstractCommandBuilder
+class StatusCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const UNTRACKED_FILES_NO = 'no';
 
     const UNTRACKED_FILES_NORMAL = 'normal';
@@ -327,6 +329,6 @@ class StatusCommandBuilder extends AbstractCommandBuilder
                 $this->arguments[] = $pathspec;
             }
         }
-        return parent::run();
+        return $this->run();
     }
 }

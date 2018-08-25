@@ -25,8 +25,10 @@ namespace Bit3\GitPhp\Command;
 /**
  * Rm command builder.
  */
-class RmCommandBuilder extends AbstractCommandBuilder
+class RmCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -123,6 +125,6 @@ class RmCommandBuilder extends AbstractCommandBuilder
                 $this->arguments[] = $pathspec;
             }
         }
-        return parent::run();
+        return $this->run();
     }
 }

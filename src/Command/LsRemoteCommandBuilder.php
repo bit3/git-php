@@ -25,8 +25,10 @@ namespace Bit3\GitPhp\Command;
 /**
  * Ls remote command builder.
  */
-class LsRemoteCommandBuilder extends AbstractCommandBuilder
+class LsRemoteCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */

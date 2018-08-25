@@ -32,7 +32,7 @@ use Symfony\Component\Process\Process;
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractCommandBuilder implements CommandBuilderInterface
+trait CommandBuilderTrait
 {
     /**
      * The path to the git repository.
@@ -99,9 +99,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
      *
      * @return void
      */
-    protected function initializeProcessBuilder()
-    {
-    }
+    abstract protected function initializeProcessBuilder();
 
     /**
      * Retrieve the output text.

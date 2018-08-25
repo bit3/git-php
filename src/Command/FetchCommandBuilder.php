@@ -27,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class FetchCommandBuilder extends AbstractCommandBuilder
+class FetchCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const RECURSE_SUBMODULES_YES = 'yes';
 
     const RECURSE_SUBMODULES_ON_DEMAND = 'on-demand';
@@ -299,6 +301,6 @@ class FetchCommandBuilder extends AbstractCommandBuilder
             $this->arguments[] = $refspec;
         }
 
-        return parent::run();
+        return $this->run();
     }
 }

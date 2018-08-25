@@ -25,8 +25,10 @@ namespace Bit3\GitPhp\Command;
 /**
  * Init command builder.
  */
-class InitCommandBuilder extends AbstractCommandBuilder
+class InitCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const SHARE_FALSE = 'false';
 
     const SHARE_TRUE = 'true';
@@ -118,6 +120,6 @@ class InitCommandBuilder extends AbstractCommandBuilder
     public function execute()
     {
         $this->arguments[] = $this->repository->getRepositoryPath();
-        return parent::run();
+        return $this->run();
     }
 }

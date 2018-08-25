@@ -27,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class TagCommandBuilder extends AbstractCommandBuilder
+class TagCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const CLEANUP_VERBATIM = 'verbatim';
 
     const CLEANUP_WHITESPACE = 'whitespace';
@@ -280,7 +282,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
             $this->arguments[] = $commit;
         }
 
-        return parent::run();
+        return $this->run();
     }
 
     /**

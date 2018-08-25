@@ -27,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class CloneCommandBuilder extends AbstractCommandBuilder
+class CloneCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -292,6 +294,6 @@ class CloneCommandBuilder extends AbstractCommandBuilder
     {
         $this->arguments[] = $repositoryUrl;
         $this->arguments[] = $this->repository->getRepositoryPath();
-        return parent::run();
+        return $this->run();
     }
 }

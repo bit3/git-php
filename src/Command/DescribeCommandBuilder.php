@@ -27,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class DescribeCommandBuilder extends AbstractCommandBuilder
+class DescribeCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -195,6 +197,6 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
     public function execute($commit = 'HEAD')
     {
         $this->arguments[] = $commit;
-        return parent::run();
+        return $this->run();
     }
 }

@@ -25,8 +25,10 @@ namespace Bit3\GitPhp\Command;
 /**
  * Reset command builder.
  */
-class ResetCommandBuilder extends AbstractCommandBuilder
+class ResetCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -144,6 +146,6 @@ class ResetCommandBuilder extends AbstractCommandBuilder
         foreach (\func_get_args() as $path) {
             $this->arguments[] = $path;
         }
-        return parent::run();
+        return $this->run();
     }
 }

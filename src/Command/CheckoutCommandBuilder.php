@@ -27,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class CheckoutCommandBuilder extends AbstractCommandBuilder
+class CheckoutCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -228,6 +230,6 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
             }
         }
 
-        return parent::run();
+        return $this->run();
     }
 }

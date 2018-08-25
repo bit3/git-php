@@ -30,8 +30,10 @@ namespace Bit3\GitPhp\Command;
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class LogCommandBuilder extends AbstractCommandBuilder
+class LogCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const DECORATE_SHORT = 'short';
 
     const DECORATE_FULL = 'full';
@@ -1082,6 +1084,6 @@ class LogCommandBuilder extends AbstractCommandBuilder
                 $this->arguments[] = $pathspec;
             }
         }
-        return parent::run();
+        return $this->run();
     }
 }

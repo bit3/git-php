@@ -27,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class BranchCommandBuilder extends AbstractCommandBuilder
+class BranchCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const WHEN_ALWAYS = 'always';
 
     const WHEN_NEVER = 'never';
@@ -334,7 +336,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
         if ($branchName) {
             $this->arguments[] = $branchName;
         }
-        return parent::run();
+        return $this->run();
     }
 
     /**

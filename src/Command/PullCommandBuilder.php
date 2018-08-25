@@ -27,8 +27,9 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class PullCommandBuilder extends AbstractCommandBuilder
+class PullCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
 
     /**
      * {@inheritDoc}
@@ -99,6 +100,6 @@ class PullCommandBuilder extends AbstractCommandBuilder
             $this->arguments[] = $refspec;
         }
 
-        return parent::run();
+        return $this->run();
     }
 }

@@ -27,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class CommitCommandBuilder extends AbstractCommandBuilder
+class CommitCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const CLEANUP_STRIP = 'strip';
 
     const CLEANUP_WHITESPACE = 'whitespace';
@@ -466,6 +468,6 @@ class CommitCommandBuilder extends AbstractCommandBuilder
             }
         }
 
-        return parent::run();
+        return $this->run();
     }
 }

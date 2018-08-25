@@ -27,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class PushCommandBuilder extends AbstractCommandBuilder
+class PushCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const RECURSE_SUBMODULES_CHECK = 'check';
 
     const RECURSE_SUBMODULES_ON_DEMAND = 'on-demand';
@@ -307,6 +309,6 @@ class PushCommandBuilder extends AbstractCommandBuilder
             $this->arguments[] = $refspec;
         }
 
-        return parent::run();
+        return $this->run();
     }
 }

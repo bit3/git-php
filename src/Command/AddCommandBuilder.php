@@ -27,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class AddCommandBuilder extends AbstractCommandBuilder
+class AddCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
@@ -180,6 +182,6 @@ class AddCommandBuilder extends AbstractCommandBuilder
                 $this->arguments[] = $pathspec;
             }
         }
-        return parent::run();
+        return $this->run();
     }
 }

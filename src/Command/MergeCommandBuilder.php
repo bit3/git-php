@@ -25,8 +25,10 @@ namespace Bit3\GitPhp\Command;
 /**
  * Merge command builder.
  */
-class MergeCommandBuilder extends AbstractCommandBuilder
+class MergeCommandBuilder implements CommandBuilderInterface
 {
+  use CommandBuilderTrait;
+
   /**
    * {@inheritDoc}
    */
@@ -89,6 +91,6 @@ class MergeCommandBuilder extends AbstractCommandBuilder
             }
         }
 
-        return parent::run();
+        return $this->run();
     }
 }

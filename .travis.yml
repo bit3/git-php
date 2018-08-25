@@ -10,6 +10,9 @@ php:
 
 sudo: false
 
+before_install:
+  - echo "memory_limit = -1" > travis.php.ini && phpenv config-add travis.php.ini
+
 install:
     - travis_retry composer self-update && composer --version
     - travis_retry composer update --prefer-dist --dev --no-interaction

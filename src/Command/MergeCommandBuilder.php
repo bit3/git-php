@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Aaron Rubin <aaron@arkitech.net>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -31,7 +32,7 @@ class MergeCommandBuilder extends AbstractCommandBuilder
    */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('merge');
+        $this->arguments[] = 'merge';
     }
 
   /**
@@ -41,7 +42,7 @@ class MergeCommandBuilder extends AbstractCommandBuilder
    */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
@@ -54,7 +55,7 @@ class MergeCommandBuilder extends AbstractCommandBuilder
    */
     public function strategy($strategy)
     {
-        $this->processBuilder->add('--strategy='.$strategy);
+        $this->arguments[] = '--strategy='.$strategy;
         return $this;
     }
 
@@ -76,15 +77,15 @@ class MergeCommandBuilder extends AbstractCommandBuilder
     public function execute($branchOrTreeIsh = null, $path = null, $_ = null)
     {
         if ($branchOrTreeIsh) {
-            $this->processBuilder->add($branchOrTreeIsh);
+            $this->arguments[] = $branchOrTreeIsh;
         }
 
         $paths = func_get_args();
         array_shift($paths);
         if (count($paths)) {
-            $this->processBuilder->add('--');
+            $this->arguments[] = '--';
             foreach ($paths as $path) {
-                $this->processBuilder->add($path);
+                $this->arguments[] = $path;
             }
         }
 

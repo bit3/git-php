@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -33,7 +34,7 @@ class AddCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('add');
+        $this->arguments[] = 'add';
     }
 
     /**
@@ -43,7 +44,7 @@ class AddCommandBuilder extends AbstractCommandBuilder
      */
     public function dryRun()
     {
-        $this->processBuilder->add('--dry-run');
+        $this->arguments[] = '--dry-run';
         return $this;
     }
 
@@ -54,7 +55,7 @@ class AddCommandBuilder extends AbstractCommandBuilder
      */
     public function verbose()
     {
-        $this->processBuilder->add('--verbose');
+        $this->arguments[] = '--verbose';
         return $this;
     }
 
@@ -65,7 +66,7 @@ class AddCommandBuilder extends AbstractCommandBuilder
      */
     public function force()
     {
-        $this->processBuilder->add('--force');
+        $this->arguments[] = '--force';
         return $this;
     }
 
@@ -76,7 +77,7 @@ class AddCommandBuilder extends AbstractCommandBuilder
      */
     public function patch()
     {
-        $this->processBuilder->add('--patch');
+        $this->arguments[] = '--patch';
         return $this;
     }
 
@@ -87,7 +88,7 @@ class AddCommandBuilder extends AbstractCommandBuilder
      */
     public function update()
     {
-        $this->processBuilder->add('--update');
+        $this->arguments[] = '--update';
         return $this;
     }
 
@@ -98,7 +99,7 @@ class AddCommandBuilder extends AbstractCommandBuilder
      */
     public function all()
     {
-        $this->processBuilder->add('--all');
+        $this->arguments[] = '--all';
         return $this;
     }
 
@@ -109,7 +110,7 @@ class AddCommandBuilder extends AbstractCommandBuilder
      */
     public function noAll()
     {
-        $this->processBuilder->add('--no-all');
+        $this->arguments[] = '--no-all';
         return $this;
     }
 
@@ -120,7 +121,7 @@ class AddCommandBuilder extends AbstractCommandBuilder
      */
     public function intentToAdd()
     {
-        $this->processBuilder->add('--intent-to-add');
+        $this->arguments[] = '--intent-to-add';
         return $this;
     }
 
@@ -131,7 +132,7 @@ class AddCommandBuilder extends AbstractCommandBuilder
      */
     public function refresh()
     {
-        $this->processBuilder->add('--refresh');
+        $this->arguments[] = '--refresh';
         return $this;
     }
 
@@ -142,7 +143,7 @@ class AddCommandBuilder extends AbstractCommandBuilder
      */
     public function ignoreErrors()
     {
-        $this->processBuilder->add('--ignore-errors');
+        $this->arguments[] = '--ignore-errors';
         return $this;
     }
 
@@ -153,7 +154,7 @@ class AddCommandBuilder extends AbstractCommandBuilder
      */
     public function ignoreMissing()
     {
-        $this->processBuilder->add('--ignore-missing');
+        $this->arguments[] = '--ignore-missing';
         return $this;
     }
 
@@ -174,9 +175,9 @@ class AddCommandBuilder extends AbstractCommandBuilder
     {
         $args = func_get_args();
         if (count($args)) {
-            $this->processBuilder->add('--');
+            $this->arguments[] = '--';
             foreach ($args as $pathspec) {
-                $this->processBuilder->add($pathspec);
+                $this->arguments[] = $pathspec;
             }
         }
         return parent::run();

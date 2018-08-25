@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -37,7 +38,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('push');
+        $this->arguments[] = 'push';
     }
 
     /**
@@ -47,7 +48,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function all()
     {
-        $this->processBuilder->add('--all');
+        $this->arguments[] = '--all';
         return $this;
     }
 
@@ -58,7 +59,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function prune()
     {
-        $this->processBuilder->add('--prune');
+        $this->arguments[] = '--prune';
         return $this;
     }
 
@@ -69,7 +70,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function mirror()
     {
-        $this->processBuilder->add('--mirror');
+        $this->arguments[] = '--mirror';
         return $this;
     }
 
@@ -80,7 +81,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function dryRun()
     {
-        $this->processBuilder->add('--dry-run');
+        $this->arguments[] = '--dry-run';
         return $this;
     }
 
@@ -91,7 +92,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function porcelain()
     {
-        $this->processBuilder->add('--porcelain');
+        $this->arguments[] = '--porcelain';
         return $this;
     }
 
@@ -102,7 +103,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function delete()
     {
-        $this->processBuilder->add('--delete');
+        $this->arguments[] = '--delete';
         return $this;
     }
 
@@ -113,7 +114,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function tags()
     {
-        $this->processBuilder->add('--tags');
+        $this->arguments[] = '--tags';
         return $this;
     }
 
@@ -124,7 +125,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function followTags()
     {
-        $this->processBuilder->add('--follow-tags');
+        $this->arguments[] = '--follow-tags';
         return $this;
     }
 
@@ -137,7 +138,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function receivePack($gitReceivePack)
     {
-        $this->processBuilder->add('--receive-pack=' . $gitReceivePack);
+        $this->arguments[] = '--receive-pack=' . $gitReceivePack;
         return $this;
     }
 
@@ -152,9 +153,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function forceWithLease($refname, $expect = null)
     {
-        $this->processBuilder->add(
-            '--force-with-lease' . ($refname ? ('=' . $refname . ($expect ? ':' . $expect : '')) : '')
-        );
+        $this->arguments[] = '--force-with-lease' . ($refname ? ('=' . $refname . ($expect ? ':' . $expect : '')) : '');
         return $this;
     }
 
@@ -165,7 +164,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function noForceWithLease()
     {
-        $this->processBuilder->add('--no-force-with-lease');
+        $this->arguments[] = '--no-force-with-lease';
         return $this;
     }
 
@@ -176,7 +175,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function force()
     {
-        $this->processBuilder->add('--force');
+        $this->arguments[] = '--force';
         return $this;
     }
 
@@ -189,7 +188,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function repo($repository)
     {
-        $this->processBuilder->add('--repo=' . $repository);
+        $this->arguments[] = '--repo=' . $repository;
         return $this;
     }
 
@@ -200,7 +199,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function setUpstream()
     {
-        $this->processBuilder->add('--set-upstream');
+        $this->arguments[] = '--set-upstream';
         return $this;
     }
 
@@ -211,7 +210,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function thin()
     {
-        $this->processBuilder->add('--thin');
+        $this->arguments[] = '--thin';
         return $this;
     }
 
@@ -222,7 +221,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function noThin()
     {
-        $this->processBuilder->add('--no-thin');
+        $this->arguments[] = '--no-thin';
         return $this;
     }
 
@@ -233,7 +232,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
@@ -244,7 +243,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function verbose()
     {
-        $this->processBuilder->add('--verbose');
+        $this->arguments[] = '--verbose';
         return $this;
     }
 
@@ -257,7 +256,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function recurseSubmodules($recurse)
     {
-        $this->processBuilder->add('--recurse-submodules=' . $recurse);
+        $this->arguments[] = '--recurse-submodules=' . $recurse;
         return $this;
     }
 
@@ -268,7 +267,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function verify()
     {
-        $this->processBuilder->add('--verify');
+        $this->arguments[] = '--verify';
         return $this;
     }
 
@@ -279,7 +278,7 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function noVerify()
     {
-        $this->processBuilder->add('--no-verify');
+        $this->arguments[] = '--no-verify';
         return $this;
     }
 
@@ -300,12 +299,12 @@ class PushCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($repository, $refspec = null, $_ = null)
     {
-        $this->processBuilder->add($repository);
+        $this->arguments[] = $repository;
 
         $refspecs = func_get_args();
         array_shift($refspecs);
         foreach ($refspecs as $refspec) {
-            $this->processBuilder->add($refspec);
+            $this->arguments[] = $refspec;
         }
 
         return parent::run();

@@ -26,7 +26,7 @@ namespace Bit3\GitPhp\Test;
 use Bit3\GitPhp\GitRepository;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 
 /**
  * GIT repository unit tests.
@@ -161,9 +161,8 @@ class GitRepositoryTest extends TestCase
     {
         $this->initializedGitRepository->config()->file('local')->execute('user.name', 'CCA unittest 2');
 
-        $process = ProcessBuilder::create(array('git', 'config', '--local', 'user.name'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'config', '--local', 'user.name'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -176,9 +175,10 @@ class GitRepositoryTest extends TestCase
     {
         $this->initializedGitRepository->config()->file('local')->add('user.name', 'CCA unittest 2')->execute();
 
-        $process = ProcessBuilder::create(array('git', 'config', '--local', '--get-all', 'user.name'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(
+            ['git', 'config', '--local', '--get-all', 'user.name'], $this->initializedRepositoryPath
+        );
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $names = explode("\n", $process->getOutput());
@@ -321,9 +321,8 @@ class GitRepositoryTest extends TestCase
     {
         $this->initializedGitRepository->remote()->setUrl('local', $this->uninitializedRepositoryPath)->execute();
 
-        $process = ProcessBuilder::create(array('git', 'config', 'remote.local.url'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'config', 'remote.local.url'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -357,9 +356,8 @@ class GitRepositoryTest extends TestCase
     {
         $this->initializedGitRepository->remote()->setPushUrl('local', $this->uninitializedRepositoryPath)->execute();
 
-        $process = ProcessBuilder::create(array('git', 'config', 'remote.local.url'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'config', 'remote.local.url'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -367,9 +365,8 @@ class GitRepositoryTest extends TestCase
             '/tmp/git'
         );
 
-        $process = ProcessBuilder::create(array('git', 'config', 'remote.local.pushurl'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'config', 'remote.local.pushurl'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -403,9 +400,8 @@ class GitRepositoryTest extends TestCase
     {
         $this->initializedGitRepository->remote()->add('origin', $this->uninitializedRepositoryPath)->execute();
 
-        $process = ProcessBuilder::create(array('git', 'config', 'remote.origin.url'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'config', 'remote.origin.url'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -436,16 +432,16 @@ class GitRepositoryTest extends TestCase
      */
     public function testRemoteFetchOnInitializedRepository()
     {
-        $process = ProcessBuilder::create(array('git', 'remote', 'add', 'origin', $this->initializedRepositoryPath))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(
+            ['git', 'remote', 'add', 'origin', $this->initializedRepositoryPath], $this->initializedRepositoryPath
+        );
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->initializedGitRepository->fetch()->execute();
 
-        $process = ProcessBuilder::create(array('git', 'branch', '-a'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'branch', '-a'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $branches = explode("\n", $process->getOutput());
@@ -478,16 +474,16 @@ class GitRepositoryTest extends TestCase
      */
     public function testCheckoutOnInitializedRepository()
     {
-        $process = ProcessBuilder::create(array('git', 'remote', 'add', 'origin', $this->initializedRepositoryPath))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(
+            ['git', 'remote', 'add', 'origin', $this->initializedRepositoryPath], $this->initializedRepositoryPath
+        );
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->initializedGitRepository->checkout()->execute('6c42d7ba78e0e956bd4e25661a6c13d826ef590a');
 
-        $process = ProcessBuilder::create(array('git', 'describe'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'describe'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -571,9 +567,8 @@ class GitRepositoryTest extends TestCase
     {
         $this->initializedGitRepository->add()->execute('unknown-file.txt');
 
-        $process = ProcessBuilder::create(array('git', 'status', '-s'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'status', '-s'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $status = explode("\n", $process->getOutput());
@@ -607,9 +602,8 @@ class GitRepositoryTest extends TestCase
     {
         $this->initializedGitRepository->rm()->execute('existing-file.txt');
 
-        $process = ProcessBuilder::create(array('git', 'status', '-s'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'status', '-s'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $status = explode("\n", $process->getOutput());
@@ -644,9 +638,8 @@ class GitRepositoryTest extends TestCase
     {
         $this->initializedGitRepository->commit()->message('Commit changes')->execute();
 
-        $process = ProcessBuilder::create(array('git', 'status', '-s'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'status', '-s'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $status = explode("\n", $process->getOutput());
@@ -687,9 +680,8 @@ class GitRepositoryTest extends TestCase
     {
         $this->initializedGitRepository->tag()->execute('unit-test');
 
-        $process = ProcessBuilder::create(array('git', 'tag'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'tag'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $tags = explode("\n", $process->getOutput());

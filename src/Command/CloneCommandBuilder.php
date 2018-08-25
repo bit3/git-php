@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -33,7 +34,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('clone');
+        $this->arguments[] = 'clone';
     }
 
     /**
@@ -43,7 +44,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function local()
     {
-        $this->processBuilder->add('--local');
+        $this->arguments[] = '--local';
         return $this;
     }
 
@@ -54,7 +55,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function noHardlinks()
     {
-        $this->processBuilder->add('--no-hardlinks');
+        $this->arguments[] = '--no-hardlinks';
         return $this;
     }
 
@@ -65,7 +66,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function shared()
     {
-        $this->processBuilder->add('--shared');
+        $this->arguments[] = '--shared';
         return $this;
     }
 
@@ -78,7 +79,8 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function reference($repository)
     {
-        $this->processBuilder->add('--reference')->add($repository);
+        $this->arguments[] = '--reference';
+        $this->arguments[] = $repository;
         return $this;
     }
 
@@ -89,7 +91,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
@@ -100,7 +102,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function verbose()
     {
-        $this->processBuilder->add('--verbose');
+        $this->arguments[] = '--verbose';
         return $this;
     }
 
@@ -111,7 +113,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function progress()
     {
-        $this->processBuilder->add('--progress');
+        $this->arguments[] = '--progress';
         return $this;
     }
 
@@ -122,7 +124,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function noCheckout()
     {
-        $this->processBuilder->add('--no-checkout');
+        $this->arguments[] = '--no-checkout';
         return $this;
     }
 
@@ -133,7 +135,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function bare()
     {
-        $this->processBuilder->add('--bare');
+        $this->arguments[] = '--bare';
         return $this;
     }
 
@@ -144,7 +146,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function mirror()
     {
-        $this->processBuilder->add('--mirror');
+        $this->arguments[] = '--mirror';
         return $this;
     }
 
@@ -157,7 +159,8 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function origin($name)
     {
-        $this->processBuilder->add('--origin')->add($name);
+        $this->arguments[] = '--origin';
+        $this->arguments[] = $name;
         return $this;
     }
 
@@ -170,7 +173,8 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function branch($name)
     {
-        $this->processBuilder->add('--branch')->add($name);
+        $this->arguments[] = '--branch';
+        $this->arguments[] = $name;
         return $this;
     }
 
@@ -183,7 +187,8 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function uploadPack($uploadPack)
     {
-        $this->processBuilder->add('--upload-pack')->add($uploadPack);
+        $this->arguments[] = '--upload-pack';
+        $this->arguments[] = $uploadPack;
         return $this;
     }
 
@@ -196,7 +201,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function template($templateDirectory)
     {
-        $this->processBuilder->add('--template=' . $templateDirectory);
+        $this->arguments[] = '--template=' . $templateDirectory;
         return $this;
     }
 
@@ -211,20 +216,22 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function config($key, $value)
     {
-        $this->processBuilder->add('--config')->add($key . '=' . $value);
+        $this->arguments[] = '--config';
+        $this->arguments[] = $key . '=' . $value;
         return $this;
     }
 
     /**
      * Add the depth option to the command line.
      *
-     * @param string $depth The depth.
+     * @param string $depth The depth.arguments[] = rn CloneCommandBuildr.
      *
      * @return CloneCommandBuilder
      */
     public function depth($depth)
     {
-        $this->processBuilder->add('--depth')->add($depth);
+        $this->arguments[] = '--depth';
+        $this->arguments[] = $depth;
         return $this;
     }
 
@@ -235,7 +242,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function noSingleBranch()
     {
-        $this->processBuilder->add('--no-single-branch');
+        $this->arguments[] = '--no-single-branch';
         return $this;
     }
 
@@ -246,7 +253,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function singleBranch()
     {
-        $this->processBuilder->add('--single-branch');
+        $this->arguments[] = '--single-branch';
         return $this;
     }
 
@@ -257,7 +264,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function recursive()
     {
-        $this->processBuilder->add('--recursive');
+        $this->arguments[] = '--recursive';
         return $this;
     }
 
@@ -270,7 +277,7 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function separateGitDir($gitDir)
     {
-        $this->processBuilder->add('--separate-git-dir=' . $gitDir);
+        $this->arguments[] = '--separate-git-dir=' . $gitDir;
         return $this;
     }
 
@@ -283,8 +290,8 @@ class CloneCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($repositoryUrl)
     {
-        $this->processBuilder->add($repositoryUrl);
-        $this->processBuilder->add($this->repository->getRepositoryPath());
+        $this->arguments[] = $repositoryUrl;
+        $this->arguments[] = $this->repository->getRepositoryPath();
         return parent::run();
     }
 }

@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -54,7 +55,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('commit');
+        $this->arguments[] = 'commit';
     }
 
     /**
@@ -64,7 +65,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function all()
     {
-        $this->processBuilder->add('--all');
+        $this->arguments[] = '--all';
         return $this;
     }
 
@@ -75,7 +76,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function patch()
     {
-        $this->processBuilder->add('--patch');
+        $this->arguments[] = '--patch';
         return $this;
     }
 
@@ -88,7 +89,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function reuseMessage($commit)
     {
-        $this->processBuilder->add('--reuse-message=' . $commit);
+        $this->arguments[] = '--reuse-message=' . $commit;
         return $this;
     }
 
@@ -101,7 +102,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function fixup($commit)
     {
-        $this->processBuilder->add('--fixup=' . $commit);
+        $this->arguments[] = '--fixup=' . $commit;
         return $this;
     }
 
@@ -114,7 +115,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function squash($commit)
     {
-        $this->processBuilder->add('--squash=' . $commit);
+        $this->arguments[] = '--squash=' . $commit;
         return $this;
     }
 
@@ -125,7 +126,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function resetAuthor()
     {
-        $this->processBuilder->add('--reset-author');
+        $this->arguments[] = '--reset-author';
         return $this;
     }
 
@@ -136,7 +137,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function short()
     {
-        $this->processBuilder->add('--short');
+        $this->arguments[] = '--short';
         return $this;
     }
 
@@ -147,7 +148,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function branch()
     {
-        $this->processBuilder->add('--branch');
+        $this->arguments[] = '--branch';
         return $this;
     }
 
@@ -158,7 +159,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function porcelain()
     {
-        $this->processBuilder->add('--porcelain');
+        $this->arguments[] = '--porcelain';
         return $this;
     }
 
@@ -169,7 +170,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function long()
     {
-        $this->processBuilder->add('--long');
+        $this->arguments[] = '--long';
         return $this;
     }
 
@@ -180,7 +181,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function null()
     {
-        $this->processBuilder->add('--null');
+        $this->arguments[] = '--null';
         return $this;
     }
 
@@ -193,7 +194,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function file($file)
     {
-        $this->processBuilder->add('--file=' . $file);
+        $this->arguments[] = '--file=' . $file;
         return $this;
     }
 
@@ -206,7 +207,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function author($author)
     {
-        $this->processBuilder->add('--author=' . $author);
+        $this->arguments[] = '--author=' . $author;
         return $this;
     }
 
@@ -222,7 +223,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
         if ($date instanceof \DateTime) {
             $date = $date->format('Y-m-d H:i:s');
         }
-        $this->processBuilder->add('--date=' . $date);
+        $this->arguments[] = '--date=' . $date;
         return $this;
     }
 
@@ -235,7 +236,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function message($message)
     {
-        $this->processBuilder->add('--message=' . $message);
+        $this->arguments[] = '--message=' . $message;
         return $this;
     }
 
@@ -248,7 +249,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function template($file)
     {
-        $this->processBuilder->add('--template=' . $file);
+        $this->arguments[] = '--template=' . $file;
         return $this;
     }
 
@@ -259,7 +260,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function signoff()
     {
-        $this->processBuilder->add('--signoff');
+        $this->arguments[] = '--signoff';
         return $this;
     }
 
@@ -270,7 +271,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function noVerity()
     {
-        $this->processBuilder->add('--no-verify');
+        $this->arguments[] = '--no-verify';
         return $this;
     }
 
@@ -281,7 +282,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function allowEmpty()
     {
-        $this->processBuilder->add('--allow-empty');
+        $this->arguments[] = '--allow-empty';
         return $this;
     }
 
@@ -292,7 +293,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function allowEmptyMessage()
     {
-        $this->processBuilder->add('--allow-empty-message');
+        $this->arguments[] = '--allow-empty-message';
         return $this;
     }
 
@@ -305,7 +306,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function cleanup($mode)
     {
-        $this->processBuilder->add('--cleanup=' . $mode);
+        $this->arguments[] = '--cleanup=' . $mode;
         return $this;
     }
 
@@ -316,7 +317,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function amend()
     {
-        $this->processBuilder->add('--amend');
+        $this->arguments[] = '--amend';
         return $this;
     }
 
@@ -327,7 +328,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function noPostRewrite()
     {
-        $this->processBuilder->add('--no-post-rewrite');
+        $this->arguments[] = '--no-post-rewrite';
         return $this;
     }
 
@@ -338,7 +339,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function includ()
     {
-        $this->processBuilder->add('--include');
+        $this->arguments[] = '--include';
         return $this;
     }
 
@@ -349,7 +350,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function only()
     {
-        $this->processBuilder->add('--only');
+        $this->arguments[] = '--only';
         return $this;
     }
 
@@ -362,7 +363,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function untrackedFiles($mode = null)
     {
-        $this->processBuilder->add('--untracked-files' . ($mode ? '=' . $mode : ''));
+        $this->arguments[] = '--untracked-files' . ($mode ? '=' . $mode : '');
         return $this;
     }
 
@@ -373,7 +374,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function verbose()
     {
-        $this->processBuilder->add('--verbose');
+        $this->arguments[] = '--verbose';
         return $this;
     }
 
@@ -384,7 +385,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
@@ -395,7 +396,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function dryRun()
     {
-        $this->processBuilder->add('--dry-run');
+        $this->arguments[] = '--dry-run';
         return $this;
     }
 
@@ -406,7 +407,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function status()
     {
-        $this->processBuilder->add('--status');
+        $this->arguments[] = '--status';
         return $this;
     }
 
@@ -417,7 +418,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
      */
     public function noStatus()
     {
-        $this->processBuilder->add('--no-status');
+        $this->arguments[] = '--no-status';
         return $this;
     }
 
@@ -431,7 +432,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
     public function gpgSign($keyId = null)
     {
         $this->gpgSignIsset = true;
-        $this->processBuilder->add('--gpg-sign' . ($keyId ? '=' . $keyId : ''));
+        $this->arguments[]  = '--gpg-sign' . ($keyId ? '=' . $keyId : '');
         return $this;
     }
 
@@ -451,7 +452,7 @@ class CommitCommandBuilder extends AbstractCommandBuilder
     public function execute($pathspec = null, $_ = null)
     {
         // prevent launching the editor
-        $this->processBuilder->add('--no-edit');
+        $this->arguments[] = '--no-edit';
 
         if (!$this->gpgSignIsset && $this->repository->getConfig()->isSignCommitsEnabled()) {
             $this->gpgSign($this->repository->getConfig()->getSignCommitUser());
@@ -459,9 +460,9 @@ class CommitCommandBuilder extends AbstractCommandBuilder
 
         $args = func_get_args();
         if (count($args)) {
-            $this->processBuilder->add('--');
+            $this->arguments[] = '--';
             foreach ($args as $pathspec) {
-                $this->processBuilder->add($pathspec);
+                $this->arguments[] = $pathspec;
             }
         }
 

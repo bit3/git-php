@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -53,7 +54,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('tag');
+        $this->arguments[] = 'tag';
     }
 
     /**
@@ -63,7 +64,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function annotate()
     {
-        $this->processBuilder->add('--annotate');
+        $this->arguments[] = '--annotate';
         return $this;
     }
 
@@ -74,8 +75,8 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function sign()
     {
-        $this->signIsset = true;
-        $this->processBuilder->add('--sign');
+        $this->signIsset   = true;
+        $this->arguments[] = '--sign';
         return $this;
     }
 
@@ -89,7 +90,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
     public function localUser($keyId)
     {
         $this->localUserIsset = true;
-        $this->processBuilder->add('--local-user=' . $keyId);
+        $this->arguments[]    = '--local-user=' . $keyId;
         return $this;
     }
 
@@ -100,7 +101,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function force()
     {
-        $this->processBuilder->add('--force');
+        $this->arguments[] = '--force';
         return $this;
     }
 
@@ -111,7 +112,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function delete()
     {
-        $this->processBuilder->add('--delete');
+        $this->arguments[] = '--delete';
         return $this;
     }
 
@@ -122,7 +123,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function verify()
     {
-        $this->processBuilder->add('--verify');
+        $this->arguments[] = '--verify';
         return $this;
     }
 
@@ -137,7 +138,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function n($num)
     {
-        $this->processBuilder->add('-n' . $num);
+        $this->arguments[] = '-n' . $num;
         return $this;
     }
 
@@ -152,7 +153,8 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function l($pattern)
     {
-        $this->processBuilder->add('--list')->add($pattern);
+        $this->arguments[] = '--list';
+        $this->arguments[] = $pattern;
         return $this;
     }
 
@@ -165,7 +167,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function column($options = null)
     {
-        $this->processBuilder->add('--column' . ($options ? '=' . $options : ''));
+        $this->arguments[] = '--column' . ($options ? '=' . $options : '');
         return $this;
     }
 
@@ -176,7 +178,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function noColumn()
     {
-        $this->processBuilder->add('--no-column');
+        $this->arguments[] = '--no-column';
         return $this;
     }
 
@@ -189,7 +191,8 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function contains($commit)
     {
-        $this->processBuilder->add('--contains')->add($commit);
+        $this->arguments[] = '--contains';
+        $this->arguments[] = $commit;
         return $this;
     }
 
@@ -202,7 +205,8 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function pointsAt($object)
     {
-        $this->processBuilder->add('--points-at')->add($object);
+        $this->arguments[] = '--points-at';
+        $this->arguments[] = $object;
         return $this;
     }
 
@@ -215,7 +219,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function message($message)
     {
-        $this->processBuilder->add('--message=' . $message);
+        $this->arguments[] = '--message=' . $message;
         return $this;
     }
 
@@ -228,7 +232,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function file($file)
     {
-        $this->processBuilder->add('--file=' . $file);
+        $this->arguments[] = '--file=' . $file;
         return $this;
     }
 
@@ -241,7 +245,7 @@ class TagCommandBuilder extends AbstractCommandBuilder
      */
     public function cleanup($mode)
     {
-        $this->processBuilder->add('--cleanup=' . $mode);
+        $this->arguments[] = '--cleanup=' . $mode;
         return $this;
     }
 
@@ -269,11 +273,11 @@ class TagCommandBuilder extends AbstractCommandBuilder
         }
 
         if ($tagName) {
-            $this->processBuilder->add($tagName);
+            $this->arguments[] = $tagName;
         }
 
         if ($commit) {
-            $this->processBuilder->add($commit);
+            $this->arguments[] = $commit;
         }
 
         return parent::run();

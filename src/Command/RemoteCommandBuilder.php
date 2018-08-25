@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -33,7 +34,7 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('remote');
+        $this->arguments[] = 'remote';
     }
 
     /**
@@ -43,7 +44,7 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function verbose()
     {
-        $this->processBuilder->add('--verbose');
+        $this->arguments[] = '--verbose';
         return $this;
     }
 
@@ -58,7 +59,9 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function add($name, $url)
     {
-        $this->processBuilder->add('add')->add($name)->add($url);
+        $this->arguments[] = 'add';
+        $this->arguments[] = $name;
+        $this->arguments[] = $url;
         return $this;
     }
 
@@ -73,11 +76,11 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function rename($new, $old = null)
     {
-        $this->processBuilder->add('rename');
+        $this->arguments[] = 'rename';
         if ($old) {
-            $this->processBuilder->add($old);
+            $this->arguments[] = $old;
         }
-        $this->processBuilder->add($new);
+        $this->arguments[] = $new;
         return $this;
     }
 
@@ -90,7 +93,8 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function remove($name)
     {
-        $this->processBuilder->add('remove')->add($name);
+        $this->arguments[] = 'remove';
+        $this->arguments[] = $name;
         return $this;
     }
 
@@ -105,7 +109,9 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function setHead($name, $branch)
     {
-        $this->processBuilder->add('set-head')->add($name)->add($branch);
+        $this->arguments[] = 'set-head';
+        $this->arguments[] = $name;
+        $this->arguments[] = $branch;
         return $this;
     }
 
@@ -118,7 +124,9 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function setHeadAuto($name)
     {
-        $this->processBuilder->add('set-head')->add($name)->add('--auto');
+        $this->arguments[] = 'set-head';
+        $this->arguments[] = $name;
+        $this->arguments[] = '--auto';
         return $this;
     }
 
@@ -131,7 +139,9 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function setHeadDelete($name)
     {
-        $this->processBuilder->add('set-head')->add($name)->add('--delete');
+        $this->arguments[] = 'set-head';
+        $this->arguments[] = $name;
+        $this->arguments[] = '--delete';
         return $this;
     }
 
@@ -148,11 +158,12 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function setBranches($name, $branch, $add = false)
     {
-        $this->processBuilder->add('set-branches');
+        $this->arguments[] = 'set-branches';
         if ($add) {
-            $this->processBuilder->add('--add');
+            $this->arguments[] = '--add';
         }
-        $this->processBuilder->add($name)->add($branch);
+        $this->arguments[] = $name;
+        $this->arguments[] = $branch;
         return $this;
     }
 
@@ -169,9 +180,11 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function setUrl($name, $url, $oldUrl = null)
     {
-        $this->processBuilder->add('set-url')->add($name)->add($url);
+        $this->arguments[] = 'set-url';
+        $this->arguments[] = $name;
+        $this->arguments[] = $url;
         if ($oldUrl) {
-            $this->processBuilder->add($oldUrl);
+            $this->arguments[] = $oldUrl;
         }
         return $this;
     }
@@ -189,9 +202,12 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function setPushUrl($name, $url, $oldUrl = null)
     {
-        $this->processBuilder->add('set-url')->add($name)->add('--push')->add($url);
+        $this->arguments[] = 'set-url';
+        $this->arguments[] = $name;
+        $this->arguments[] = '--push';
+        $this->arguments[] = $url;
         if ($oldUrl) {
-            $this->processBuilder->add($oldUrl);
+            $this->arguments[] = $oldUrl;
         }
         return $this;
     }
@@ -207,7 +223,10 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function addUrl($name, $url)
     {
-        $this->processBuilder->add('set-url')->add('--add')->add($name)->add($url);
+        $this->arguments[] = 'set-url';
+        $this->arguments[] = '--add';
+        $this->arguments[] = $name;
+        $this->arguments[] = $url;
         return $this;
     }
 
@@ -222,7 +241,11 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function addPushUrl($name, $url)
     {
-        $this->processBuilder->add('set-url')->add('--add')->add('--push')->add($name)->add($url);
+        $this->arguments[] = 'set-url';
+        $this->arguments[] = '--add';
+        $this->arguments[] = '--push';
+        $this->arguments[] = $name;
+        $this->arguments[] = $url;
         return $this;
     }
 
@@ -237,7 +260,10 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function deleteUrl($name, $url)
     {
-        $this->processBuilder->add('set-url')->add('--delete')->add($name)->add($url);
+        $this->arguments[] = 'set-url';
+        $this->arguments[] = '--delete';
+        $this->arguments[] = $name;
+        $this->arguments[] = $url;
         return $this;
     }
 
@@ -252,7 +278,11 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function deletePushUrl($name, $url)
     {
-        $this->processBuilder->add('set-url')->add('--delete')->add('--push')->add($name)->add($url);
+        $this->arguments[] = 'set-url';
+        $this->arguments[] = '--delete';
+        $this->arguments[] = '--push';
+        $this->arguments[] = $name;
+        $this->arguments[] = $url;
         return $this;
     }
 
@@ -265,7 +295,8 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function show($name)
     {
-        $this->processBuilder->add('show')->add($name);
+        $this->arguments[] = 'show';
+        $this->arguments[] = $name;
         return $this;
     }
 
@@ -280,11 +311,11 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function prune($name, $dryRun = false)
     {
-        $this->processBuilder->add('prune');
+        $this->arguments[] = 'prune';
         if ($dryRun) {
-            $this->processBuilder->add('--dry-run');
+            $this->arguments[] = '--dry-run';
         }
-        $this->processBuilder->add($name);
+        $this->arguments[] = $name;
         return $this;
     }
 
@@ -299,11 +330,11 @@ class RemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function update($groupOrRemote, $prune = false)
     {
-        $this->processBuilder->add('update');
+        $this->arguments[] = 'update';
         if ($prune) {
-            $this->processBuilder->add('--prune');
+            $this->arguments[] = '--prune';
         }
-        $this->processBuilder->add($groupOrRemote);
+        $this->arguments[] = $groupOrRemote;
         return $this;
     }
 

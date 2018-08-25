@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -39,7 +40,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('branch');
+        $this->arguments[] = 'branch';
     }
 
     /**
@@ -49,7 +50,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function delete()
     {
-        $this->processBuilder->add('-D');
+        $this->arguments[] = '-D';
         return $this;
     }
 
@@ -60,7 +61,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function createReflog()
     {
-        $this->processBuilder->add('--create-reflog');
+        $this->arguments[] = '--create-reflog';
         return $this;
     }
 
@@ -71,7 +72,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function force()
     {
-        $this->processBuilder->add('--force');
+        $this->arguments[] = '--force';
         return $this;
     }
 
@@ -84,9 +85,9 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function move($oldName = false)
     {
-        $this->processBuilder->add('-M');
+        $this->arguments[] = '-M';
         if ($oldName) {
-            $this->processBuilder->add($oldName);
+            $this->arguments[] = $oldName;
         }
         return $this;
     }
@@ -104,7 +105,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function color($when)
     {
-        $this->processBuilder->add('--color=' . $when);
+        $this->arguments[] = '--color=' . $when;
         return $this;
     }
 
@@ -115,7 +116,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function noColor()
     {
-        $this->processBuilder->add('--no-color');
+        $this->arguments[] = '--no-color';
         return $this;
     }
 
@@ -128,7 +129,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function column($options = false)
     {
-        $this->processBuilder->add('--column' . ($options ? '=' . $options : ''));
+        $this->arguments[] = '--column' . ($options ? '=' . $options : '');
         return $this;
     }
 
@@ -139,7 +140,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function noColumn()
     {
-        $this->processBuilder->add('--no-column');
+        $this->arguments[] = '--no-column';
         return $this;
     }
 
@@ -150,7 +151,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function remotes()
     {
-        $this->processBuilder->add('--remotes');
+        $this->arguments[] = '--remotes';
         return $this;
     }
 
@@ -161,7 +162,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function all()
     {
-        $this->processBuilder->add('--all');
+        $this->arguments[] = '--all';
         return $this;
     }
 
@@ -172,7 +173,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function listBranches()
     {
-        $this->processBuilder->add('--list');
+        $this->arguments[] = '--list';
         return $this;
     }
 
@@ -183,7 +184,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function verbose()
     {
-        $this->processBuilder->add('--verbose');
+        $this->arguments[] = '--verbose';
         return $this;
     }
 
@@ -194,7 +195,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
@@ -207,7 +208,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function abbrev($length)
     {
-        $this->processBuilder->add('--abbrev=' . $length);
+        $this->arguments[] = '--abbrev=' . $length;
         return $this;
     }
 
@@ -218,7 +219,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function noAbbrev()
     {
-        $this->processBuilder->add('--no-abbrev');
+        $this->arguments[] = '--no-abbrev';
         return $this;
     }
 
@@ -229,7 +230,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function track()
     {
-        $this->processBuilder->add('--track');
+        $this->arguments[] = '--track';
         return $this;
     }
 
@@ -240,7 +241,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function noTrack()
     {
-        $this->processBuilder->add('--no-track');
+        $this->arguments[] = '--no-track';
         return $this;
     }
 
@@ -251,7 +252,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function setUpstream()
     {
-        $this->processBuilder->add('--set-upstream');
+        $this->arguments[] = '--set-upstream';
         return $this;
     }
 
@@ -264,7 +265,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function setUpstreamTo($upstream)
     {
-        $this->processBuilder->add('--set-upstream-to=' . $upstream);
+        $this->arguments[] = '--set-upstream-to=' . $upstream;
         return $this;
     }
 
@@ -275,7 +276,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function unsetUpstream()
     {
-        $this->processBuilder->add('--unset-upstream');
+        $this->arguments[] = '--unset-upstream';
         return $this;
     }
 
@@ -288,7 +289,8 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function contains($commit)
     {
-        $this->processBuilder->add('--contains')->add($commit);
+        $this->arguments[] = '--contains';
+        $this->arguments[] = $commit;
         return $this;
     }
 
@@ -301,7 +303,8 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function merged($commit)
     {
-        $this->processBuilder->add('--merged')->add($commit);
+        $this->arguments[] = '--merged';
+        $this->arguments[] = $commit;
         return $this;
     }
 
@@ -314,7 +317,8 @@ class BranchCommandBuilder extends AbstractCommandBuilder
      */
     public function noMerged($commit)
     {
-        $this->processBuilder->add('--no-merged')->add($commit);
+        $this->arguments[] = '--no-merged';
+        $this->arguments[] = $commit;
         return $this;
     }
 
@@ -328,7 +332,7 @@ class BranchCommandBuilder extends AbstractCommandBuilder
     public function execute($branchName = null)
     {
         if ($branchName) {
-            $this->processBuilder->add($branchName);
+            $this->arguments[] = $branchName;
         }
         return parent::run();
     }

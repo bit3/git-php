@@ -12,7 +12,8 @@
  *
  * @package    bit3/git-php
  * @author     Ahmad Marzouq <ahmad.marzouq@eagles-web.com>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -32,7 +33,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('stash');
+        $this->arguments[] = 'stash';
     }
 
     /**
@@ -44,7 +45,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     public function message($message)
     {
-        $this->processBuilder->add($message);
+        $this->arguments[] = $message;
         return $this;
     }
 
@@ -57,9 +58,9 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     public function listStash($options = null)
     {
-        $this->processBuilder->add('list');
+        $this->arguments[] = 'list';
         if ($options) {
-            $this->processBuilder->add($options);
+            $this->arguments[] = $options;
         }
         return parent::run();
     }
@@ -75,9 +76,9 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     public function show($stash = null)
     {
-        $this->processBuilder->add('show');
+        $this->arguments[] = 'show';
         if ($stash) {
-            $this->processBuilder->add('stash@{' . $stash . '}');
+            $this->arguments[] = 'stash@{' . $stash . '}';
         }
         return parent::run();
     }
@@ -92,9 +93,9 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     public function drop($stash = null)
     {
-        $this->processBuilder->add('show');
+        $this->arguments[] = 'show';
         if ($stash) {
-            $this->processBuilder->add('stash@{' . $stash . '}');
+            $this->arguments[] = 'stash@{' . $stash . '}';
         }
         return parent::run();
     }
@@ -109,9 +110,9 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     public function pop($stash = null)
     {
-        $this->processBuilder->add('pop');
+        $this->arguments[] = 'pop';
         if ($stash) {
-            $this->processBuilder->add('stash@{' . $stash . '}');
+            $this->arguments[] = 'stash@{' . $stash . '}';
         }
         return parent::run();
     }
@@ -127,9 +128,9 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     public function apply($stash = null)
     {
-        $this->processBuilder->add('pop');
+        $this->arguments[] = 'pop';
         if ($stash) {
-            $this->processBuilder->add('stash@{' . $stash . '}');
+            $this->arguments[] = 'stash@{' . $stash . '}';
         }
         return parent::run();
     }
@@ -148,10 +149,10 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     public function branch($branchname, $stash = null)
     {
-        $this->processBuilder->add('branch');
-        $this->processBuilder->add($branchname);
+        $this->arguments[] = 'branch';
+        $this->arguments[] = $branchname;
         if ($stash) {
-            $this->processBuilder->add('stash@{' . $stash . '}');
+            $this->arguments[] = 'stash@{' . $stash . '}';
         }
         return parent::run();
     }
@@ -164,7 +165,7 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     public function clear()
     {
-        $this->processBuilder->add('clear');
+        $this->arguments[] = 'clear';
         return parent::run();
     }
 
@@ -181,9 +182,9 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     public function save($message = null)
     {
-        $this->processBuilder->add('branch');
+        $this->arguments[] = 'branch';
         if ($message) {
-            $this->processBuilder->add($message);
+            $this->arguments[] = $message;
         }
         return parent::run();
     }
@@ -199,9 +200,9 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     public function create($message = null)
     {
-        $this->processBuilder->add('create');
+        $this->arguments[] = 'create';
         if ($message) {
-            $this->processBuilder->add($message);
+            $this->arguments[] = $message;
         }
         return parent::run();
     }
@@ -219,12 +220,12 @@ class StashCommandBuilder extends AbstractCommandBuilder
      */
     public function store($message = null, $commit = null)
     {
-        $this->processBuilder->add('store');
+        $this->arguments[] = 'store';
         if ($message) {
-            $this->processBuilder->add('--message '.$message);
+            $this->arguments[] = '--message '.$message;
         }
         if ($commit) {
-            $this->processBuilder->add($commit);
+            $this->arguments[] = $commit;
         }
         return parent::run();
     }

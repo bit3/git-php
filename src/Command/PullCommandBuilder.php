@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Ahmad Marzouq <ahmad.marzouq@eagles-web.com>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -34,7 +35,7 @@ class PullCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('pull');
+        $this->arguments[] = 'pull';
     }
 
     /**
@@ -44,7 +45,7 @@ class PullCommandBuilder extends AbstractCommandBuilder
      */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
@@ -55,7 +56,7 @@ class PullCommandBuilder extends AbstractCommandBuilder
      */
     public function verbose()
     {
-        $this->processBuilder->add('--verbose');
+        $this->arguments[] = '--verbose';
         return $this;
     }
 
@@ -68,7 +69,7 @@ class PullCommandBuilder extends AbstractCommandBuilder
      */
     public function recurseSubmodules($recurse)
     {
-        $this->processBuilder->add('--recurse-submodules=' . $recurse);
+        $this->arguments[] = '--recurse-submodules=' . $recurse;
         return $this;
     }
 
@@ -90,12 +91,12 @@ class PullCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($repository, $refspec = null, $_ = null)
     {
-        $this->processBuilder->add($repository);
+        $this->arguments[] = $repository;
 
         $refspecs = func_get_args();
         array_shift($refspecs);
         foreach ($refspecs as $refspec) {
-            $this->processBuilder->add($refspec);
+            $this->arguments[] = $refspec;
         }
 
         return parent::run();

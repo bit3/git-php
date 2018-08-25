@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -45,7 +46,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('init');
+        $this->arguments[] = 'init';
     }
 
     /**
@@ -55,7 +56,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
      */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
@@ -66,7 +67,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
      */
     public function bare()
     {
-        $this->processBuilder->add('--bare');
+        $this->arguments[] = '--bare';
         return $this;
     }
 
@@ -79,7 +80,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
      */
     public function template($templateDirectory)
     {
-        $this->processBuilder->add('--template=' . $templateDirectory);
+        $this->arguments[] = '--template=' . $templateDirectory;
         return $this;
     }
 
@@ -92,7 +93,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
      */
     public function separateGitDir($gitDir)
     {
-        $this->processBuilder->add('--separate-git-dir=' . $gitDir);
+        $this->arguments[] = '--separate-git-dir=' . $gitDir;
         return $this;
     }
 
@@ -105,7 +106,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
      */
     public function shared($share)
     {
-        $this->processBuilder->add('--shared=' . $share);
+        $this->arguments[] = '--shared=' . $share;
         return $this;
     }
 
@@ -116,7 +117,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
      */
     public function execute()
     {
-        $this->processBuilder->add($this->repository->getRepositoryPath());
+        $this->arguments[] = $this->repository->getRepositoryPath();
         return parent::run();
     }
 }

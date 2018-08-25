@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -31,7 +32,7 @@ class RmCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('rm');
+        $this->arguments[] = 'rm';
     }
 
     /**
@@ -41,7 +42,7 @@ class RmCommandBuilder extends AbstractCommandBuilder
      */
     public function force()
     {
-        $this->processBuilder->add('--force');
+        $this->arguments[] = '--force';
         return $this;
     }
 
@@ -52,7 +53,7 @@ class RmCommandBuilder extends AbstractCommandBuilder
      */
     public function dryRun()
     {
-        $this->processBuilder->add('--dry-run');
+        $this->arguments[] = '--dry-run';
         return $this;
     }
 
@@ -63,7 +64,7 @@ class RmCommandBuilder extends AbstractCommandBuilder
      */
     public function recursive()
     {
-        $this->processBuilder->add('-r');
+        $this->arguments[] = '-r';
         return $this;
     }
 
@@ -74,7 +75,7 @@ class RmCommandBuilder extends AbstractCommandBuilder
      */
     public function cached()
     {
-        $this->processBuilder->add('--cached');
+        $this->arguments[] = '--cached';
         return $this;
     }
 
@@ -85,7 +86,7 @@ class RmCommandBuilder extends AbstractCommandBuilder
      */
     public function ignoreUnmatch()
     {
-        $this->processBuilder->add('--ignore-unmatch');
+        $this->arguments[] = '--ignore-unmatch';
         return $this;
     }
 
@@ -96,7 +97,7 @@ class RmCommandBuilder extends AbstractCommandBuilder
      */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
@@ -117,9 +118,9 @@ class RmCommandBuilder extends AbstractCommandBuilder
     {
         $args = func_get_args();
         if (count($args)) {
-            $this->processBuilder->add('--');
+            $this->arguments[] = '--';
             foreach ($args as $pathspec) {
-                $this->processBuilder->add($pathspec);
+                $this->arguments[] = $pathspec;
             }
         }
         return parent::run();

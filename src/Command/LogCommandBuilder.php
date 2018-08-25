@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -60,7 +61,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('log');
+        $this->arguments[] = 'log';
     }
 
     /**
@@ -70,7 +71,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function follow()
     {
-        $this->processBuilder->add('--follow');
+        $this->arguments[] = '--follow';
         return $this;
     }
 
@@ -81,7 +82,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function noDecorate()
     {
-        $this->processBuilder->add('--no-decorate');
+        $this->arguments[] = '--no-decorate';
         return $this;
     }
 
@@ -94,7 +95,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function decorate($decorate)
     {
-        $this->processBuilder->add('--decorate' . ($decorate ? '=' . $decorate : ''));
+        $this->arguments[] = '--decorate' . ($decorate ? '=' . $decorate : '');
         return $this;
     }
 
@@ -105,7 +106,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function source()
     {
-        $this->processBuilder->add('--source');
+        $this->arguments[] = '--source';
         return $this;
     }
 
@@ -116,7 +117,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function useMailmap()
     {
-        $this->processBuilder->add('--use-mailmap');
+        $this->arguments[] = '--use-mailmap';
         return $this;
     }
 
@@ -127,7 +128,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function fullDiff()
     {
-        $this->processBuilder->add('--full-diff');
+        $this->arguments[] = '--full-diff';
         return $this;
     }
 
@@ -138,7 +139,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function logSize()
     {
-        $this->processBuilder->add('--log-size');
+        $this->arguments[] = '--log-size';
         return $this;
     }
 
@@ -151,7 +152,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function revisionRange($revisionRange)
     {
-        $this->processBuilder->add($revisionRange);
+        $this->arguments[] = $revisionRange;
         return $this;
     }
 
@@ -164,7 +165,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function maxCount($number)
     {
-        $this->processBuilder->add('--max-count=' . $number);
+        $this->arguments[] = '--max-count=' . $number;
         return $this;
     }
 
@@ -177,7 +178,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function skip($number)
     {
-        $this->processBuilder->add('--skip=' . $number);
+        $this->arguments[] = '--skip=' . $number;
         return $this;
     }
 
@@ -193,7 +194,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
         if ($date instanceof \DateTime) {
             $date = $date->format('Y-m-d H:i:s');
         }
-        $this->processBuilder->add('--since=' . $date);
+        $this->arguments[] = '--since=' . $date;
         return $this;
     }
 
@@ -209,7 +210,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
         if ($date instanceof \DateTime) {
             $date = $date->format('Y-m-d H:i:s');
         }
-        $this->processBuilder->add('--after=' . $date);
+        $this->arguments[] = '--after=' . $date;
         return $this;
     }
 
@@ -225,7 +226,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
         if ($date instanceof \DateTime) {
             $date = $date->format('Y-m-d H:i:s');
         }
-        $this->processBuilder->add('--until=' . $date);
+        $this->arguments[] = '--until=' . $date;
         return $this;
     }
 
@@ -241,7 +242,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
         if ($date instanceof \DateTime) {
             $date = $date->format('Y-m-d H:i:s');
         }
-        $this->processBuilder->add('--before=' . $date);
+        $this->arguments[] = '--before=' . $date;
         return $this;
     }
 
@@ -254,7 +255,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function author($pattern)
     {
-        $this->processBuilder->add('--author=' . $pattern);
+        $this->arguments[] = '--author=' . $pattern;
         return $this;
     }
 
@@ -267,7 +268,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function grepReflog($pattern)
     {
-        $this->processBuilder->add('--grep-reflog=' . $pattern);
+        $this->arguments[] = '--grep-reflog=' . $pattern;
         return $this;
     }
 
@@ -280,7 +281,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function grep($pattern)
     {
-        $this->processBuilder->add('--grep=' . $pattern);
+        $this->arguments[] = '--grep=' . $pattern;
         return $this;
     }
 
@@ -291,7 +292,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function allMatch()
     {
-        $this->processBuilder->add('--all-match');
+        $this->arguments[] = '--all-match';
         return $this;
     }
 
@@ -302,7 +303,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function regexpIgnoreCase()
     {
-        $this->processBuilder->add('--regexp-ignore-case');
+        $this->arguments[] = '--regexp-ignore-case';
         return $this;
     }
 
@@ -313,7 +314,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function basicRegexp()
     {
-        $this->processBuilder->add('--basicRegexp');
+        $this->arguments[] = '--basicRegexp';
         return $this;
     }
 
@@ -324,7 +325,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function extendedRegexp()
     {
-        $this->processBuilder->add('--extended-regexp');
+        $this->arguments[] = '--extended-regexp';
         return $this;
     }
 
@@ -335,7 +336,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function fixedStrings()
     {
-        $this->processBuilder->add('--fixed-strings');
+        $this->arguments[] = '--fixed-strings';
         return $this;
     }
 
@@ -346,7 +347,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function perlRegexp()
     {
-        $this->processBuilder->add('--perl-regexp');
+        $this->arguments[] = '--perl-regexp';
         return $this;
     }
 
@@ -357,7 +358,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function removeEmpty()
     {
-        $this->processBuilder->add('--remove-empty');
+        $this->arguments[] = '--remove-empty';
         return $this;
     }
 
@@ -368,7 +369,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function merges()
     {
-        $this->processBuilder->add('--merges');
+        $this->arguments[] = '--merges';
         return $this;
     }
 
@@ -379,7 +380,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function noMerges()
     {
-        $this->processBuilder->add('--no-merges');
+        $this->arguments[] = '--no-merges';
         return $this;
     }
 
@@ -392,7 +393,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function minParents($number)
     {
-        $this->processBuilder->add('--min-parents=' . $number);
+        $this->arguments[] = '--min-parents=' . $number;
         return $this;
     }
 
@@ -405,7 +406,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function maxParents($number)
     {
-        $this->processBuilder->add('--max-parents=' . $number);
+        $this->arguments[] = '--max-parents=' . $number;
         return $this;
     }
 
@@ -416,7 +417,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function noMinParents()
     {
-        $this->processBuilder->add('--no-min-parents');
+        $this->arguments[] = '--no-min-parents';
         return $this;
     }
 
@@ -427,7 +428,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function noMaxParents()
     {
-        $this->processBuilder->add('--no-max-parents');
+        $this->arguments[] = '--no-max-parents';
         return $this;
     }
 
@@ -438,7 +439,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function firstParent()
     {
-        $this->processBuilder->add('--first-parent');
+        $this->arguments[] = '--first-parent';
         return $this;
     }
 
@@ -449,7 +450,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function not()
     {
-        $this->processBuilder->add('--not');
+        $this->arguments[] = '--not';
         return $this;
     }
 
@@ -460,7 +461,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function all()
     {
-        $this->processBuilder->add('--all');
+        $this->arguments[] = '--all';
         return $this;
     }
 
@@ -473,7 +474,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function branches($pattern = null)
     {
-        $this->processBuilder->add('--branches' . ($pattern ? '=' . $pattern : ''));
+        $this->arguments[] = '--branches' . ($pattern ? '=' . $pattern : '');
         return $this;
     }
 
@@ -486,7 +487,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function tags($pattern = null)
     {
-        $this->processBuilder->add('--tags' . ($pattern ? '=' . $pattern : ''));
+        $this->arguments[] = '--tags' . ($pattern ? '=' . $pattern : '');
         return $this;
     }
 
@@ -499,7 +500,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function remotes($pattern = null)
     {
-        $this->processBuilder->add('--remotes' . ($pattern ? '=' . $pattern : ''));
+        $this->arguments[] = '--remotes' . ($pattern ? '=' . $pattern : '');
         return $this;
     }
 
@@ -512,7 +513,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function glob($pattern = null)
     {
-        $this->processBuilder->add('--glob=' . $pattern);
+        $this->arguments[] = '--glob=' . $pattern;
         return $this;
     }
 
@@ -525,7 +526,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function exclude($pattern = null)
     {
-        $this->processBuilder->add('--exclude=' . $pattern);
+        $this->arguments[] = '--exclude=' . $pattern;
         return $this;
     }
 
@@ -536,7 +537,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function ignoreMissing()
     {
-        $this->processBuilder->add('--ignore-missing');
+        $this->arguments[] = '--ignore-missing';
         return $this;
     }
 
@@ -547,7 +548,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function bisect()
     {
-        $this->processBuilder->add('--bisect');
+        $this->arguments[] = '--bisect';
         return $this;
     }
 
@@ -558,7 +559,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function cherryMark()
     {
-        $this->processBuilder->add('--cherry-mark');
+        $this->arguments[] = '--cherry-mark';
         return $this;
     }
 
@@ -569,7 +570,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function cherryPick()
     {
-        $this->processBuilder->add('--cherry-pick');
+        $this->arguments[] = '--cherry-pick';
         return $this;
     }
 
@@ -580,7 +581,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function leftOnly()
     {
-        $this->processBuilder->add('--left-only');
+        $this->arguments[] = '--left-only';
         return $this;
     }
 
@@ -591,7 +592,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function rightOnly()
     {
-        $this->processBuilder->add('--right-only');
+        $this->arguments[] = '--right-only';
         return $this;
     }
 
@@ -602,7 +603,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function cherry()
     {
-        $this->processBuilder->add('--cherry');
+        $this->arguments[] = '--cherry';
         return $this;
     }
 
@@ -613,7 +614,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function walkReflogs()
     {
-        $this->processBuilder->add('--walk-reflogs');
+        $this->arguments[] = '--walk-reflogs';
         return $this;
     }
 
@@ -624,7 +625,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function merge()
     {
-        $this->processBuilder->add('--merge');
+        $this->arguments[] = '--merge';
         return $this;
     }
 
@@ -635,7 +636,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function boundary()
     {
-        $this->processBuilder->add('--boundary');
+        $this->arguments[] = '--boundary';
         return $this;
     }
 
@@ -646,7 +647,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function simplifyByDecoration()
     {
-        $this->processBuilder->add('--simplify-by-decoration');
+        $this->arguments[] = '--simplify-by-decoration';
         return $this;
     }
 
@@ -657,7 +658,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function fullHistory()
     {
-        $this->processBuilder->add('--full-history');
+        $this->arguments[] = '--full-history';
         return $this;
     }
 
@@ -668,7 +669,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function dense()
     {
-        $this->processBuilder->add('--dense');
+        $this->arguments[] = '--dense';
         return $this;
     }
 
@@ -679,7 +680,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function sparse()
     {
-        $this->processBuilder->add('--sparse');
+        $this->arguments[] = '--sparse';
         return $this;
     }
 
@@ -690,7 +691,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function simplifyMerges()
     {
-        $this->processBuilder->add('--simplify-merges');
+        $this->arguments[] = '--simplify-merges';
         return $this;
     }
 
@@ -701,7 +702,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function ancestryPath()
     {
-        $this->processBuilder->add('--ancestry-path');
+        $this->arguments[] = '--ancestry-path';
         return $this;
     }
 
@@ -712,7 +713,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function dateOrder()
     {
-        $this->processBuilder->add('--date-order');
+        $this->arguments[] = '--date-order';
         return $this;
     }
 
@@ -723,7 +724,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function authorDateOrder()
     {
-        $this->processBuilder->add('--author-date-order');
+        $this->arguments[] = '--author-date-order';
         return $this;
     }
 
@@ -734,7 +735,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function topoOrder()
     {
-        $this->processBuilder->add('--topo-order');
+        $this->arguments[] = '--topo-order';
         return $this;
     }
 
@@ -745,7 +746,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function reverse()
     {
-        $this->processBuilder->add('--reverse');
+        $this->arguments[] = '--reverse';
         return $this;
     }
 
@@ -756,7 +757,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function objects()
     {
-        $this->processBuilder->add('--objects');
+        $this->arguments[] = '--objects';
         return $this;
     }
 
@@ -767,7 +768,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function objectsEdge()
     {
-        $this->processBuilder->add('--objects-edge');
+        $this->arguments[] = '--objects-edge';
         return $this;
     }
 
@@ -778,7 +779,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function unpacked()
     {
-        $this->processBuilder->add('--unpacked');
+        $this->arguments[] = '--unpacked';
         return $this;
     }
 
@@ -791,7 +792,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function noWalk($walk = null)
     {
-        $this->processBuilder->add('--no-walk' . ($walk ? '=' . $walk : ''));
+        $this->arguments[] = '--no-walk' . ($walk ? '=' . $walk : '');
         return $this;
     }
 
@@ -802,7 +803,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function doWalk()
     {
-        $this->processBuilder->add('--do-walk');
+        $this->arguments[] = '--do-walk';
         return $this;
     }
 
@@ -815,7 +816,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function pretty($format = null)
     {
-        $this->processBuilder->add('--pretty' . ($format ? '=' . $format : ''));
+        $this->arguments[] = '--pretty' . ($format ? '=' . $format : '');
         return $this;
     }
 
@@ -828,7 +829,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function format($format)
     {
-        $this->processBuilder->add('--format=' . $format);
+        $this->arguments[] = '--format=' . $format;
         return $this;
     }
 
@@ -839,7 +840,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function abbrevCommit()
     {
-        $this->processBuilder->add('--abbrev-commit');
+        $this->arguments[] = '--abbrev-commit';
         return $this;
     }
 
@@ -850,7 +851,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function noAbbrevCommit()
     {
-        $this->processBuilder->add('--no-abbrev-commit');
+        $this->arguments[] = '--no-abbrev-commit';
         return $this;
     }
 
@@ -861,7 +862,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function oneline()
     {
-        $this->processBuilder->add('--oneline');
+        $this->arguments[] = '--oneline';
         return $this;
     }
 
@@ -874,7 +875,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function encoding($encoding)
     {
-        $this->processBuilder->add('--encoding=' . $encoding);
+        $this->arguments[] = '--encoding=' . $encoding;
         return $this;
     }
 
@@ -887,7 +888,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function notes($ref = null)
     {
-        $this->processBuilder->add('--notes' . ($ref ? '=' . $ref : ''));
+        $this->arguments[] = '--notes' . ($ref ? '=' . $ref : '');
         return $this;
     }
 
@@ -898,7 +899,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function noNotes()
     {
-        $this->processBuilder->add('--no-notes');
+        $this->arguments[] = '--no-notes';
         return $this;
     }
 
@@ -911,7 +912,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function showNotes($ref = null)
     {
-        $this->processBuilder->add('--show-notes' . ($ref ? '=' . $ref : ''));
+        $this->arguments[] = '--show-notes' . ($ref ? '=' . $ref : '');
         return $this;
     }
 
@@ -922,7 +923,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function showSignature()
     {
-        $this->processBuilder->add('--show-signature');
+        $this->arguments[] = '--show-signature';
         return $this;
     }
 
@@ -933,7 +934,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function relativeDate()
     {
-        $this->processBuilder->add('--relative-date');
+        $this->arguments[] = '--relative-date';
         return $this;
     }
 
@@ -946,7 +947,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function date($format)
     {
-        $this->processBuilder->add('--date=' . $format);
+        $this->arguments[] = '--date=' . $format;
         return $this;
     }
 
@@ -957,7 +958,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function parents()
     {
-        $this->processBuilder->add('--parents');
+        $this->arguments[] = '--parents';
         return $this;
     }
 
@@ -968,7 +969,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function children()
     {
-        $this->processBuilder->add('--children');
+        $this->arguments[] = '--children';
         return $this;
     }
 
@@ -979,7 +980,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function leftRight()
     {
-        $this->processBuilder->add('--left-right');
+        $this->arguments[] = '--left-right';
         return $this;
     }
 
@@ -990,7 +991,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function graph()
     {
-        $this->processBuilder->add('--graph');
+        $this->arguments[] = '--graph';
         return $this;
     }
 
@@ -1003,7 +1004,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function c()
     {
-        $this->processBuilder->add('-c');
+        $this->arguments[] = '-c';
         return $this;
     }
 
@@ -1016,7 +1017,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function cc()
     {
-        $this->processBuilder->add('--cc');
+        $this->arguments[] = '--cc';
         return $this;
     }
 
@@ -1029,7 +1030,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function m()
     {
-        $this->processBuilder->add('-m');
+        $this->arguments[] = '-m';
         return $this;
     }
 
@@ -1042,7 +1043,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function r()
     {
-        $this->processBuilder->add('-r');
+        $this->arguments[] = '-r';
         return $this;
     }
 
@@ -1055,7 +1056,7 @@ class LogCommandBuilder extends AbstractCommandBuilder
      */
     public function t()
     {
-        $this->processBuilder->add('-t');
+        $this->arguments[] = '-t';
         return $this;
     }
 
@@ -1076,9 +1077,9 @@ class LogCommandBuilder extends AbstractCommandBuilder
     {
         $args = func_get_args();
         if (count($args)) {
-            $this->processBuilder->add('--');
+            $this->arguments[] = '--';
             foreach ($args as $pathspec) {
-                $this->processBuilder->add($pathspec);
+                $this->arguments[] = $pathspec;
             }
         }
         return parent::run();

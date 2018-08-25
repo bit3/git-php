@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -31,7 +32,7 @@ class ResetCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('reset');
+        $this->arguments[] = 'reset';
     }
 
     /**
@@ -41,7 +42,7 @@ class ResetCommandBuilder extends AbstractCommandBuilder
      */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
@@ -52,7 +53,7 @@ class ResetCommandBuilder extends AbstractCommandBuilder
      */
     public function patch()
     {
-        $this->processBuilder->add('--patch');
+        $this->arguments[] = '--patch';
         return $this;
     }
 
@@ -63,7 +64,7 @@ class ResetCommandBuilder extends AbstractCommandBuilder
      */
     public function soft()
     {
-        $this->processBuilder->add('--soft');
+        $this->arguments[] = '--soft';
         return $this;
     }
 
@@ -74,7 +75,7 @@ class ResetCommandBuilder extends AbstractCommandBuilder
      */
     public function mixed()
     {
-        $this->processBuilder->add('--mixed');
+        $this->arguments[] = '--mixed';
         return $this;
     }
 
@@ -85,7 +86,7 @@ class ResetCommandBuilder extends AbstractCommandBuilder
      */
     public function hard()
     {
-        $this->processBuilder->add('--hard');
+        $this->arguments[] = '--hard';
         return $this;
     }
 
@@ -96,7 +97,7 @@ class ResetCommandBuilder extends AbstractCommandBuilder
      */
     public function merge()
     {
-        $this->processBuilder->add('--merge');
+        $this->arguments[] = '--merge';
         return $this;
     }
 
@@ -107,7 +108,7 @@ class ResetCommandBuilder extends AbstractCommandBuilder
      */
     public function keep()
     {
-        $this->processBuilder->add('--keep');
+        $this->arguments[] = '--keep';
         return $this;
     }
 
@@ -120,7 +121,7 @@ class ResetCommandBuilder extends AbstractCommandBuilder
      */
     public function commit($commit)
     {
-        $this->processBuilder->add($commit);
+        $this->arguments[] = $commit;
         return $this;
     }
 
@@ -139,9 +140,9 @@ class ResetCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($path = null, $_ = null)
     {
-        $this->processBuilder->add('--');
+        $this->arguments[] = '--';
         foreach (func_get_args() as $path) {
-            $this->processBuilder->add($path);
+            $this->arguments[] = $path;
         }
         return parent::run();
     }

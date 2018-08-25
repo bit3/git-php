@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -31,7 +32,7 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('ls-remote');
+        $this->arguments[] = 'ls-remote';
     }
 
     /**
@@ -41,7 +42,7 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function heads()
     {
-        $this->processBuilder->add('--heads');
+        $this->arguments[] = '--heads';
         return $this;
     }
 
@@ -52,7 +53,7 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function tags()
     {
-        $this->processBuilder->add('--tags');
+        $this->arguments[] = '--tags';
         return $this;
     }
 
@@ -65,7 +66,8 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function uploadPack($exec)
     {
-        $this->processBuilder->add('--upload-pack')->add($exec);
+        $this->arguments[] = '--upload-pack';
+        $this->arguments[] = $exec;
         return $this;
     }
 
@@ -76,7 +78,7 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function exitCode()
     {
-        $this->processBuilder->add('--exit-code');
+        $this->arguments[] = '--exit-code';
         return $this;
     }
 
@@ -97,12 +99,12 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($remote, $refSpec = null, $_ = null)
     {
-        $this->processBuilder->add($remote);
+        $this->arguments[] = $remote;
 
         $refSpec = func_get_args();
         array_shift($refSpec);
         foreach ($refSpec as $ref) {
-            $this->processBuilder->add($ref);
+            $this->arguments[] = $ref;
         }
 
         return $this->run();

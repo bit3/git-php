@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -33,7 +34,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('checkout');
+        $this->arguments[] = 'checkout';
     }
 
     /**
@@ -43,7 +44,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
@@ -54,7 +55,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function force()
     {
-        $this->processBuilder->add('--force');
+        $this->arguments[] = '--force';
         return $this;
     }
 
@@ -65,7 +66,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function ours()
     {
-        $this->processBuilder->add('--ours');
+        $this->arguments[] = '--ours';
         return $this;
     }
 
@@ -76,7 +77,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function theirs()
     {
-        $this->processBuilder->add('--theirs');
+        $this->arguments[] = '--theirs';
         return $this;
     }
 
@@ -87,7 +88,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function create()
     {
-        $this->processBuilder->add('-b');
+        $this->arguments[] = '-b';
         return $this;
     }
 
@@ -98,7 +99,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function overwrite()
     {
-        $this->processBuilder->add('-B');
+        $this->arguments[] = '-B';
         return $this;
     }
 
@@ -109,7 +110,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function track()
     {
-        $this->processBuilder->add('--track');
+        $this->arguments[] = '--track';
         return $this;
     }
 
@@ -120,7 +121,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function noTrack()
     {
-        $this->processBuilder->add('--no-track');
+        $this->arguments[] = '--no-track';
         return $this;
     }
 
@@ -131,18 +132,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function reflog()
     {
-        $this->processBuilder->add('-l');
-        return $this;
-    }
-
-    /**
-     * Add the detach option to the command line.
-     *
-     * @return CheckoutCommandBuilder
-     */
-    public function detach()
-    {
-        $this->processBuilder->add('--detach');
+        $this->arguments[] = '-l';
         return $this;
     }
 
@@ -155,9 +145,9 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function orphan($newBranch = null)
     {
-        $this->processBuilder->add('--orphan');
+        $this->arguments[] = '--orphan';
         if ($newBranch) {
-            $this->processBuilder->add($newBranch);
+            $this->arguments[] = $newBranch;
         }
         return $this;
     }
@@ -169,7 +159,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function ignoreSkipWorktreeBits()
     {
-        $this->processBuilder->add('--ignore-skip-worktree-bits');
+        $this->arguments[] = '--ignore-skip-worktree-bits';
         return $this;
     }
 
@@ -180,7 +170,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function merge()
     {
-        $this->processBuilder->add('--merge');
+        $this->arguments[] = '--merge';
         return $this;
     }
 
@@ -193,7 +183,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function conflict($style)
     {
-        $this->processBuilder->add('--conflict=' . $style);
+        $this->arguments[] = '--conflict=' . $style;
         return $this;
     }
 
@@ -204,7 +194,7 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
      */
     public function patch()
     {
-        $this->processBuilder->add('--patch');
+        $this->arguments[] = '--patch';
         return $this;
     }
 
@@ -226,15 +216,15 @@ class CheckoutCommandBuilder extends AbstractCommandBuilder
     public function execute($branchOrTreeIsh = null, $path = null, $_ = null)
     {
         if ($branchOrTreeIsh) {
-            $this->processBuilder->add($branchOrTreeIsh);
+            $this->arguments[] = $branchOrTreeIsh;
         }
 
         $paths = func_get_args();
         array_shift($paths);
         if (count($paths)) {
-            $this->processBuilder->add('--');
+            $this->arguments[] = '--';
             foreach ($paths as $path) {
-                $this->processBuilder->add($path);
+                $this->arguments[] = $path;
             }
         }
 

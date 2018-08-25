@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -23,7 +24,8 @@ namespace Bit3\GitPhp\Command;
 
 use Bit3\GitPhp\GitException;
 use Bit3\GitPhp\GitRepository;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Exception\LogicException;
+use Symfony\Component\Process\Process;
 
 /**
  * Abstract command builder.
@@ -40,18 +42,25 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
     public $repository;
 
     /**
-     * The process builder in use.
+     * The directory in their the process called.
      *
-     * @var ProcessBuilder
+     * @var string
      */
-    protected $processBuilder;
+    protected $workingDirectory;
+
+    /**
+     * The arguments for the command line process.
+     *
+     * @var array
+     */
+    protected $arguments = [];
 
     /**
      * The process output.
      *
      * @var null|string
      */
-    protected $output = null;
+    protected $output;
 
     /**
      * Flag if we want to dry run.
@@ -67,11 +76,9 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
      */
     public function __construct(GitRepository $repository)
     {
-        $this->repository = $repository;
-
-        $this->processBuilder = new ProcessBuilder();
-        $this->processBuilder->setWorkingDirectory($repository->getRepositoryPath());
-        $this->processBuilder->add($this->repository->getConfig()->getGitExecutablePath());
+        $this->repository       = $repository;
+        $this->workingDirectory = $repository->getRepositoryPath();
+        $this->arguments[]      = $this->repository->getConfig()->getGitExecutablePath();
 
         $this->initializeProcessBuilder();
     }
@@ -107,6 +114,26 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
     }
 
     /**
+     * Build the the command line process.
+     *
+     * @return Process
+     *
+     * @throws LogicException In case no arguments have been provided.
+     */
+    protected function buildProcess()
+    {
+        if (!\count($this->arguments)) {
+            throw new LogicException('You must add command arguments before the process can build.');
+        }
+
+        $process = new Process($this->arguments, $this->workingDirectory);
+
+        $process->setCommandLine($process->getCommandLine());
+
+        return $process;
+    }
+
+    /**
      * Execute the command.
      *
      * @return mixed Depend on the command.
@@ -115,7 +142,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
      */
     protected function run()
     {
-        $process = $this->processBuilder->getProcess();
+        $process = $this->buildProcess();
 
         if ($this->output !== null) {
             throw new GitException(
@@ -128,7 +155,7 @@ abstract class AbstractCommandBuilder implements CommandBuilderInterface
         }
 
         $this->repository->getConfig()->getLogger()->debug(
-            sprintf('[ccabs-repository-git] exec [%s] %s', $process->getWorkingDirectory(), $process->getCommandLine())
+            sprintf('[ccabs-repository-git] exec [%s] %s', $this->workingDirectory, $process->getCommandLine())
         );
 
         if ($this->dryRun) {

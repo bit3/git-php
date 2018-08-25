@@ -14,7 +14,8 @@
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Matthew Gamble <git@matthewgamble.net>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -23,13 +24,14 @@
 namespace Bit3\GitPhp\Test;
 
 use Bit3\GitPhp\GitRepository;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * GIT repository unit tests.
  */
-class GitRepositoryTest extends \PHPUnit_Framework_TestCase
+class GitRepositoryTest extends TestCase
 {
     /**
      * @var string
@@ -145,7 +147,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testConfigGetOnUnitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->config()->file('local')->execute('core.bare');
         $this->uninitializedGitRepository->config()->file('local')->get('user.name')->execute();
     }
@@ -227,7 +234,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testListRemotesOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->remote()->getNames();
     }
 
@@ -254,7 +266,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testListBranchesOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->branch()->getNames();
     }
 
@@ -286,7 +303,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testDescribeOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->describe()->execute();
     }
 
@@ -317,7 +339,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoteSetUrlOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->remote()->setUrl('local', $this->initializedRepositoryPath)->execute();
     }
 
@@ -358,7 +385,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoteSetPushUrlOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->remote()->setPushUrl('local', $this->initializedRepositoryPath)->execute();
     }
 
@@ -389,7 +421,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoteAddOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->remote()->add('origin', $this->initializedRepositoryPath)->execute();
     }
 
@@ -426,7 +463,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoteFetchOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->fetch()->execute();
     }
 
@@ -460,7 +502,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckoutOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->checkout()->execute('foo');
     }
 
@@ -475,7 +522,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPushOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->push()->execute('foo');
     }
 
@@ -502,7 +554,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testStatusOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->status()->getStatus();
     }
 
@@ -533,7 +590,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->add()->execute('unknown-file.txt');
     }
 
@@ -564,7 +626,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRmOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->rm()->execute('existing-file.txt');
     }
 
@@ -603,7 +670,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCommitOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->commit()->message('Commit changes')->execute();
     }
 
@@ -635,7 +707,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testTagOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->tag()->execute('unit-test');
     }
 }

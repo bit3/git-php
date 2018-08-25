@@ -52,7 +52,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the quiet option to the command line.
      *
-     * @return FetchCommandBuilder
+     * @return InitCommandBuilder
      */
     public function quiet()
     {
@@ -63,7 +63,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
     /**
      * Add the bare option to the command line.
      *
-     * @return FetchCommandBuilder
+     * @return InitCommandBuilder
      */
     public function bare()
     {
@@ -76,7 +76,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
      *
      * @param string $templateDirectory Path to the template directory.
      *
-     * @return FetchCommandBuilder
+     * @return InitCommandBuilder
      */
     public function template($templateDirectory)
     {
@@ -89,7 +89,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
      *
      * @param string $gitDir Path to the .git dir.
      *
-     * @return FetchCommandBuilder
+     * @return InitCommandBuilder
      */
     public function separateGitDir($gitDir)
     {
@@ -102,7 +102,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
      *
      * @param string $share The share value.
      *
-     * @return FetchCommandBuilder
+     * @return InitCommandBuilder
      */
     public function shared($share)
     {

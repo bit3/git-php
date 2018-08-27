@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Matthew Gamble <git@matthewgamble.net>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -26,14 +27,16 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class ConfigCommandBuilder extends AbstractCommandBuilder
+class ConfigCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('config');
+        $this->arguments[] = 'config';
     }
 
     /**
@@ -46,11 +49,11 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function file($file)
     {
-        if (in_array($file, array('global', 'system', 'local'))) {
-            $this->processBuilder->add('--' . $file);
+        if (\in_array($file, ['global', 'system', 'local'])) {
+            $this->arguments[] = '--' . $file;
         } else {
-            $this->processBuilder->add('--file')
-                ->add($file);
+            $this->arguments[] = '--file';
+            $this->arguments[] = $file;
         }
         return $this;
     }
@@ -66,7 +69,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function blob($blobId)
     {
-        $this->processBuilder->add('--blob ' . $blobId);
+        $this->arguments[] = '--blob ' . $blobId;
         return $this;
     }
 
@@ -81,8 +84,8 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function type($type)
     {
-        if (in_array($type, array('bool', 'int', 'bool-or-int', 'path'))) {
-            $this->processBuilder->add('--' . $type);
+        if (\in_array($type, ['bool', 'int', 'bool-or-int', 'path'])) {
+            $this->arguments[] = '--' . $type;
         } else {
             throw new \InvalidArgumentException('Invalid configuration type supplied.');
         }
@@ -100,9 +103,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function add($name, $value)
     {
-        $this->processBuilder->add('--add')
-            ->add($name)
-            ->add($value);
+        $this->arguments[] = '--add';
+        $this->arguments[] = $name;
+        $this->arguments[] = $value;
         return $this;
     }
 
@@ -119,11 +122,11 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function replaceAll($name, $value, $valueRegex = null)
     {
-        $this->processBuilder->add('--replace-all')
-            ->add($name)
-            ->add($value);
+        $this->arguments[] = '--replace-all';
+        $this->arguments[] = $name;
+        $this->arguments[] = $value;
         if ($valueRegex !== null) {
-            $this->processBuilder->add($valueRegex);
+            $this->arguments[] = $valueRegex;
         }
         return $this;
     }
@@ -135,7 +138,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function terminateWithNUL()
     {
-        $this->processBuilder->add('--null');
+        $this->arguments[] = '--null';
         return $this;
     }
 
@@ -150,7 +153,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function get($name, $valueRegex = null)
     {
-        $this->processBuilder->add('--get');
+        $this->arguments[] = '--get';
         $this->addNameAndPattern($name, $valueRegex);
         return $this;
     }
@@ -166,7 +169,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function getAll($name, $valueRegex = null)
     {
-        $this->processBuilder->add('--get-all');
+        $this->arguments[] = '--get-all';
         $this->addNameAndPattern($name, $valueRegex);
         return $this;
     }
@@ -182,7 +185,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function getRegexp($nameRegex, $valueRegex = null)
     {
-        $this->processBuilder->add('--get-regexp');
+        $this->arguments[] = '--get-regexp';
         $this->addNameAndPattern($nameRegex, $valueRegex);
         return $this;
     }
@@ -198,7 +201,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function getUrlmatch($name, $url)
     {
-        $this->processBuilder->add('--get-urlmatch');
+        $this->arguments[] = '--get-urlmatch';
         $this->addNameAndPattern($name, $url);
         return $this;
     }
@@ -214,7 +217,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function unsetOpt($name, $valueRegex = null)
     {
-        $this->processBuilder->add('--unset');
+        $this->arguments[] = '--unset';
         $this->addNameAndPattern($name, $valueRegex);
         return $this;
     }
@@ -230,7 +233,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function unsetAll($name, $valueRegex = null)
     {
-        $this->processBuilder->add('--unset-all');
+        $this->arguments[] = '--unset-all';
         $this->addNameAndPattern($name, $valueRegex);
         return $this;
     }
@@ -246,9 +249,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     private function addNameAndPattern($name, $pattern)
     {
-        $this->processBuilder->add($name);
+        $this->arguments[] = $name;
         if ($pattern !== null) {
-            $this->processBuilder->add($pattern);
+            $this->arguments[] = $pattern;
         }
     }
 
@@ -263,9 +266,9 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function renameSection($oldName, $newName)
     {
-        $this->processBuilder->add('--rename-section')
-            ->add($oldName)
-            ->add($newName);
+        $this->arguments[] = '--rename-section';
+        $this->arguments[] = $oldName;
+        $this->arguments[] = $newName;
         return $this;
     }
 
@@ -278,8 +281,8 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function removeSection($name)
     {
-        $this->processBuilder->add('--remove-section')
-            ->add($name);
+        $this->arguments[] = '--remove-section';
+        $this->arguments[] = $name;
         return $this;
     }
 
@@ -290,7 +293,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function listOpt()
     {
-        $this->processBuilder->add('--list');
+        $this->arguments[] = '--list';
         return $this;
     }
 
@@ -305,10 +308,10 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function getColor($name, $default = null)
     {
-        $this->processBuilder->add('--get-color')
-            ->add($name);
+        $this->arguments[] = '--get-color';
+        $this->arguments[] = $name;
         if ($default !== null) {
-            $this->processBuilder->add($default);
+            $this->arguments[] = $default;
         }
         return $this;
     }
@@ -324,10 +327,10 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function getColorBool($name, $stdoutIsTty = null)
     {
-        $this->processBuilder->add('--get-colorbool')
-            ->add($name);
-        if (is_bool($stdoutIsTty)) {
-            $this->processBuilder->add($stdoutIsTty ? 'true' : 'false');
+        $this->arguments[] = '--get-colorbool';
+        $this->arguments[] = $name;
+        if (\is_bool($stdoutIsTty)) {
+            $this->arguments[] = $stdoutIsTty ? 'true' : 'false';
         }
         return $this;
     }
@@ -341,7 +344,7 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
      */
     public function includes($allow = true)
     {
-        $this->processBuilder->add($allow ? '--includes' : '--no-includes');
+        $this->arguments[] = $allow ? '--includes' : '--no-includes';
         return $this;
     }
 
@@ -363,14 +366,14 @@ class ConfigCommandBuilder extends AbstractCommandBuilder
     public function execute($name = null, $value = null, $valueRegex = null)
     {
         if ($name !== null) {
-            $this->processBuilder->add($name);
+            $this->arguments[] = $name;
             if ($value !== null) {
-                $this->processBuilder->add($value);
+                $this->arguments[] = $value;
                 if ($valueRegex !== null) {
-                    $this->processBuilder->add($valueRegex);
+                    $this->arguments[] = $valueRegex;
                 }
             }
         }
-        return parent::run();
+        return $this->run();
     }
 }

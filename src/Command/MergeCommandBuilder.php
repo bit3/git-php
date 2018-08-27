@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Aaron Rubin <aaron@arkitech.net>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -24,70 +25,72 @@ namespace Bit3\GitPhp\Command;
 /**
  * Merge command builder.
  */
-class MergeCommandBuilder extends AbstractCommandBuilder
+class MergeCommandBuilder implements CommandBuilderInterface
 {
-  /**
-   * {@inheritDoc}
-   */
+    use CommandBuilderTrait;
+
+    /**
+     * {@inheritDoc}
+     */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('merge');
+        $this->arguments[] = 'merge';
     }
 
-  /**
-   * Add the quiet option to the command line.
-   *
-   * @return MergeCommandBuilder
-   */
+    /**
+     * Add the quiet option to the command line.
+     *
+     * @return MergeCommandBuilder
+     */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
-  /**
-   * Add the strategy option to the command line with the given strategy.
-   *
-   * @param string $strategy Strategy to use when merging.
-   *
-   * @return MergeCommandBuilder
-   */
+    /**
+     * Add the strategy option to the command line with the given strategy.
+     *
+     * @param string $strategy Strategy to use when merging.
+     *
+     * @return MergeCommandBuilder
+     */
     public function strategy($strategy)
     {
-        $this->processBuilder->add('--strategy='.$strategy);
+        $this->arguments[] = '--strategy=' . $strategy;
         return $this;
     }
 
-  /**
-   * Build the command and execute it.
-   *
-   * @param null|string $branchOrTreeIsh Name of the branch or tree.
-   *
-   * @param null|       $path            Path to which check out.
-   *
-   * @param null|string $_               More optional arguments to append to the command.
-   *
-   * @return mixed
-   *
-   * @SuppressWarnings(PHPMD.ShortVariableName)
-   * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-   * @SuppressWarnings(PHPMD.CamelCaseParameterName)
-   */
+    /**
+     * Build the command and execute it.
+     *
+     * @param null|string $branchOrTreeIsh Name of the branch or tree.
+     *
+     * @param null|       $path            Path to which check out.
+     *
+     * @param null|string $_               More optional arguments to append to the command.
+     *
+     * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.ShortVariableName)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.CamelCaseParameterName)
+     */
     public function execute($branchOrTreeIsh = null, $path = null, $_ = null)
     {
         if ($branchOrTreeIsh) {
-            $this->processBuilder->add($branchOrTreeIsh);
+            $this->arguments[] = $branchOrTreeIsh;
         }
 
-        $paths = func_get_args();
-        array_shift($paths);
-        if (count($paths)) {
-            $this->processBuilder->add('--');
+        $paths = \func_get_args();
+        \array_shift($paths);
+        if (\count($paths)) {
+            $this->arguments[] = '--';
             foreach ($paths as $path) {
-                $this->processBuilder->add($path);
+                $this->arguments[] = $path;
             }
         }
 
-        return parent::run();
+        return $this->run();
     }
 }

@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -24,14 +25,16 @@ namespace Bit3\GitPhp\Command;
 /**
  * Ls remote command builder.
  */
-class LsRemoteCommandBuilder extends AbstractCommandBuilder
+class LsRemoteCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('ls-remote');
+        $this->arguments[] = 'ls-remote';
     }
 
     /**
@@ -41,7 +44,7 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function heads()
     {
-        $this->processBuilder->add('--heads');
+        $this->arguments[] = '--heads';
         return $this;
     }
 
@@ -52,7 +55,7 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function tags()
     {
-        $this->processBuilder->add('--tags');
+        $this->arguments[] = '--tags';
         return $this;
     }
 
@@ -65,7 +68,8 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function uploadPack($exec)
     {
-        $this->processBuilder->add('--upload-pack')->add($exec);
+        $this->arguments[] = '--upload-pack';
+        $this->arguments[] = $exec;
         return $this;
     }
 
@@ -76,7 +80,7 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function exitCode()
     {
-        $this->processBuilder->add('--exit-code');
+        $this->arguments[] = '--exit-code';
         return $this;
     }
 
@@ -97,12 +101,12 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($remote, $refSpec = null, $_ = null)
     {
-        $this->processBuilder->add($remote);
+        $this->arguments[] = $remote;
 
-        $refSpec = func_get_args();
-        array_shift($refSpec);
+        $refSpec = \func_get_args();
+        \array_shift($refSpec);
         foreach ($refSpec as $ref) {
-            $this->processBuilder->add($ref);
+            $this->arguments[] = $ref;
         }
 
         return $this->run();
@@ -125,17 +129,17 @@ class LsRemoteCommandBuilder extends AbstractCommandBuilder
      */
     public function getRefs($remote, $refSpec = null, $_ = null)
     {
-        $output = call_user_func_array(array($this, 'execute'), func_get_args());
-        $output = explode("\n", $output);
-        $output = array_map('trim', $output);
-        $output = array_filter($output);
+        $output = \call_user_func_array([$this, 'execute'], \func_get_args());
+        $output = \explode("\n", $output);
+        $output = \array_map('trim', $output);
+        $output = \array_filter($output);
 
-        $refs = array();
+        $refs = [];
 
         foreach ($output as $line) {
-            $line = preg_split('~\s+~', $line);
+            $line = \preg_split('~\s+~', $line);
 
-            if ('^{}' != substr($line[1], -3)) {
+            if ('^{}' != \substr($line[1], -3)) {
                 $refs[$line[1]] = $line[0];
             }
         }

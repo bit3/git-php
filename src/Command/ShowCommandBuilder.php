@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -26,14 +27,16 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class ShowCommandBuilder extends AbstractCommandBuilder
+class ShowCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('show');
+        $this->arguments[] = 'show';
     }
 
     /**
@@ -45,7 +48,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function pretty($format = null)
     {
-        $this->processBuilder->add('--pretty' . ($format ? '=' . $format : ''));
+        $this->arguments[] = '--pretty' . ($format ? '=' . $format : '');
         return $this;
     }
 
@@ -58,7 +61,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function format($format)
     {
-        $this->processBuilder->add('--format=' . $format);
+        $this->arguments[] = '--format=' . $format;
         return $this;
     }
 
@@ -69,7 +72,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function abbrevCommit()
     {
-        $this->processBuilder->add('--abbrev-commit');
+        $this->arguments[] = '--abbrev-commit';
         return $this;
     }
 
@@ -80,7 +83,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function noAbbrevCommit()
     {
-        $this->processBuilder->add('--no-abbrev-commit');
+        $this->arguments[] = '--no-abbrev-commit';
         return $this;
     }
 
@@ -91,7 +94,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function oneline()
     {
-        $this->processBuilder->add('--oneline');
+        $this->arguments[] = '--oneline';
         return $this;
     }
 
@@ -104,7 +107,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function encoding($encoding)
     {
-        $this->processBuilder->add('--encoding=' . $encoding);
+        $this->arguments[] = '--encoding=' . $encoding;
         return $this;
     }
 
@@ -117,7 +120,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function notes($ref = null)
     {
-        $this->processBuilder->add('--notes' . ($ref ? '=' . $ref : ''));
+        $this->arguments[] = '--notes' . ($ref ? '=' . $ref : '');
         return $this;
     }
 
@@ -128,7 +131,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function noNotes()
     {
-        $this->processBuilder->add('--no-notes');
+        $this->arguments[] = '--no-notes';
         return $this;
     }
 
@@ -141,7 +144,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function showNotes($ref = null)
     {
-        $this->processBuilder->add('--show-notes' . ($ref ? '=' . $ref : ''));
+        $this->arguments[] = '--show-notes' . ($ref ? '=' . $ref : '');
         return $this;
     }
 
@@ -152,7 +155,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function standardNotes()
     {
-        $this->processBuilder->add('--standard-notes');
+        $this->arguments[] = '--standard-notes';
         return $this;
     }
 
@@ -163,7 +166,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function noStandardNotes()
     {
-        $this->processBuilder->add('--no-standard-notes');
+        $this->arguments[] = '--no-standard-notes';
         return $this;
     }
 
@@ -174,7 +177,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function showSignature()
     {
-        $this->processBuilder->add('--show-signature');
+        $this->arguments[] = '--show-signature';
         return $this;
     }
 
@@ -185,7 +188,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function noPatch()
     {
-        $this->processBuilder->add('--no-patch');
+        $this->arguments[] = '--no-patch';
         return $this;
     }
 
@@ -202,7 +205,7 @@ class ShowCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($object)
     {
-        $this->processBuilder->add($object);
-        return parent::run();
+        $this->arguments[] = $object;
+        return $this->run();
     }
 }

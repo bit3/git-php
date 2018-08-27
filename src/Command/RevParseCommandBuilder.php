@@ -14,7 +14,8 @@
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Radek Crlik <nix0@centrum.cz>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -27,8 +28,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class RevParseCommandBuilder extends AbstractCommandBuilder
+class RevParseCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const ABBREV_REF_STRICT = 'strict';
 
     const ABBREV_REF_LOOSE = 'loose';
@@ -38,7 +41,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('rev-parse');
+        $this->arguments[] = 'rev-parse';
     }
 
     /**
@@ -48,7 +51,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function parseopt()
     {
-        $this->processBuilder->add('--parseopt');
+        $this->arguments[] = '--parseopt';
         return $this;
     }
 
@@ -59,7 +62,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function keepDashDash()
     {
-        $this->processBuilder->add('--keep-dashdash');
+        $this->arguments[] = '--keep-dashdash';
         return $this;
     }
 
@@ -70,7 +73,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function stopAtNonOption()
     {
-        $this->processBuilder->add('--stop-at-non-option');
+        $this->arguments[] = '--stop-at-non-option';
         return $this;
     }
 
@@ -81,7 +84,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function stuckLong()
     {
-        $this->processBuilder->add('--stuck-long');
+        $this->arguments[] = '--stuck-long';
         return $this;
     }
 
@@ -92,7 +95,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function sqQuote()
     {
-        $this->processBuilder->add('--sq-quote');
+        $this->arguments[] = '--sq-quote';
         return $this;
     }
 
@@ -103,7 +106,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function revsOnly()
     {
-        $this->processBuilder->add('--revs-only');
+        $this->arguments[] = '--revs-only';
         return $this;
     }
 
@@ -114,7 +117,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function noRevs()
     {
-        $this->processBuilder->add('--no-revs');
+        $this->arguments[] = '--no-revs';
         return $this;
     }
 
@@ -125,7 +128,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function flags()
     {
-        $this->processBuilder->add('--flags');
+        $this->arguments[] = '--flags';
         return $this;
     }
 
@@ -136,7 +139,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function noFlags()
     {
-        $this->processBuilder->add('--no-flags');
+        $this->arguments[] = '--no-flags';
         return $this;
     }
 
@@ -149,7 +152,8 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function defaultRev($arg)
     {
-        $this->processBuilder->add('--default')->add($arg);
+        $this->arguments[] = '--default';
+        $this->arguments[] = $arg;
         return $this;
     }
 
@@ -162,7 +166,8 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function prefix($arg)
     {
-        $this->processBuilder->add('--prefix')->add($arg);
+        $this->arguments[] = '--prefix';
+        $this->arguments[] = $arg;
         return $this;
     }
 
@@ -173,7 +178,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function verify()
     {
-        $this->processBuilder->add('--verify');
+        $this->arguments[] = '--verify';
         return $this;
     }
 
@@ -184,7 +189,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
@@ -197,7 +202,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function sq()
     {
-        $this->processBuilder->add('--sq');
+        $this->arguments[] = '--sq';
         return $this;
     }
 
@@ -208,7 +213,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function not()
     {
-        $this->processBuilder->add('--not');
+        $this->arguments[] = '--not';
         return $this;
     }
 
@@ -221,7 +226,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function abbrevRef($abbrev = null)
     {
-        $this->processBuilder->add('--abbrev-ref' . ($abbrev ? '=' . $abbrev : ''));
+        $this->arguments[] = '--abbrev-ref' . ($abbrev ? '=' . $abbrev : '');
         return $this;
     }
 
@@ -234,7 +239,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function short($number = null)
     {
-        $this->processBuilder->add('--short' . ($number ? '=' . $number : ''));
+        $this->arguments[] = '--short' . ($number ? '=' . $number : '');
         return $this;
     }
 
@@ -245,7 +250,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function symbolic()
     {
-        $this->processBuilder->add('--symbolic');
+        $this->arguments[] = '--symbolic';
         return $this;
     }
 
@@ -256,7 +261,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function symbolicFullName()
     {
-        $this->processBuilder->add('--symbolic-full-name');
+        $this->arguments[] = '--symbolic-full-name';
         return $this;
     }
 
@@ -267,7 +272,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function all()
     {
-        $this->processBuilder->add('--all');
+        $this->arguments[] = '--all';
         return $this;
     }
 
@@ -280,7 +285,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function branches($pattern)
     {
-        $this->processBuilder->add('--branches=' . $pattern);
+        $this->arguments[] = '--branches=' . $pattern;
         return $this;
     }
 
@@ -293,7 +298,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function tags($pattern)
     {
-        $this->processBuilder->add('--tags=' . $pattern);
+        $this->arguments[] = '--tags=' . $pattern;
         return $this;
     }
 
@@ -306,7 +311,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function remotes($pattern)
     {
-        $this->processBuilder->add('--remotes=' . $pattern);
+        $this->arguments[] = '--remotes=' . $pattern;
         return $this;
     }
 
@@ -319,7 +324,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function glob($pattern)
     {
-        $this->processBuilder->add('--glob=' . $pattern);
+        $this->arguments[] = '--glob=' . $pattern;
         return $this;
     }
 
@@ -332,7 +337,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function exclude($pattern)
     {
-        $this->processBuilder->add('--exclude=' . $pattern);
+        $this->arguments[] = '--exclude=' . $pattern;
         return $this;
     }
 
@@ -345,7 +350,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function disambiguate($prefix)
     {
-        $this->processBuilder->add('--disambiguate=' . $prefix);
+        $this->arguments[] = '--disambiguate=' . $prefix;
         return $this;
     }
 
@@ -361,7 +366,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
         if ($date instanceof \DateTime) {
             $date = $date->format('Y-m-d H:i:s');
         }
-        $this->processBuilder->add('--since=' . $date);
+        $this->arguments[] = '--since=' . $date;
         return $this;
     }
 
@@ -377,7 +382,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
         if ($date instanceof \DateTime) {
             $date = $date->format('Y-m-d H:i:s');
         }
-        $this->processBuilder->add('--after=' . $date);
+        $this->arguments[] = '--after=' . $date;
         return $this;
     }
 
@@ -393,7 +398,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
         if ($date instanceof \DateTime) {
             $date = $date->format('Y-m-d H:i:s');
         }
-        $this->processBuilder->add('--until=' . $date);
+        $this->arguments[] = '--until=' . $date;
         return $this;
     }
 
@@ -409,7 +414,7 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
         if ($date instanceof \DateTime) {
             $date = $date->format('Y-m-d H:i:s');
         }
-        $this->processBuilder->add('--before=' . $date);
+        $this->arguments[] = '--before=' . $date;
         return $this;
     }
 
@@ -428,9 +433,9 @@ class RevParseCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($arg = null, $_ = null)
     {
-        foreach (func_get_args() as $arg) {
-            $this->processBuilder->add($arg);
+        foreach (\func_get_args() as $arg) {
+            $this->arguments[] = $arg;
         }
-        return parent::run();
+        return $this->run();
     }
 }

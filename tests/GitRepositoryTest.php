@@ -14,7 +14,8 @@
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Matthew Gamble <git@matthewgamble.net>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -23,13 +24,14 @@
 namespace Bit3\GitPhp\Test;
 
 use Bit3\GitPhp\GitRepository;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 
 /**
  * GIT repository unit tests.
  */
-class GitRepositoryTest extends \PHPUnit_Framework_TestCase
+class GitRepositoryTest extends TestCase
 {
     /**
      * @var string
@@ -53,13 +55,13 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->initializedRepositoryPath = tempnam(sys_get_temp_dir(), 'git_');
-        unlink($this->initializedRepositoryPath);
-        mkdir($this->initializedRepositoryPath);
+        $this->initializedRepositoryPath = \tempnam(\sys_get_temp_dir(), 'git_');
+        \unlink($this->initializedRepositoryPath);
+        \mkdir($this->initializedRepositoryPath);
 
-        $this->uninitializedRepositoryPath = tempnam(sys_get_temp_dir(), 'git_');
-        unlink($this->uninitializedRepositoryPath);
-        mkdir($this->uninitializedRepositoryPath);
+        $this->uninitializedRepositoryPath = \tempnam(\sys_get_temp_dir(), 'git_');
+        \unlink($this->uninitializedRepositoryPath);
+        \mkdir($this->uninitializedRepositoryPath);
 
         $zip = new \ZipArchive();
         $zip->open(__DIR__ . DIRECTORY_SEPARATOR . 'git.zip');
@@ -118,7 +120,7 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->uninitializedGitRepository->init()->execute();
 
         $this->assertTrue(
-            is_dir($this->uninitializedRepositoryPath . DIRECTORY_SEPARATOR . '.git')
+            \is_dir($this->uninitializedRepositoryPath . DIRECTORY_SEPARATOR . '.git')
         );
     }
 
@@ -145,7 +147,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testConfigGetOnUnitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->config()->file('local')->execute('core.bare');
         $this->uninitializedGitRepository->config()->file('local')->get('user.name')->execute();
     }
@@ -154,9 +161,8 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->initializedGitRepository->config()->file('local')->execute('user.name', 'CCA unittest 2');
 
-        $process = ProcessBuilder::create(array('git', 'config', '--local', 'user.name'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'config', '--local', 'user.name'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -169,17 +175,18 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->initializedGitRepository->config()->file('local')->add('user.name', 'CCA unittest 2')->execute();
 
-        $process = ProcessBuilder::create(array('git', 'config', '--local', '--get-all', 'user.name'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(
+            ['git', 'config', '--local', '--get-all', 'user.name'], $this->initializedRepositoryPath
+        );
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
-        $names = explode("\n", $process->getOutput());
-        $names = array_map('trim', $names);
-        $names = array_filter($names);
+        $names = \explode("\n", $process->getOutput());
+        $names = \array_map('trim', $names);
+        $names = \array_filter($names);
 
         $this->assertEquals(
-            array('CCA unittest', 'CCA unittest 2'),
+            ['CCA unittest', 'CCA unittest 2'],
             $names
         );
     }
@@ -188,23 +195,23 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $values = $this->initializedGitRepository->config()->file('local')->getAll('gitphp.test2')->execute();
 
-        $values = explode("\n", $values);
-        $values = array_map('trim', $values);
-        $values = array_filter($values);
+        $values = \explode("\n", $values);
+        $values = \array_map('trim', $values);
+        $values = \array_filter($values);
 
         $this->assertEquals(
-            array('aa123', 'ab234', 'ac345', 'bb234'),
+            ['aa123', 'ab234', 'ac345', 'bb234'],
             $values
         );
 
         $values = $this->initializedGitRepository->config()->file('local')->getAll('gitphp.test2', '^a.+3.+$')->execute();
 
-        $values = explode("\n", $values);
-        $values = array_map('trim', $values);
-        $values = array_filter($values);
+        $values = \explode("\n", $values);
+        $values = \array_map('trim', $values);
+        $values = \array_filter($values);
 
         $this->assertEquals(
-            array('ab234', 'ac345'),
+            ['ab234', 'ac345'],
             $values
         );
     }
@@ -216,7 +223,7 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testListRemotesOnInitializedRepository()
     {
         $this->assertEquals(
-            array('local'),
+            ['local'],
             $this->initializedGitRepository->remote()->getNames()
         );
     }
@@ -227,7 +234,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testListRemotesOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->remote()->getNames();
     }
 
@@ -239,11 +251,11 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testListBranchesOnInitializedRepository()
     {
         $this->assertEquals(
-            array('master'),
+            ['master'],
             $this->initializedGitRepository->branch()->getNames()
         );
         $this->assertEquals(
-            array('master', 'remotes/local/master'),
+            ['master', 'remotes/local/master'],
             $this->initializedGitRepository->branch()->all()->getNames()
         );
     }
@@ -254,7 +266,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testListBranchesOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->branch()->getNames();
     }
 
@@ -286,7 +303,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testDescribeOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->describe()->execute();
     }
 
@@ -299,13 +321,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->initializedGitRepository->remote()->setUrl('local', $this->uninitializedRepositoryPath)->execute();
 
-        $process = ProcessBuilder::create(array('git', 'config', 'remote.local.url'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'config', 'remote.local.url'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
-            trim($process->getOutput()),
+            \trim($process->getOutput()),
             $this->uninitializedRepositoryPath
         );
     }
@@ -317,7 +338,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoteSetUrlOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->remote()->setUrl('local', $this->initializedRepositoryPath)->execute();
     }
 
@@ -330,23 +356,21 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->initializedGitRepository->remote()->setPushUrl('local', $this->uninitializedRepositoryPath)->execute();
 
-        $process = ProcessBuilder::create(array('git', 'config', 'remote.local.url'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'config', 'remote.local.url'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
-            trim($process->getOutput()),
+            \trim($process->getOutput()),
             '/tmp/git'
         );
 
-        $process = ProcessBuilder::create(array('git', 'config', 'remote.local.pushurl'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'config', 'remote.local.pushurl'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
-            trim($process->getOutput()),
+            \trim($process->getOutput()),
             $this->uninitializedRepositoryPath
         );
     }
@@ -358,7 +382,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoteSetPushUrlOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->remote()->setPushUrl('local', $this->initializedRepositoryPath)->execute();
     }
 
@@ -371,9 +400,8 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->initializedGitRepository->remote()->add('origin', $this->uninitializedRepositoryPath)->execute();
 
-        $process = ProcessBuilder::create(array('git', 'config', 'remote.origin.url'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'config', 'remote.origin.url'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -389,7 +417,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoteAddOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->remote()->add('origin', $this->initializedRepositoryPath)->execute();
     }
 
@@ -399,16 +432,16 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoteFetchOnInitializedRepository()
     {
-        $process = ProcessBuilder::create(array('git', 'remote', 'add', 'origin', $this->initializedRepositoryPath))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(
+            ['git', 'remote', 'add', 'origin', $this->initializedRepositoryPath], $this->initializedRepositoryPath
+        );
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->initializedGitRepository->fetch()->execute();
 
-        $process = ProcessBuilder::create(array('git', 'branch', '-a'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'branch', '-a'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $branches = explode("\n", $process->getOutput());
@@ -416,7 +449,7 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
         $branches = array_filter($branches);
 
         $this->assertTrue(
-            in_array('remotes/origin/master', $branches)
+            \in_array('remotes/origin/master', $branches)
         );
     }
 
@@ -426,7 +459,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoteFetchOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->fetch()->execute();
     }
 
@@ -436,20 +474,20 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckoutOnInitializedRepository()
     {
-        $process = ProcessBuilder::create(array('git', 'remote', 'add', 'origin', $this->initializedRepositoryPath))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(
+            ['git', 'remote', 'add', 'origin', $this->initializedRepositoryPath], $this->initializedRepositoryPath
+        );
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->initializedGitRepository->checkout()->execute('6c42d7ba78e0e956bd4e25661a6c13d826ef590a');
 
-        $process = ProcessBuilder::create(array('git', 'describe'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'describe'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
-            trim($process->getOutput()),
+            \trim($process->getOutput()),
             'annotated-tag'
         );
     }
@@ -460,7 +498,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckoutOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->checkout()->execute('foo');
     }
 
@@ -475,7 +518,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPushOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->push()->execute('foo');
     }
 
@@ -488,10 +536,10 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
         $status = $this->initializedGitRepository->status()->getStatus();
 
         $this->assertEquals(
-            array(
-                'removed-but-staged.txt' => array('index' => 'A', 'worktree' => 'D'),
-                'unknown-file.txt'       => array('index' => '?', 'worktree' => '?'),
-            ),
+            [
+                'removed-but-staged.txt' => ['index' => 'A', 'worktree' => 'D'],
+                'unknown-file.txt'       => ['index' => '?', 'worktree' => '?'],
+            ],
             $status
         );
     }
@@ -502,7 +550,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testStatusOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->status()->getStatus();
     }
 
@@ -514,16 +567,15 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->initializedGitRepository->add()->execute('unknown-file.txt');
 
-        $process = ProcessBuilder::create(array('git', 'status', '-s'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'status', '-s'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
-        $status = explode("\n", $process->getOutput());
-        $status = array_map('trim', $status);
+        $status = \explode("\n", $process->getOutput());
+        $status = \array_map('trim', $status);
 
         $this->assertTrue(
-            in_array('A  unknown-file.txt', $status)
+            \in_array('A  unknown-file.txt', $status)
         );
     }
 
@@ -533,7 +585,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->add()->execute('unknown-file.txt');
     }
 
@@ -545,16 +602,15 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->initializedGitRepository->rm()->execute('existing-file.txt');
 
-        $process = ProcessBuilder::create(array('git', 'status', '-s'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'status', '-s'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
-        $status = explode("\n", $process->getOutput());
-        $status = array_map('trim', $status);
+        $status = \explode("\n", $process->getOutput());
+        $status = \array_map('trim', $status);
 
         $this->assertTrue(
-            in_array('D  existing-file.txt', $status)
+            \in_array('D  existing-file.txt', $status)
         );
     }
 
@@ -564,7 +620,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRmOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->rm()->execute('existing-file.txt');
     }
 
@@ -577,21 +638,20 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->initializedGitRepository->commit()->message('Commit changes')->execute();
 
-        $process = ProcessBuilder::create(array('git', 'status', '-s'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'status', '-s'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
-        $status = explode("\n", $process->getOutput());
-        $status = array_map('trim', $status);
-        $status = array_filter($status);
+        $status = \explode("\n", $process->getOutput());
+        $status = \array_map('trim', $status);
+        $status = \array_filter($status);
 
         $this->assertEquals(
-            array(
+            [
                 'D existing-file.txt',
                 'D removed-but-staged.txt',
                 '?? unknown-file.txt',
-            ),
+            ],
             $status
         );
     }
@@ -603,7 +663,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCommitOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->commit()->message('Commit changes')->execute();
     }
 
@@ -615,17 +680,16 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->initializedGitRepository->tag()->execute('unit-test');
 
-        $process = ProcessBuilder::create(array('git', 'tag'))
-            ->setWorkingDirectory($this->initializedRepositoryPath)
-            ->getProcess();
+        $process = new Process(['git', 'tag'], $this->initializedRepositoryPath);
+        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
-        $tags = explode("\n", $process->getOutput());
-        $tags = array_map('trim', $tags);
-        $tags = array_filter($tags);
+        $tags = \explode("\n", $process->getOutput());
+        $tags = \array_map('trim', $tags);
+        $tags = \array_filter($tags);
 
         $this->assertTrue(
-            in_array('unit-test', $tags)
+            \in_array('unit-test', $tags)
         );
     }
 
@@ -635,7 +699,12 @@ class GitRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testTagOnUninitializedRepository()
     {
-        $this->setExpectedException('Bit3\GitPhp\GitException');
+        if (\method_exists($this, 'setExpectedException')) {
+            $this->setExpectedException('Bit3\GitPhp\GitException');
+        } else {
+            $this->expectException('Bit3\GitPhp\GitException');
+        }
+
         $this->uninitializedGitRepository->tag()->execute('unit-test');
     }
 }

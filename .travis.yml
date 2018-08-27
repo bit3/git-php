@@ -1,18 +1,29 @@
 language: php
 
 php:
-    - "5.3"
-    - "5.4"
-    - "5.5"
-    - "5.6"
-    - "7.0"
+    - "7.2"
     - "7.1"
+    - "7.0"
+    - "5.6"
 
 sudo: false
 
+before_install:
+  - echo "memory_limit = -1" > travis.php.ini && phpenv config-add travis.php.ini
+
 install:
-    - travis_retry composer self-update && composer --version
-    - travis_retry composer update --prefer-dist --dev --no-interaction
+  - travis_retry composer self-update && composer --version
+  # We have to supply the branch alias here again as travis checks out a commit hash and therefore destroys the
+  # circular dependency phpcq/all-tasks -> phpcq/autoload-validation -> phpcq/all-tasks.
+  - >
+    if [ "x${TRAVIS_TAG}" != "x" ]; then
+      COMPOSER_ROOT_VERSION=${TRAVIS_TAG} travis_retry composer update --prefer-dist --no-interaction;
+    else
+      COMPOSER_ROOT_VERSION=$([[ ${TRAVIS_BRANCH} =~ hotfix/([0-9.]*(-(alpha|beta|rc)[0-9]+)?) ]] \
+        && echo ${BASH_REMATCH[1]} \
+        || echo dev-${TRAVIS_BRANCH}) \
+        travis_retry composer update --prefer-dist --no-interaction;
+    fi
 
 script: ant -keep-going
 

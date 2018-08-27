@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -26,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class StatusCommandBuilder extends AbstractCommandBuilder
+class StatusCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const UNTRACKED_FILES_NO = 'no';
 
     const UNTRACKED_FILES_NORMAL = 'normal';
@@ -47,7 +50,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('status');
+        $this->arguments[] = 'status';
     }
 
     /**
@@ -57,7 +60,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
      */
     public function short()
     {
-        $this->processBuilder->add('--short');
+        $this->arguments[] = '--short';
         return $this;
     }
 
@@ -68,7 +71,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
      */
     public function branch()
     {
-        $this->processBuilder->add('--branch');
+        $this->arguments[] = '--branch';
         return $this;
     }
 
@@ -79,7 +82,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
      */
     public function porcelain()
     {
-        $this->processBuilder->add('--porcelain');
+        $this->arguments[] = '--porcelain';
         return $this;
     }
 
@@ -90,7 +93,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
      */
     public function long()
     {
-        $this->processBuilder->add('--long');
+        $this->arguments[] = '--long';
         return $this;
     }
 
@@ -103,7 +106,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
      */
     public function untrackedFiles($mode = null)
     {
-        $this->processBuilder->add('--untracked-files' . ($mode ? '=' . $mode : ''));
+        $this->arguments[] = '--untracked-files' . ($mode ? '=' . $mode : '');
         return $this;
     }
 
@@ -116,7 +119,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
      */
     public function ignoreSubmodules($when = null)
     {
-        $this->processBuilder->add('--ignore-submodules' . ($when ? '=' . $when : ''));
+        $this->arguments[] = '--ignore-submodules' . ($when ? '=' . $when : '');
         return $this;
     }
 
@@ -127,7 +130,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
      */
     public function ignored()
     {
-        $this->processBuilder->add('--ignored');
+        $this->arguments[] = '--ignored';
         return $this;
     }
 
@@ -140,7 +143,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
      */
     public function z()
     {
-        $this->processBuilder->add('-z');
+        $this->arguments[] = '-z';
         return $this;
     }
 
@@ -153,7 +156,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
      */
     public function column($options = null)
     {
-        $this->processBuilder->add('--column' . ($options ? '=' . $options : ''));
+        $this->arguments[] = '--column' . ($options ? '=' . $options : '');
         return $this;
     }
 
@@ -164,7 +167,7 @@ class StatusCommandBuilder extends AbstractCommandBuilder
      */
     public function noColumn()
     {
-        $this->processBuilder->add('--no-column');
+        $this->arguments[] = '--no-column';
         return $this;
     }
 
@@ -195,22 +198,22 @@ class StatusCommandBuilder extends AbstractCommandBuilder
     {
         $this->porcelain();
 
-        $status = call_user_func_array(array($this, 'execute'), func_get_args());
-        $status = explode("\n", $status);
+        $status = \call_user_func_array([$this, 'execute'], \func_get_args());
+        $status = \explode("\n", $status);
 
-        $files = array();
+        $files = [];
 
         foreach ($status as $line) {
-            if (trim($line)) {
-                $index    = trim(substr($line, 0, 1));
-                $worktree = trim(substr($line, 1, 1));
+            if (\trim($line)) {
+                $index    = \trim(\substr($line, 0, 1));
+                $worktree = \trim(\substr($line, 1, 1));
 
                 if ($index && $worktree) {
-                    $file         = trim(substr($line, 2));
-                    $files[$file] = array(
+                    $file         = \trim(\substr($line, 2));
+                    $files[$file] = [
                         'index'    => $index ?: false,
                         'worktree' => $worktree ?: false,
-                    );
+                    ];
                 }
             }
         }
@@ -242,17 +245,17 @@ class StatusCommandBuilder extends AbstractCommandBuilder
     {
         $this->porcelain();
 
-        $status = call_user_func_array(array($this, 'execute'), func_get_args());
-        $status = explode("\n", $status);
+        $status = \call_user_func_array([$this, 'execute'], \func_get_args());
+        $status = \explode("\n", $status);
 
-        $files = array();
+        $files = [];
 
         foreach ($status as $line) {
-            if (trim($line)) {
-                $index = trim(substr($line, 0, 1));
+            if ($line = \trim($line)) {
+                $index = \substr($line, 0, 1);
 
                 if ($index) {
-                    $file         = trim(substr($line, 2));
+                    $file         = \trim(\substr($line, 2));
                     $files[$file] = $index;
                 }
             }
@@ -285,17 +288,17 @@ class StatusCommandBuilder extends AbstractCommandBuilder
     {
         $this->porcelain();
 
-        $status = call_user_func_array(array($this, 'execute'), func_get_args());
-        $status = explode("\n", $status);
+        $status = \call_user_func_array([$this, 'execute'], \func_get_args());
+        $status = \explode("\n", $status);
 
-        $files = array();
+        $files = [];
 
         foreach ($status as $line) {
-            if (trim($line)) {
-                $worktree = trim(substr($line, 1, 1));
+            if ($line = \trim($line)) {
+                $worktree = \trim(\substr($line, 1, 1));
 
                 if ($worktree) {
-                    $file         = trim(substr($line, 2));
+                    $file         = \trim(\substr($line, 2));
                     $files[$file] = $worktree;
                 }
             }
@@ -319,13 +322,13 @@ class StatusCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($pathspec = null, $_ = null)
     {
-        $args = func_get_args();
-        if (count($args)) {
-            $this->processBuilder->add('--');
+        $args = \func_get_args();
+        if (\count($args)) {
+            $this->arguments[] = '--';
             foreach ($args as $pathspec) {
-                $this->processBuilder->add($pathspec);
+                $this->arguments[] = $pathspec;
             }
         }
-        return parent::run();
+        return $this->run();
     }
 }

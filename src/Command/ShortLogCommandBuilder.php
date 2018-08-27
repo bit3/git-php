@@ -13,8 +13,8 @@
  * @package    bit3/git-php
  * @author     David Molineus <david.molineus@netzmacht.de>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @author     Tristan Lins <tristan@lins.io>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -25,14 +25,16 @@ namespace Bit3\GitPhp\Command;
 /**
  * ShortLog command builder.
  */
-class ShortLogCommandBuilder extends AbstractCommandBuilder
+class ShortLogCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('shortlog');
+        $this->arguments[] = 'shortlog';
     }
 
     /**
@@ -42,7 +44,7 @@ class ShortLogCommandBuilder extends AbstractCommandBuilder
      */
     public function numbered()
     {
-        $this->processBuilder->add('--numbered');
+        $this->arguments[] = '--numbered';
 
         return $this;
     }
@@ -54,7 +56,7 @@ class ShortLogCommandBuilder extends AbstractCommandBuilder
      */
     public function summary()
     {
-        $this->processBuilder->add('--summary');
+        $this->arguments[] = '--summary';
 
         return $this;
     }
@@ -66,7 +68,7 @@ class ShortLogCommandBuilder extends AbstractCommandBuilder
      */
     public function email()
     {
-        $this->processBuilder->add('--email');
+        $this->arguments[] = '--email';
 
         return $this;
     }
@@ -80,7 +82,7 @@ class ShortLogCommandBuilder extends AbstractCommandBuilder
      */
     public function format($format)
     {
-        $this->processBuilder->add('--format=' . $format);
+        $this->arguments[] = '--format=' . $format;
 
         return $this;
     }
@@ -94,7 +96,7 @@ class ShortLogCommandBuilder extends AbstractCommandBuilder
      */
     public function revisionRange($revisionRange)
     {
-        $this->processBuilder->add($revisionRange);
+        $this->arguments[] = $revisionRange;
 
         return $this;
     }
@@ -129,7 +131,7 @@ class ShortLogCommandBuilder extends AbstractCommandBuilder
             }
         }
 
-        $this->processBuilder->add('-w' . $width);
+        $this->arguments[] = '-w' . $width;
 
         return $this;
     }
@@ -149,14 +151,14 @@ class ShortLogCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($pathSpec = null, $_ = null)
     {
-        $args = func_get_args();
-        if (count($args)) {
-            $this->processBuilder->add('--');
+        $args = \func_get_args();
+        if (\count($args)) {
+            $this->arguments[] = '--';
             foreach ($args as $pathSpec) {
-                $this->processBuilder->add($pathSpec);
+                $this->arguments[] = $pathSpec;
             }
         }
 
-        return parent::run();
+        return $this->run();
     }
 }

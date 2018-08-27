@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -26,14 +27,16 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class DescribeCommandBuilder extends AbstractCommandBuilder
+class DescribeCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     /**
      * {@inheritDoc}
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('describe');
+        $this->arguments[] = 'describe';
     }
 
     /**
@@ -45,9 +48,9 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function dirty($mark = false)
     {
-        $this->processBuilder->add('--dirty');
+        $this->arguments[] = '--dirty';
         if ($mark) {
-            $this->processBuilder->add($mark);
+            $this->arguments[] = $mark;
         }
         return $this;
     }
@@ -59,7 +62,7 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function all()
     {
-        $this->processBuilder->add('--all');
+        $this->arguments[] = '--all';
         return $this;
     }
 
@@ -70,7 +73,7 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function tags()
     {
-        $this->processBuilder->add('--tags');
+        $this->arguments[] = '--tags';
         return $this;
     }
 
@@ -81,7 +84,7 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function contains()
     {
-        $this->processBuilder->add('--contains');
+        $this->arguments[] = '--contains';
         return $this;
     }
 
@@ -96,7 +99,7 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function abbrev($n)
     {
-        $this->processBuilder->add('--abbrev=' . $n);
+        $this->arguments[] = '--abbrev=' . $n;
         return $this;
     }
 
@@ -111,7 +114,7 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function candidates($n)
     {
-        $this->processBuilder->add('--candidates=' . $n);
+        $this->arguments[] = '--candidates=' . $n;
         return $this;
     }
 
@@ -122,7 +125,7 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function exactMatch()
     {
-        $this->processBuilder->add('--exact-match');
+        $this->arguments[] = '--exact-match';
         return $this;
     }
 
@@ -133,7 +136,7 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function debug()
     {
-        $this->processBuilder->add('--debug');
+        $this->arguments[] = '--debug';
         return $this;
     }
 
@@ -144,7 +147,7 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function long()
     {
-        $this->processBuilder->add('--long');
+        $this->arguments[] = '--long';
         return $this;
     }
 
@@ -157,7 +160,8 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function match($pattern)
     {
-        $this->processBuilder->add('--match')->add($pattern);
+        $this->arguments[] = '--match';
+        $this->arguments[] = $pattern;
         return $this;
     }
 
@@ -168,7 +172,7 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function always()
     {
-        $this->processBuilder->add('--always');
+        $this->arguments[] = '--always';
         return $this;
     }
 
@@ -179,7 +183,7 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function firstParent()
     {
-        $this->processBuilder->add('--first-parent');
+        $this->arguments[] = '--first-parent';
         return $this;
     }
 
@@ -192,7 +196,7 @@ class DescribeCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($commit = 'HEAD')
     {
-        $this->processBuilder->add($commit);
-        return parent::run();
+        $this->arguments[] = $commit;
+        return $this->run();
     }
 }

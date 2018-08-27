@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -26,8 +27,10 @@ namespace Bit3\GitPhp\Command;
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class FetchCommandBuilder extends AbstractCommandBuilder
+class FetchCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const RECURSE_SUBMODULES_YES = 'yes';
 
     const RECURSE_SUBMODULES_ON_DEMAND = 'on-demand';
@@ -39,7 +42,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('fetch');
+        $this->arguments[] = 'fetch';
     }
 
     /**
@@ -49,7 +52,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function all()
     {
-        $this->processBuilder->add('--all');
+        $this->arguments[] = '--all';
         return $this;
     }
 
@@ -60,7 +63,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function append()
     {
-        $this->processBuilder->add('--append');
+        $this->arguments[] = '--append';
         return $this;
     }
 
@@ -73,7 +76,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function depth($depth)
     {
-        $this->processBuilder->add('--depth=' . $depth);
+        $this->arguments[] = '--depth=' . $depth;
         return $this;
     }
 
@@ -84,7 +87,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function unshallow()
     {
-        $this->processBuilder->add('--unshallow');
+        $this->arguments[] = '--unshallow';
         return $this;
     }
 
@@ -95,7 +98,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function updateShallow()
     {
-        $this->processBuilder->add('--update-shallow');
+        $this->arguments[] = '--update-shallow';
         return $this;
     }
 
@@ -106,7 +109,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function dryRun()
     {
-        $this->processBuilder->add('--dry-run');
+        $this->arguments[] = '--dry-run';
         return $this;
     }
 
@@ -117,7 +120,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function force()
     {
-        $this->processBuilder->add('--force');
+        $this->arguments[] = '--force';
         return $this;
     }
 
@@ -128,7 +131,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function keep()
     {
-        $this->processBuilder->add('--keep');
+        $this->arguments[] = '--keep';
         return $this;
     }
 
@@ -139,7 +142,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function multiple()
     {
-        $this->processBuilder->add('--multiple');
+        $this->arguments[] = '--multiple';
         return $this;
     }
 
@@ -150,7 +153,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function prune()
     {
-        $this->processBuilder->add('--prune');
+        $this->arguments[] = '--prune';
         return $this;
     }
 
@@ -161,7 +164,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function noTags()
     {
-        $this->processBuilder->add('--no-tags');
+        $this->arguments[] = '--no-tags';
         return $this;
     }
 
@@ -172,7 +175,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function tags()
     {
-        $this->processBuilder->add('--tags');
+        $this->arguments[] = '--tags';
         return $this;
     }
 
@@ -185,7 +188,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function recurseSubmodules($recurse = false)
     {
-        $this->processBuilder->add('--recurse-submodules' . ($recurse ? '=' . $recurse : ''));
+        $this->arguments[] = '--recurse-submodules' . ($recurse ? '=' . $recurse : '');
         return $this;
     }
 
@@ -196,7 +199,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function noRecurseSubmodules()
     {
-        $this->processBuilder->add('--no-recurse-submodules');
+        $this->arguments[] = '--no-recurse-submodules';
         return $this;
     }
 
@@ -209,7 +212,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function submodulePrefix($path)
     {
-        $this->processBuilder->add('--submodule-prefix=' . $path);
+        $this->arguments[] = '--submodule-prefix=' . $path;
         return $this;
     }
 
@@ -222,7 +225,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function recurseSubmodulesDefault($recurse)
     {
-        $this->processBuilder->add('--recurse-submodules-default=' . $recurse);
+        $this->arguments[] = '--recurse-submodules-default=' . $recurse;
         return $this;
     }
 
@@ -233,7 +236,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function updateHeadOk()
     {
-        $this->processBuilder->add('--update-head-ok');
+        $this->arguments[] = '--update-head-ok';
         return $this;
     }
 
@@ -246,7 +249,8 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function uploadPack($uploadPack)
     {
-        $this->processBuilder->add('--upload-pack')->add($uploadPack);
+        $this->arguments[] = '--upload-pack';
+        $this->arguments[] = $uploadPack;
         return $this;
     }
 
@@ -257,7 +261,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
@@ -268,7 +272,7 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function verbose()
     {
-        $this->processBuilder->add('--verbose');
+        $this->arguments[] = '--verbose';
         return $this;
     }
 
@@ -289,14 +293,14 @@ class FetchCommandBuilder extends AbstractCommandBuilder
      */
     public function execute($repository = 'origin', $refspec = null, $_ = null)
     {
-        $this->processBuilder->add($repository);
+        $this->arguments[] = $repository;
 
-        $refspecs = func_get_args();
-        array_shift($refspecs);
+        $refspecs = \func_get_args();
+        \array_shift($refspecs);
         foreach ($refspecs as $refspec) {
-            $this->processBuilder->add($refspec);
+            $this->arguments[] = $refspec;
         }
 
-        return parent::run();
+        return $this->run();
     }
 }

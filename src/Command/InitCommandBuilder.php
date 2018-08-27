@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -24,8 +25,10 @@ namespace Bit3\GitPhp\Command;
 /**
  * Init command builder.
  */
-class InitCommandBuilder extends AbstractCommandBuilder
+class InitCommandBuilder implements CommandBuilderInterface
 {
+    use CommandBuilderTrait;
+
     const SHARE_FALSE = 'false';
 
     const SHARE_TRUE = 'true';
@@ -45,28 +48,28 @@ class InitCommandBuilder extends AbstractCommandBuilder
      */
     protected function initializeProcessBuilder()
     {
-        $this->processBuilder->add('init');
+        $this->arguments[] = 'init';
     }
 
     /**
      * Add the quiet option to the command line.
      *
-     * @return FetchCommandBuilder
+     * @return InitCommandBuilder
      */
     public function quiet()
     {
-        $this->processBuilder->add('--quiet');
+        $this->arguments[] = '--quiet';
         return $this;
     }
 
     /**
      * Add the bare option to the command line.
      *
-     * @return FetchCommandBuilder
+     * @return InitCommandBuilder
      */
     public function bare()
     {
-        $this->processBuilder->add('--bare');
+        $this->arguments[] = '--bare';
         return $this;
     }
 
@@ -75,11 +78,11 @@ class InitCommandBuilder extends AbstractCommandBuilder
      *
      * @param string $templateDirectory Path to the template directory.
      *
-     * @return FetchCommandBuilder
+     * @return InitCommandBuilder
      */
     public function template($templateDirectory)
     {
-        $this->processBuilder->add('--template=' . $templateDirectory);
+        $this->arguments[] = '--template=' . $templateDirectory;
         return $this;
     }
 
@@ -88,11 +91,11 @@ class InitCommandBuilder extends AbstractCommandBuilder
      *
      * @param string $gitDir Path to the .git dir.
      *
-     * @return FetchCommandBuilder
+     * @return InitCommandBuilder
      */
     public function separateGitDir($gitDir)
     {
-        $this->processBuilder->add('--separate-git-dir=' . $gitDir);
+        $this->arguments[] = '--separate-git-dir=' . $gitDir;
         return $this;
     }
 
@@ -101,11 +104,11 @@ class InitCommandBuilder extends AbstractCommandBuilder
      *
      * @param string $share The share value.
      *
-     * @return FetchCommandBuilder
+     * @return InitCommandBuilder
      */
     public function shared($share)
     {
-        $this->processBuilder->add('--shared=' . $share);
+        $this->arguments[] = '--shared=' . $share;
         return $this;
     }
 
@@ -116,7 +119,7 @@ class InitCommandBuilder extends AbstractCommandBuilder
      */
     public function execute()
     {
-        $this->processBuilder->add($this->repository->getRepositoryPath());
-        return parent::run();
+        $this->arguments[] = $this->repository->getRepositoryPath();
+        return $this->run();
     }
 }

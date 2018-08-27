@@ -17,7 +17,8 @@
  * @author     Aaron Rubin <aaron@arkitech.net>
  * @author     Matthew Gamble <git@matthewgamble.net>
  * @author     Ahmad Marzouq <ahmad.marzouq@eagles-web.com>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -110,7 +111,7 @@ class GitRepository
      */
     public function isInitialized()
     {
-        return is_dir($this->repositoryPath . DIRECTORY_SEPARATOR . '.git');
+        return \is_dir($this->repositoryPath . DIRECTORY_SEPARATOR . '.git');
     }
 
     /**

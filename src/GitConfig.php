@@ -13,7 +13,8 @@
  * @package    bit3/git-php
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
- * @copyright  2014 Tristan Lins <tristan@lins.io>
+ * @author     Sven Baumann <baumann.sv@gmail.com>
+ * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -41,14 +42,14 @@ class GitConfig
      *
      * @var string|null
      */
-    protected $signCommitUser = null;
+    protected $signCommitUser;
 
     /**
      * ID of the GPG certificate to sign tags.
      *
      * @var string|null
      */
-    protected $signTagUser = null;
+    protected $signTagUser;
 
     /**
      * Logger facility.

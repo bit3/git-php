@@ -74,6 +74,7 @@ class PullCommandBuilder implements CommandBuilderInterface
         return $this;
     }
 
+
     /**
      * Build the command and execute it.
      *

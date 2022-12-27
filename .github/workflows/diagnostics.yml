@@ -7,42 +7,108 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: 'PHP: ${{ matrix.php }} Symfony: ${{ matrix.symfony}} Experimental: ${{ matrix.experimental}}'
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
+      fail-fast: true
       matrix:
-        php: [5.6, 7.1, 7.2, 7.3, 7.4]
+        include:
+          - php: '7.4'
+            symfony: '^4.0'
+            phpcq_install: 'install'
+            output: '-o github-action -o default'
+            experimental: false
+          - php: '7.4'
+            symfony: '^5.0'
+            phpcq_install: 'update'
+            output: '-o github-action -o default'
+            experimental: false
+          - php: '8.0'
+            symfony: '^4.0'
+            phpcq_install: 'update'
+            output: '-o github-action -o default'
+            experimental: false
+          - php: '8.0'
+            symfony: '^5.0'
+            phpcq_install: 'update'
+            output: '-o github-action -o default'
+            experimental: false
+          - php: '8.1'
+            symfony: '^5.0'
+            phpcq_install: 'update'
+            output: '-o github-action -o default'
+            experimental: false
+          - php: '8.1'
+            symfony: '^6.0'
+            phpcq_install: 'update'
+            output: '-o github-action -o default'
+            experimental: false
+          - php: '8.2'
+            symfony: '^6.0'
+            phpcq_install: 'update'
+            output: '-o github-action -o default'
+            experimental: false
+          - php: '8.3'
+            symfony: '^6.0'
+            phpcq_install: 'update'
+            output: '-o github-action -o default'
+            experimental: true
 
     steps:
-      - name: PHP ${{ matrix.php }} Pull source
+      - name: Pull source
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       # see https://github.com/shivammathur/setup-php
-      - name: PHP ${{ matrix.php }} Setup PHP.
+      - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          coverage: none
 
-      - name: PHP ${{ matrix.php }} Cache composer cache directory
+      # setup caches
+      - name: Cache composer cache directory
         uses: actions/cache@v1
         env:
           cache-name: composer-cache-dir
         with:
           path: ~/.cache/composer
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          key: ${{ runner.os }}-${{ matrix.php }}-build-${{ env.cache-name }}
 
-      - name: PHP ${{ matrix.php }} Cache vendor directory
+      - name: Cache vendor directory
         uses: actions/cache@v1
         env:
-          cache-name: composer-vendor
+          cache-name: vendor
         with:
           path: vendor
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-${{ matrix.php }}-${{ matrix.symfony }}-build-${{ env.cache-name }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-      - name: PHP ${{ matrix.php }} Install composer dependencies
-        run: composer update --prefer-dist --no-interaction --no-suggest
+            ${{ runner.os }}-${{ matrix.php }}-${{ matrix.symfony }}-build-${{ env.cache-name }}-
 
-      - name: PHP ${{ matrix.php }} Run tests
-        run: ant -keep-going
+      - name: Cache phpcq directory
+        uses: actions/cache@v1
+        env:
+          cache-name: phpcq
+        with:
+          path: .phpcq
+          key: ${{ runner.os }}-${{ matrix.php }}-build-${{ env.cache-name }}-${{ hashFiles('**/.phpcq.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.php }}-build-${{ env.cache-name }}-
+
+      # install dependencies and tools
+      - name: Install composer dependencies
+        run: |
+          composer require symfony/process ${{ matrix.symfony }} --no-update
+          composer require symfony/filesystem ${{ matrix.symfony }} --no-update
+          composer install
+      - name: Install phpcq toolchain
+        run: ./vendor/bin/phpcq ${{ matrix.phpcq_install }} -v
+
+      # run tests
+      - name: Run tests
+        run: ./vendor/bin/phpcq run -v ${{ matrix.output }}
+
+      - name: Upload build directory to artifact
+        uses: actions/upload-artifact@v2
+        if: ${{ success() }} || ${{ failure() }}
+        with:
+          name: phpcq-builds-php-${{ matrix.php }}-${{ matrix.symfony }}
+          path: .phpcq/build/

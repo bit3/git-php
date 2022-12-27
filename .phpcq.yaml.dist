@@ -80,6 +80,7 @@ tasks:
   phpmd:
     plugin: phpmd
     config:
+      excluded: [ tests ]
       ruleset:
         - ./.phpmd.xml
 
@@ -97,6 +98,7 @@ tasks:
     plugin: phpcs
     config: &phpcs-config
       standard: PSR12
+      excluded: [ tests ]
       custom_flags:
         - '--extensions=php'
 
@@ -104,3 +106,8 @@ tasks:
     plugin: phpcs
     config:
       <<: *phpcs-config
+
+  phpcpd:
+    plugin: phpcpd
+    config:
+      exclude: [ src/Command ]

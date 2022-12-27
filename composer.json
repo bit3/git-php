@@ -14,7 +14,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Bit3\\GitPhp\\": "src",
+            "Bit3\\GitPhp\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Bit3\\GitPhp\\Test\\": "tests"
         }
     },

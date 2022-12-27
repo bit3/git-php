@@ -14,7 +14,7 @@
  * @author     Aaron Rubin <aaron@arkitech.net>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
+ * @copyright  2014-2022 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -66,7 +66,7 @@ class MergeCommandBuilder implements CommandBuilderInterface
      *
      * @param null|string $branchOrTreeIsh Name of the branch or tree.
      *
-     * @param null|       $path            Path to which check out.
+     * @param null        $path            Path to which check out.
      *
      * @param null|string $_               More optional arguments to append to the command.
      *

@@ -15,3 +15,7 @@
 /vendor/
 /composer.phar
 /composer.lock
+
+# phpcq related
+.phpcq.lock
+.phpcq

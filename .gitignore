@@ -19,3 +19,4 @@
 # phpcq related
 .phpcq.lock
 .phpcq
+.phpunit.result.cache

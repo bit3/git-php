@@ -74,7 +74,6 @@ class PullCommandBuilder implements CommandBuilderInterface
         return $this;
     }
 
-
     /**
      * Build the command and execute it.
      *
@@ -90,7 +89,7 @@ class PullCommandBuilder implements CommandBuilderInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @SuppressWarnings(PHPMD.CamelCaseParameterName)
      */
-    public function execute($repository, $refspec = null, $_ = null)
+    public function execute($repository = 'origin', $refspec = null, $_ = null)
     {
         $this->arguments[] = $repository;
 

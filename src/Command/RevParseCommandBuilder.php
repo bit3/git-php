@@ -27,6 +27,7 @@ namespace Bit3\GitPhp\Command;
  * Rev-parse command builder.
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class RevParseCommandBuilder implements CommandBuilderInterface
 {

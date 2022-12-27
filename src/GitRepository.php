@@ -18,7 +18,7 @@
  * @author     Matthew Gamble <git@matthewgamble.net>
  * @author     Ahmad Marzouq <ahmad.marzouq@eagles-web.com>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
+ * @copyright  2014-2022 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -54,6 +54,7 @@ use Bit3\GitPhp\Command\StashCommandBuilder;
  * GIT repository adapter.
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class GitRepository
 {

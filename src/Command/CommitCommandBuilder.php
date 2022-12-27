@@ -26,6 +26,7 @@ namespace Bit3\GitPhp\Command;
  * Commit command builder.
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class CommitCommandBuilder implements CommandBuilderInterface
 {

@@ -29,6 +29,7 @@ namespace Bit3\GitPhp\Command;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class LogCommandBuilder implements CommandBuilderInterface
 {

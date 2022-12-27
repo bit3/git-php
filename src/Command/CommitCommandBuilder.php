@@ -31,19 +31,19 @@ class CommitCommandBuilder implements CommandBuilderInterface
 {
     use CommandBuilderTrait;
 
-    const CLEANUP_STRIP = 'strip';
+    public const CLEANUP_STRIP = 'strip';
 
-    const CLEANUP_WHITESPACE = 'whitespace';
+    public const CLEANUP_WHITESPACE = 'whitespace';
 
-    const CLEANUP_VERBATIM = 'verbatim';
+    public const CLEANUP_VERBATIM = 'verbatim';
 
-    const CLEANUP_DEFAULT = 'default';
+    public const CLEANUP_DEFAULT = 'default';
 
-    const UNTRACKED_FILES_NO = 'no';
+    public const UNTRACKED_FILES_NO = 'no';
 
-    const UNTRACKED_FILES_NORMAL = 'normal';
+    public const UNTRACKED_FILES_NORMAL = 'normal';
 
-    const UNTRACKED_FILES_ALL = 'all';
+    public const UNTRACKED_FILES_ALL = 'all';
 
     /**
      * Flag determining if gpg signing is desired.

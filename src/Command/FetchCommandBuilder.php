@@ -14,7 +14,7 @@
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
+ * @copyright  2014-2022 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -31,11 +31,11 @@ class FetchCommandBuilder implements CommandBuilderInterface
 {
     use CommandBuilderTrait;
 
-    const RECURSE_SUBMODULES_YES = 'yes';
+    public const RECURSE_SUBMODULES_YES = 'yes';
 
-    const RECURSE_SUBMODULES_ON_DEMAND = 'on-demand';
+    public const RECURSE_SUBMODULES_ON_DEMAND = 'on-demand';
 
-    const RECURSE_SUBMODULES_NO = 'no';
+    public const RECURSE_SUBMODULES_NO = 'no';
 
     /**
      * {@inheritDoc}

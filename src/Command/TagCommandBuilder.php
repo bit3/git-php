@@ -14,7 +14,7 @@
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
+ * @copyright  2014-2022 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -31,11 +31,11 @@ class TagCommandBuilder implements CommandBuilderInterface
 {
     use CommandBuilderTrait;
 
-    const CLEANUP_VERBATIM = 'verbatim';
+    public const CLEANUP_VERBATIM = 'verbatim';
 
-    const CLEANUP_WHITESPACE = 'whitespace';
+    public const CLEANUP_WHITESPACE = 'whitespace';
 
-    const CLEANUP_STRIP = 'strip';
+    public const CLEANUP_STRIP = 'strip';
 
     /**
      * Flag if signing shall be done.

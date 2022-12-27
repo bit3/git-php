@@ -14,7 +14,7 @@
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
+ * @copyright  2014-2022 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -31,11 +31,11 @@ class BranchCommandBuilder implements CommandBuilderInterface
 {
     use CommandBuilderTrait;
 
-    const WHEN_ALWAYS = 'always';
+    public const WHEN_ALWAYS = 'always';
 
-    const WHEN_NEVER = 'never';
+    public const WHEN_NEVER = 'never';
 
-    const WHEN_AUTO = 'auto';
+    public const WHEN_AUTO = 'auto';
 
     /**
      * {@inheritDoc}

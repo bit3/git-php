@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- This project is using the PHP code quality project (PHPCQ).
+This project is using the PHP code quality project (PHPCQ).
 
- For documentation visit:
-   https://github.com/phpcq/phpcq
+For documentation visit:
+  https://github.com/phpcq/phpcq
 
 -->
 <project name="bit3/git-php" default="build">
-    <!-- override properties here -->
-    <!-- <property name="" value="" /> -->
-
-    <!-- import the main tasks definition -->
-    <import file="vendor/phpcq/phpcq/phpcq.main.xml"/>
-
-    <!--
-        Overwrite individual targets - you can leave them empty to stop a called target from having any effect.
-        In this example, we disable all tasks in the the verify task.
-    -->
-    <!-- <target name="verify" /> -->
+    <import file="vendor/phpcq/phpcq/phpcq.main.xml" />
+    <target name="phpspec" />
 </project>

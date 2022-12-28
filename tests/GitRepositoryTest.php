@@ -15,7 +15,7 @@
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Matthew Gamble <git@matthewgamble.net>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
+ * @copyright  2014-2022 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -162,7 +162,6 @@ class GitRepositoryTest extends TestCase
         $this->initializedGitRepository->config()->file('local')->execute('user.name', 'CCA unittest 2');
 
         $process = new Process(['git', 'config', '--local', 'user.name'], $this->initializedRepositoryPath);
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -178,7 +177,6 @@ class GitRepositoryTest extends TestCase
         $process = new Process(
             ['git', 'config', '--local', '--get-all', 'user.name'], $this->initializedRepositoryPath
         );
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $names = \explode("\n", $process->getOutput());
@@ -322,7 +320,6 @@ class GitRepositoryTest extends TestCase
         $this->initializedGitRepository->remote()->setUrl('local', $this->uninitializedRepositoryPath)->execute();
 
         $process = new Process(['git', 'config', 'remote.local.url'], $this->initializedRepositoryPath);
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -357,7 +354,6 @@ class GitRepositoryTest extends TestCase
         $this->initializedGitRepository->remote()->setPushUrl('local', $this->uninitializedRepositoryPath)->execute();
 
         $process = new Process(['git', 'config', 'remote.local.url'], $this->initializedRepositoryPath);
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -366,7 +362,6 @@ class GitRepositoryTest extends TestCase
         );
 
         $process = new Process(['git', 'config', 'remote.local.pushurl'], $this->initializedRepositoryPath);
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -401,7 +396,6 @@ class GitRepositoryTest extends TestCase
         $this->initializedGitRepository->remote()->add('origin', $this->uninitializedRepositoryPath)->execute();
 
         $process = new Process(['git', 'config', 'remote.origin.url'], $this->initializedRepositoryPath);
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -435,13 +429,11 @@ class GitRepositoryTest extends TestCase
         $process = new Process(
             ['git', 'remote', 'add', 'origin', $this->initializedRepositoryPath], $this->initializedRepositoryPath
         );
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->initializedGitRepository->fetch()->execute();
 
         $process = new Process(['git', 'branch', '-a'], $this->initializedRepositoryPath);
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $branches = explode("\n", $process->getOutput());
@@ -477,13 +469,11 @@ class GitRepositoryTest extends TestCase
         $process = new Process(
             ['git', 'remote', 'add', 'origin', $this->initializedRepositoryPath], $this->initializedRepositoryPath
         );
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->initializedGitRepository->checkout()->execute('6c42d7ba78e0e956bd4e25661a6c13d826ef590a');
 
         $process = new Process(['git', 'describe'], $this->initializedRepositoryPath);
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $this->assertEquals(
@@ -568,7 +558,6 @@ class GitRepositoryTest extends TestCase
         $this->initializedGitRepository->add()->execute('unknown-file.txt');
 
         $process = new Process(['git', 'status', '-s'], $this->initializedRepositoryPath);
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $status = \explode("\n", $process->getOutput());
@@ -603,7 +592,6 @@ class GitRepositoryTest extends TestCase
         $this->initializedGitRepository->rm()->execute('existing-file.txt');
 
         $process = new Process(['git', 'status', '-s'], $this->initializedRepositoryPath);
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $status = \explode("\n", $process->getOutput());
@@ -639,7 +627,6 @@ class GitRepositoryTest extends TestCase
         $this->initializedGitRepository->commit()->message('Commit changes')->execute();
 
         $process = new Process(['git', 'status', '-s'], $this->initializedRepositoryPath);
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $status = \explode("\n", $process->getOutput());
@@ -681,7 +668,6 @@ class GitRepositoryTest extends TestCase
         $this->initializedGitRepository->tag()->execute('unit-test');
 
         $process = new Process(['git', 'tag'], $this->initializedRepositoryPath);
-        $process->setCommandLine($process->getCommandLine());
         $process->run();
 
         $tags = \explode("\n", $process->getOutput());

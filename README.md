@@ -1,8 +1,7 @@
-[![Version](http://img.shields.io/packagist/v/bit3/git-php.svg?style=flat-square)](https://packagist.org/packages/bit3/git-php)
-[![Stable Build Status](http://img.shields.io/travis/bit3/git-php/master.svg?style=flat-square&label=stable build)](https://travis-ci.org/bit3/git-php)
-[![Upstream Build Status](http://img.shields.io/travis/bit3/git-php/develop.svg?style=flat-square&label=dev build)](https://travis-ci.org/bit3/git-php)
-[![License](http://img.shields.io/packagist/l/bit3/git-php.svg?style=flat-square)](https://github.com/bit3/git-php/blob/master/LICENSE)
-[![Downloads](http://img.shields.io/packagist/dt/bit3/git-php.svg?style=flat-square)](https://packagist.org/packages/bit3/git-php)
+[![Build Status](https://github.com/bit3/git-php/actions/workflows/diagnostics.yml/badge.svg)](https://github.com/bit3/git-php/actions)
+[![Latest Version tagged](http://img.shields.io/github/tag/bit3/git-php.svg)](https://github.com/bit3/git-php/tags)
+[![Latest Version on Packagist](http://img.shields.io/packagist/v/bit3/git-php.svg)](https://packagist.org/packages/bit3/git-php)
+[![Installations via composer per month](http://img.shields.io/packagist/dm/bit3/git-php.svg)](https://packagist.org/packages/bit3/git-php)
 
 Easy to use GIT wrapper for php
 ===============================

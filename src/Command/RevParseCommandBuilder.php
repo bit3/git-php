@@ -15,7 +15,7 @@
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Radek Crlik <nix0@centrum.cz>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
+ * @copyright  2014-2022 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -27,14 +27,15 @@ namespace Bit3\GitPhp\Command;
  * Rev-parse command builder.
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class RevParseCommandBuilder implements CommandBuilderInterface
 {
     use CommandBuilderTrait;
 
-    const ABBREV_REF_STRICT = 'strict';
+    public const ABBREV_REF_STRICT = 'strict';
 
-    const ABBREV_REF_LOOSE = 'loose';
+    public const ABBREV_REF_LOOSE = 'loose';
 
     /**
      * {@inheritDoc}

@@ -14,7 +14,7 @@
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
+ * @copyright  2014-2022 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -29,34 +29,35 @@ namespace Bit3\GitPhp\Command;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class LogCommandBuilder implements CommandBuilderInterface
 {
     use CommandBuilderTrait;
 
-    const DECORATE_SHORT = 'short';
+    public const DECORATE_SHORT = 'short';
 
-    const DECORATE_FULL = 'full';
+    public const DECORATE_FULL = 'full';
 
-    const DECORATE_NO = 'no';
+    public const DECORATE_NO = 'no';
 
-    const WALK_SORTED = 'sorted';
+    public const WALK_SORTED = 'sorted';
 
-    const WALK_UNSORTED = 'unsorted';
+    public const WALK_UNSORTED = 'unsorted';
 
-    const DATE_RELATIVE = 'relative';
+    public const DATE_RELATIVE = 'relative';
 
-    const DATE_LOCAL = 'local';
+    public const DATE_LOCAL = 'local';
 
-    const DATE_DEFAULT = 'default';
+    public const DATE_DEFAULT = 'default';
 
-    const DATE_ISO = 'iso';
+    public const DATE_ISO = 'iso';
 
-    const DATE_RFC = 'rfc';
+    public const DATE_RFC = 'rfc';
 
-    const DATE_SHORT = 'short';
+    public const DATE_SHORT = 'short';
 
-    const DATE_RAW = 'raw';
+    public const DATE_RAW = 'raw';
 
     /**
      * {@inheritDoc}

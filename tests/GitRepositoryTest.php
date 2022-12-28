@@ -30,6 +30,8 @@ use Symfony\Component\Process\Process;
 
 /**
  * GIT repository unit tests.
+ *
+ * @covers \Bit3\GitPhp\GitRepository
  */
 class GitRepositoryTest extends TestCase
 {
@@ -53,7 +55,7 @@ class GitRepositoryTest extends TestCase
      */
     protected $uninitializedGitRepository;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->initializedRepositoryPath = \tempnam(\sys_get_temp_dir(), 'git_');
         \unlink($this->initializedRepositoryPath);
@@ -71,7 +73,7 @@ class GitRepositoryTest extends TestCase
         $this->uninitializedGitRepository = new GitRepository($this->uninitializedRepositoryPath);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $fs = new Filesystem();
         $fs->remove($this->initializedRepositoryPath);

@@ -14,7 +14,7 @@
  * @author     Tristan Lins <tristan@lins.io>
  * @author     Christian Schiffler <c.schiffler@cyberspectrum.de>
  * @author     Sven Baumann <baumann.sv@gmail.com>
- * @copyright  2014-2018 Tristan Lins <tristan@lins.io>
+ * @copyright  2014-2022 Tristan Lins <tristan@lins.io>
  * @license    https://github.com/bit3/git-php/blob/master/LICENSE MIT
  * @link       https://github.com/bit3/git-php
  * @filesource
@@ -29,19 +29,19 @@ class InitCommandBuilder implements CommandBuilderInterface
 {
     use CommandBuilderTrait;
 
-    const SHARE_FALSE = 'false';
+    public const SHARE_FALSE = 'false';
 
-    const SHARE_TRUE = 'true';
+    public const SHARE_TRUE = 'true';
 
-    const SHARE_UMASK = 'umask';
+    public const SHARE_UMASK = 'umask';
 
-    const SHARE_GROUP = 'group';
+    public const SHARE_GROUP = 'group';
 
-    const SHARE_ALL = 'all';
+    public const SHARE_ALL = 'all';
 
-    const SHARE_WORLD = 'world';
+    public const SHARE_WORLD = 'world';
 
-    const SHARE_EVERYBODY = 'everybody';
+    public const SHARE_EVERYBODY = 'everybody';
 
     /**
      * {@inheritDoc}

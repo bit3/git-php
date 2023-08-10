@@ -211,8 +211,8 @@ class StatusCommandBuilder implements CommandBuilderInterface
                 if ($index && $worktree) {
                     $file         = \trim(\substr($line, 2));
                     $files[$file] = [
-                        'index'    => $index ?: false,
-                        'worktree' => $worktree ?: false,
+                        'index'    => $index,
+                        'worktree' => $worktree,
                     ];
                 }
             }
@@ -311,7 +311,6 @@ class StatusCommandBuilder implements CommandBuilderInterface
      * Build the command and execute it.
      *
      * @param null|string $pathspec A path spec.
-     *
      * @param null|string $_        Optional list of additional path specs.
      *
      * @return string

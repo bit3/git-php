@@ -75,6 +75,7 @@ class GitConfig
      */
     public function setGitExecutablePath($gitExecutablePath)
     {
+        /** @psalm-suppress RedundantCastGivenDocblockType - could be anything in theory - remove when type annotated */
         $this->gitExecutablePath = (string) $gitExecutablePath;
         return $this;
     }
@@ -98,6 +99,7 @@ class GitConfig
      */
     public function enableSignCommits($signUser)
     {
+        /** @psalm-suppress RedundantCastGivenDocblockType - could be anything in theory - remove when type annotated */
         $this->signCommitUser = (string) $signUser;
         return $this;
     }
@@ -116,7 +118,7 @@ class GitConfig
     /**
      * Determine if signing commits is enabled.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSignCommitsEnabled()
     {
@@ -142,6 +144,7 @@ class GitConfig
      */
     public function enableSignTags($signUser)
     {
+        /** @psalm-suppress RedundantCastGivenDocblockType - could be anything in theory - remove when type annotated */
         $this->signTagUser = (string) $signUser;
         return $this;
     }

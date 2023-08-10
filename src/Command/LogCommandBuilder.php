@@ -510,11 +510,11 @@ class LogCommandBuilder implements CommandBuilderInterface
     /**
      * Add the glob option to the command line.
      *
-     * @param null|string $pattern The glob pattern.
+     * @param string $pattern The glob pattern.
      *
      * @return LogCommandBuilder
      */
-    public function glob($pattern = null)
+    public function glob($pattern)
     {
         $this->arguments[] = '--glob=' . $pattern;
         return $this;
@@ -523,11 +523,11 @@ class LogCommandBuilder implements CommandBuilderInterface
     /**
      * Add the exclude option to the command line.
      *
-     * @param null|string $pattern The pattern to exclude.
+     * @param string $pattern The pattern to exclude.
      *
      * @return LogCommandBuilder
      */
-    public function exclude($pattern = null)
+    public function exclude($pattern)
     {
         $this->arguments[] = '--exclude=' . $pattern;
         return $this;

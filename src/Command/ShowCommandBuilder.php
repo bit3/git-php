@@ -55,7 +55,7 @@ class ShowCommandBuilder implements CommandBuilderInterface
     /**
      * Add the format option to the command line.
      *
-     * @param null|string $format The format.
+     * @param string $format The format.
      *
      * @return ShowCommandBuilder
      */

@@ -148,8 +148,7 @@ class PushCommandBuilder implements CommandBuilderInterface
      * Add the  option to the command line.
      *
      * @param null|string $refname The ref name.
-     *
-     * @param null        $expect  The expect value.
+     * @param null|string $expect  The expect value.
      *
      * @return PushCommandBuilder
      */

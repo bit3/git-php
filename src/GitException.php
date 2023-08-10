@@ -26,6 +26,8 @@ use Symfony\Component\Process\Process;
 
 /**
  * Exception thrown when execution of git failed.
+ *
+ * @final
  */
 class GitException extends \RuntimeException
 {
@@ -61,22 +63,23 @@ class GitException extends \RuntimeException
      * Create a new git exception.
      *
      * @param string $message          The error message.
-     *
      * @param string $workingDirectory The working directory.
-     *
      * @param string $commandLine      The used command line.
-     *
      * @param string $commandOutput    The command output.
-     *
      * @param string $errorOutput      The command error output.
      */
-    public function __construct($message, $workingDirectory, $commandLine, $commandOutput, $errorOutput)
-    {
+    public function __construct(
+        string $message,
+        string $workingDirectory,
+        string $commandLine,
+        string $commandOutput,
+        string $errorOutput
+    ) {
         parent::__construct($message, 0, null);
-        $this->workingDirectory = (string) $workingDirectory;
-        $this->commandLine      = (string) $commandLine;
-        $this->commandOutput    = (string) $commandOutput;
-        $this->errorOutput      = (string) $errorOutput;
+        $this->workingDirectory = $workingDirectory;
+        $this->commandLine      = $commandLine;
+        $this->commandOutput    = $commandOutput;
+        $this->errorOutput      = $errorOutput;
     }
 
     /**
@@ -84,7 +87,7 @@ class GitException extends \RuntimeException
      *
      * @return string
      */
-    public function getWorkingDirectory()
+    public function getWorkingDirectory(): string
     {
         return $this->workingDirectory;
     }
@@ -94,7 +97,7 @@ class GitException extends \RuntimeException
      *
      * @return string
      */
-    public function getCommandLine()
+    public function getCommandLine(): string
     {
         return $this->commandLine;
     }
@@ -104,7 +107,7 @@ class GitException extends \RuntimeException
      *
      * @return string
      */
-    public function getCommandOutput()
+    public function getCommandOutput(): string
     {
         return $this->commandOutput;
     }
@@ -114,7 +117,7 @@ class GitException extends \RuntimeException
      *
      * @return string
      */
-    public function getErrorOutput()
+    public function getErrorOutput(): string
     {
         return $this->errorOutput;
     }
@@ -127,14 +130,17 @@ class GitException extends \RuntimeException
      * @param Process $process The process to create the message from.
      *
      * @return static
+     *
+     * @final
      */
-    public static function createFromProcess($message, Process $process)
+    public static function createFromProcess(string $message, Process $process)
     {
+        $workdir = $process->getWorkingDirectory() ?? '?';
         return new static(
             \sprintf('%s [%s]', $message, $process->getCommandLine()) .
-            PHP_EOL . \sprintf('work dir: %s', $process->getWorkingDirectory()) .
+            PHP_EOL . \sprintf('work dir: %s', $workdir) .
             PHP_EOL . $process->getErrorOutput(),
-            $process->getWorkingDirectory(),
+            $workdir,
             $process->getCommandLine(),
             $process->getOutput(),
             $process->getErrorOutput()

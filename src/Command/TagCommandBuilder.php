@@ -259,19 +259,13 @@ class TagCommandBuilder implements CommandBuilderInterface
      * @param null|string $commit  Commit hash to tag.
      *
      * @return string
-     *
-     * @SuppressWarnings(PHPMD.ShortVariableName)
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     * @SuppressWarnings(PHPMD.CamelCaseParameterName)
      */
     public function execute($tagName = null, $commit = null)
     {
         if (!$this->signIsset && $this->repository->getConfig()->isSignTagsEnabled()) {
-            $this->sign()->localUser($this->repository->getConfig()->getSignCommitUser());
-        } else {
-            if ($this->signIsset && !$this->localUserIsset && $this->repository->getConfig()->isSignTagsEnabled()) {
-                $this->localUser($this->repository->getConfig()->getSignCommitUser());
-            }
+            $this->sign()->localUser($this->getDefaultSignUser());
+        } elseif ($this->signIsset && !$this->localUserIsset && $this->repository->getConfig()->isSignTagsEnabled()) {
+            $this->localUser($this->getDefaultSignUser());
         }
 
         if ($tagName) {
@@ -298,5 +292,14 @@ class TagCommandBuilder implements CommandBuilderInterface
         $tags = \array_filter($tags);
 
         return $tags;
+    }
+
+    private function getDefaultSignUser(): string
+    {
+        if (null === $user = $this->repository->getConfig()->getSignCommitUser()) {
+            throw new \RuntimeException('Sign Commit User is not set in config.');
+        }
+
+        return $user;
     }
 }

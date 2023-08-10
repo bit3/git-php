@@ -86,7 +86,7 @@ trait CommandBuilderTrait
     /**
      * Enable dry run. If dry run is enabled, the execute() method return the executed command.
      *
-     * @return $this
+     * @return self
      */
     public function enableDryRun()
     {
@@ -143,7 +143,7 @@ trait CommandBuilderTrait
         if ($this->output !== null) {
             throw new GitException(
                 'Command cannot be executed twice',
-                $process->getWorkingDirectory(),
+                $process->getWorkingDirectory() ?? '?',
                 $process->getCommandLine(),
                 $this->output,
                 ''

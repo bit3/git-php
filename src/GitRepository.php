@@ -75,12 +75,12 @@ class GitRepository
     /**
      * Create a new git repository.
      *
-     * @param string    $repositoryPath The path to the git repository.
-     *
-     * @param GitConfig $config         The configuration to use.
+     * @param string         $repositoryPath The path to the git repository.
+     * @param null|GitConfig $config         The configuration to use.
      */
-    public function __construct($repositoryPath, GitConfig $config = null)
+    public function __construct($repositoryPath, ?GitConfig $config = null)
     {
+        /** @psalm-suppress RedundantCastGivenDocblockType - could be anything in theory - remove when type annotated */
         $this->repositoryPath = (string) $repositoryPath;
         $this->config         = $config ?: new GitConfig();
     }

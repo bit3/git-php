@@ -95,12 +95,13 @@ class PullCommandBuilder implements CommandBuilderInterface
     {
         $this->arguments[] = $repository;
 
+        /** @var list<string> $refspecs */
         $refspecs = \func_get_args();
         \array_shift($refspecs);
         foreach ($refspecs as $refspec) {
             $this->arguments[] = $refspec;
         }
 
-        return $this->run();
+        return (string) $this->run();
     }
 }

@@ -175,6 +175,7 @@ class AddCommandBuilder implements CommandBuilderInterface
      */
     public function execute($pathspec = null, $_ = null)
     {
+        /** @var list<string> $args */
         $args = \func_get_args();
         if (\count($args)) {
             $this->arguments[] = '--';

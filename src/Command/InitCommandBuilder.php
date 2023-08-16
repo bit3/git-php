@@ -120,6 +120,6 @@ class InitCommandBuilder implements CommandBuilderInterface
     public function execute()
     {
         $this->arguments[] = $this->repository->getRepositoryPath();
-        return $this->run();
+        return (string) $this->run();
     }
 }

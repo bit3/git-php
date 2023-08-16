@@ -206,6 +206,6 @@ class ShowCommandBuilder implements CommandBuilderInterface
     public function execute($object)
     {
         $this->arguments[] = $object;
-        return $this->run();
+        return (string) $this->run();
     }
 }

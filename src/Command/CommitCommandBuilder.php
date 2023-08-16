@@ -461,6 +461,7 @@ class CommitCommandBuilder implements CommandBuilderInterface
             $this->gpgSign($this->repository->getConfig()->getSignCommitUser());
         }
 
+        /** @var list<string> $args */
         $args = \func_get_args();
         if (\count($args)) {
             $this->arguments[] = '--';
@@ -469,6 +470,6 @@ class CommitCommandBuilder implements CommandBuilderInterface
             }
         }
 
-        return $this->run();
+        return (string) $this->run();
     }
 }

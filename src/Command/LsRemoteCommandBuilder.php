@@ -103,13 +103,14 @@ class LsRemoteCommandBuilder implements CommandBuilderInterface
     {
         $this->arguments[] = $remote;
 
+        /** @var list<string> $refSpec */
         $refSpec = \func_get_args();
         \array_shift($refSpec);
         foreach ($refSpec as $ref) {
             $this->arguments[] = $ref;
         }
 
-        return $this->run();
+        return (string) $this->run();
     }
 
     /**
@@ -129,7 +130,7 @@ class LsRemoteCommandBuilder implements CommandBuilderInterface
      */
     public function getRefs($remote, $refSpec = null, $_ = null)
     {
-        $output = \call_user_func_array([$this, 'execute'], \func_get_args());
+        $output = (string) \call_user_func_array([$this, 'execute'], \func_get_args());
         $output = \explode("\n", $output);
         $output = \array_map('trim', $output);
         $output = \array_filter($output);

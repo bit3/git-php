@@ -198,7 +198,7 @@ class StatusCommandBuilder implements CommandBuilderInterface
     {
         $this->porcelain();
 
-        $status = \call_user_func_array([$this, 'execute'], \func_get_args());
+        $status = (string) \call_user_func_array([$this, 'execute'], \func_get_args());
         $status = \explode("\n", $status);
 
         $files = [];
@@ -245,7 +245,7 @@ class StatusCommandBuilder implements CommandBuilderInterface
     {
         $this->porcelain();
 
-        $status = \call_user_func_array([$this, 'execute'], \func_get_args());
+        $status = (string) \call_user_func_array([$this, 'execute'], \func_get_args());
         $status = \explode("\n", $status);
 
         $files = [];
@@ -288,7 +288,7 @@ class StatusCommandBuilder implements CommandBuilderInterface
     {
         $this->porcelain();
 
-        $status = \call_user_func_array([$this, 'execute'], \func_get_args());
+        $status = (string) \call_user_func_array([$this, 'execute'], \func_get_args());
         $status = \explode("\n", $status);
 
         $files = [];
@@ -321,6 +321,7 @@ class StatusCommandBuilder implements CommandBuilderInterface
      */
     public function execute($pathspec = null, $_ = null)
     {
+        /** @var list<string> $args */
         $args = \func_get_args();
         if (\count($args)) {
             $this->arguments[] = '--';
@@ -328,6 +329,6 @@ class StatusCommandBuilder implements CommandBuilderInterface
                 $this->arguments[] = $pathspec;
             }
         }
-        return $this->run();
+        return (string) $this->run();
     }
 }

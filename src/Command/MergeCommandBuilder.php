@@ -78,12 +78,13 @@ class MergeCommandBuilder implements CommandBuilderInterface
      */
     public function execute($branchOrTreeIsh = null, $path = null, $_ = null)
     {
+        /** @var list<string> $paths */
+        $paths = \func_get_args();
         if ($branchOrTreeIsh) {
+            \array_shift($paths);
             $this->arguments[] = $branchOrTreeIsh;
         }
 
-        $paths = \func_get_args();
-        \array_shift($paths);
         if (\count($paths)) {
             $this->arguments[] = '--';
             foreach ($paths as $path) {

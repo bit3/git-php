@@ -197,6 +197,6 @@ class DescribeCommandBuilder implements CommandBuilderInterface
     public function execute($commit = 'HEAD')
     {
         $this->arguments[] = $commit;
-        return $this->run();
+        return (string) $this->run();
     }
 }

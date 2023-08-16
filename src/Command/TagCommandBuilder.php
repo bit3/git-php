@@ -276,7 +276,7 @@ class TagCommandBuilder implements CommandBuilderInterface
             $this->arguments[] = $commit;
         }
 
-        return $this->run();
+        return (string) $this->run();
     }
 
     /**

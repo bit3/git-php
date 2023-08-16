@@ -142,10 +142,15 @@ class ResetCommandBuilder implements CommandBuilderInterface
      */
     public function execute($path = null, $_ = null)
     {
-        $this->arguments[] = '--';
-        foreach (\func_get_args() as $path) {
-            $this->arguments[] = $path;
+        /** @var list<string> $args */
+        $args = \func_get_args();
+        if (\count($args)) {
+            $this->arguments[] = '--';
+            foreach ($args as $pathSpec) {
+                $this->arguments[] = $pathSpec;
+            }
         }
-        return $this->run();
+
+        return (string) $this->run();
     }
 }

@@ -336,13 +336,13 @@ class BranchCommandBuilder implements CommandBuilderInterface
         if ($branchName) {
             $this->arguments[] = $branchName;
         }
-        return $this->run();
+        return (string) $this->run();
     }
 
     /**
      * Retrieve the branch names.
      *
-     * @return string[]
+     * @return list<string>
      */
     public function getNames()
     {
@@ -350,13 +350,12 @@ class BranchCommandBuilder implements CommandBuilderInterface
         $branches = \explode("\n", $branches);
         $branches = \array_map(
             function ($branch) {
-                return \ltrim($branch, '*');
+                return \trim(\ltrim($branch, '*'));
             },
             $branches
         );
-        $branches = \array_map('trim', $branches);
         $branches = \array_filter($branches);
 
-        return $branches;
+        return \array_values($branches);
     }
 }

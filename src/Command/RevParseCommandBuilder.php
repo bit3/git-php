@@ -434,9 +434,11 @@ class RevParseCommandBuilder implements CommandBuilderInterface
      */
     public function execute($arg = null, $_ = null)
     {
-        foreach (\func_get_args() as $arg) {
+        /** @var list<string> $args */
+        $args = \func_get_args();
+        foreach ($args as $arg) {
             $this->arguments[] = $arg;
         }
-        return $this->run();
+        return (string) $this->run();
     }
 }

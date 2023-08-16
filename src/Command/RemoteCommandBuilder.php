@@ -347,7 +347,7 @@ class RemoteCommandBuilder implements CommandBuilderInterface
      */
     public function execute()
     {
-        return $this->run();
+        return (string) $this->run();
     }
 
     /**

@@ -151,6 +151,7 @@ class ShortLogCommandBuilder implements CommandBuilderInterface
      */
     public function execute($pathSpec = null, $_ = null)
     {
+        /** @var list<string> $args */
         $args = \func_get_args();
         if (\count($args)) {
             $this->arguments[] = '--';
@@ -159,6 +160,6 @@ class ShortLogCommandBuilder implements CommandBuilderInterface
             }
         }
 
-        return $this->run();
+        return (string) $this->run();
     }
 }

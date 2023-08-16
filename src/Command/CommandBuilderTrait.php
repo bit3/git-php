@@ -69,6 +69,9 @@ trait CommandBuilderTrait
      */
     protected $dryRun = false;
 
+    /** @var array<string, string> */
+    protected $environment = [];
+
     /**
      * Constructor.
      *
@@ -124,7 +127,11 @@ trait CommandBuilderTrait
             throw new LogicException('You must add command arguments before the process can build.');
         }
 
-        $process = new Process($this->arguments, $this->workingDirectory);
+        $process = new Process(
+            $this->arguments,
+            $this->workingDirectory,
+            $this->environment
+        );
 
         return $process;
     }

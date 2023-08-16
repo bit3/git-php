@@ -81,7 +81,14 @@ trait CommandBuilderTrait
     {
         $this->repository       = $repository;
         $this->workingDirectory = $repository->getRepositoryPath();
-        $this->arguments[]      = $this->repository->getConfig()->getGitExecutablePath();
+        $config                 = $repository->getConfig();
+        $this->arguments[]      = $config->getGitExecutablePath();
+        if ($value = $config->getCommitterName()) {
+            $this->environment['GIT_COMMITTER_NAME'] = $value;
+        }
+        if ($value = $config->getCommitterEMail()) {
+            $this->environment['GIT_COMMITTER_EMAIL'] = $value;
+        }
 
         $this->initializeProcessBuilder();
     }

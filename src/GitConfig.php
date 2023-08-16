@@ -58,6 +58,12 @@ class GitConfig
      */
     protected $logger;
 
+    /** The author to use in git commits */
+    private ?string $committerName = null;
+
+    /** The author to use in git commits */
+    private ?string $committerEMail = null;
+
     /**
      * Create new git config.
      */
@@ -201,5 +207,28 @@ class GitConfig
     public function getLogger()
     {
         return $this->logger;
+    }
+
+    public function setCommitterName(string $committerName): self
+    {
+        $this->committerName = $committerName;
+
+        return $this;
+    }
+
+    public function getCommitterName(): ?string
+    {
+        return $this->committerName;
+    }
+
+    public function setCommitterEMail(string $committerEMail): self
+    {
+        $this->committerEMail = $committerEMail;
+        return $this;
+    }
+
+    public function getCommitterEMail(): ?string
+    {
+        return $this->committerEMail;
     }
 }
